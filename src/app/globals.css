@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-50: #F8FAFC;
+  --color-ink-100: #F1F5F9;
+  --color-ink-200: #E2E8F0;
+  --color-ink-300: #CBD5E1;
+  --color-ink-400: #94A3B8;
+  --color-ink-500: #64748B;
+  --color-ink-600: #475569;
+  --color-ink-700: #2D3748;
+  --color-ink-800: #1A1F2E;
+  --color-ink-900: #0A0E1A;
+
+  --color-surface-0: #FFFFFF;
+  --color-surface-50: #FAFAF9;
+  --color-surface-100: #F4F4F2;
+
+  --color-gold-50: #FFFCE8;
+  --color-gold-400: #F8D547;
+  --color-gold-500: #F5C518;
+  --color-gold-600: #D4A613;
+
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+
+  --color-background: var(--color-surface-50);
+  --color-foreground: var(--color-ink-900);
+  --color-card: var(--color-surface-0);
+  --color-card-foreground: var(--color-ink-900);
+  --color-muted: var(--color-ink-100);
+  --color-muted-foreground: var(--color-ink-500);
+  --color-primary: var(--color-gold-500);
+  --color-primary-foreground: var(--color-ink-900);
+  --color-secondary: var(--color-ink-100);
+  --color-secondary-foreground: var(--color-ink-900);
+  --color-accent: var(--color-ink-100);
+  --color-accent-foreground: var(--color-ink-900);
+  --color-border: var(--color-ink-200);
+  --color-input: var(--color-ink-200);
+  --color-ring: var(--color-gold-500);
+  --color-destructive: var(--color-error);
+  --color-destructive-foreground: var(--color-surface-0);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --radius-button: 6px;
+  --radius-card: 8px;
+  --radius-modal: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--color-surface-50);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.bg-dark {
+  background: var(--color-ink-900);
+  color: var(--color-surface-50);
+}

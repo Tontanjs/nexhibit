@@ -1,0 +1,512 @@
+export const copy = {
+  brand: {
+    name: "NEXHIBIT",
+    displayName: "Nexhibit",
+    tagline: "Where students get seen.",
+    description:
+      "The reverse career fair platform for international students at Zhejiang University of Technology.",
+  },
+
+  navigation: {
+    marketing: {
+      howItWorks: "How it works",
+      students: "For students",
+      employers: "For employers",
+      about: "About",
+      backHome: "Back to home",
+    },
+    primary: {
+      home: "Home",
+      howItWorks: "How it works",
+      students: "Student profiles",
+      employers: "Employers",
+      events: "Events",
+      pricing: "Access",
+      faq: "FAQ",
+    },
+    student: {
+      overview: "Your overview",
+      profile: "Your profile",
+      portfolio: "Your portfolio",
+      events: "Your events",
+      messages: "Messages",
+      matches: "Employer interest",
+      settings: "Privacy settings",
+    },
+    employer: {
+      overview: "Your hiring dashboard",
+      browse: "Browse students",
+      shortlist: "Your shortlist",
+      events: "Book event slots",
+      messages: "Messages",
+      team: "Team access",
+    },
+    admin: {
+      overview: "Platform overview",
+      verification: "Verification queue",
+      events: "Event management",
+      employers: "Employer accounts",
+      students: "Student records",
+      reports: "Outcome reports",
+    },
+  },
+
+  buttons: {
+    primary: {
+      signUp: "Get started",
+      signUpStudent: "Create your student profile",
+      signUpEmployer: "Start hiring from ZJUT",
+      logIn: "Log in",
+      verifyStudent: "Verify with ZJUT",
+      saveProfile: "Save profile",
+      publishProfile: "Publish profile",
+      bookBooth: "Reserve your booth",
+      sendMessage: "Send message",
+      requestIntro: "Request an introduction",
+      addToShortlist: "Save to shortlist",
+    },
+    secondary: {
+      previewProfile: "Preview your profile",
+      editProfile: "Edit profile",
+      viewPortfolio: "View portfolio",
+      compareStudents: "Compare students",
+      downloadBadge: "Download QR badge",
+      exportShortlist: "Export shortlist",
+      managePrivacy: "Manage visibility",
+      viewEventMap: "View floor plan",
+    },
+    cta: {
+      studentHero: "Show employers your work",
+      employerHero: "Find verified international talent",
+      finalStudent: "Build your profile",
+      finalEmployer: "Browse the next cohort",
+      scheduleDemo: "Talk with the NEXHIBIT team",
+    },
+    utility: {
+      uploadFile: "Upload file",
+      replaceFile: "Replace file",
+      removeFile: "Remove file",
+      copyLink: "Copy profile link",
+      scanQr: "Scan QR code",
+      filterResults: "Filter results",
+      clearFilters: "Clear filters",
+      inviteTeammate: "Invite teammate",
+      markAsRead: "Mark as read",
+    },
+  },
+
+  emptyStates: {
+    noConversations:
+      "Your conversations with employers will appear here. Start one from any student profile or event shortlist.",
+    noShortlist:
+      "Save students from Browse to build a focused shortlist before the next NEXHIBIT event.",
+    noEvents:
+      "The next event schedule is being finalized. You can still complete your profile and get ready.",
+    noNotifications:
+      "You are caught up. We will only notify you when something needs your attention.",
+    noPortfolio:
+      "Add projects, demos, or writing samples so employers can understand how you think and build.",
+    noSearchResults:
+      "No profiles match these filters yet. Try widening the category, language, or availability filters.",
+    noMatches:
+      "Employer interest will appear here after your profile is published and visible for matching.",
+  },
+
+  helperText: {
+    zjutVerification:
+      "We verify your account against ZJUT international student records. This usually takes a few seconds.",
+    privacyDefault:
+      "You control what employers can see. Turn off any field you do not want shown on your public profile.",
+    portfolioUpload:
+      "Show your work with projects, demos, portfolios, reports, or case studies. Files can be up to 25MB.",
+    studentId:
+      "Use the student ID printed in your ZJUT international student record.",
+    passportNumber:
+      "Your passport number is used only for verification and is not shown to employers.",
+    hskLevel:
+      "Add your current HSK level so employers can understand your Mandarin working ability.",
+    availability:
+      "Tell employers when you can start. Clear availability helps them move faster.",
+    preferredLocations:
+      "Choose the cities where you can realistically interview, intern, or work.",
+    boothBooking:
+      "Your booth is where employers find you during the event. You can update your profile before check-in.",
+    qrBadge:
+      "Print or save this badge. Employers can scan it to open your verified profile.",
+    shortlist:
+      "Shortlisted students stay private to your employer team until you send a message.",
+    employerVerification:
+      "We review employer accounts before they can message students or book event slots.",
+    messageEtiquette:
+      "Keep your first message specific. Mention the project, skill, or role that made you reach out.",
+  },
+
+  toasts: {
+    profileSaved: "Profile updated.",
+    profilePublished: "Your profile is live. Employers can now discover your work.",
+    profileUnpublished: "Your profile is hidden from employer search.",
+    slotBooked: "Your booth is reserved. We will send a reminder 24 hours before the event.",
+    slotCancelled: "Your booth reservation has been cancelled.",
+    messageSent: "Message sent.",
+    studentShortlisted: "Student saved to your shortlist.",
+    studentRemoved: "Student removed from your shortlist.",
+    fileUploaded: "File uploaded and added to your portfolio.",
+    fileRemoved: "File removed from your portfolio.",
+    qrCopied: "Profile QR link copied.",
+    settingsSaved: "Your settings are saved.",
+    teammateInvited: "Invitation sent to your teammate.",
+  },
+
+  errors: {
+    invalidCredentials:
+      "We could not verify those credentials with ZJUT. Check your student ID and passport number, then try again.",
+    sessionExpired: "Your session timed out. Please log in again to keep your account secure.",
+    profileIncomplete:
+      "Add your headline, availability, and at least two projects before publishing your profile.",
+    uploadTooLarge: "That file is over 25MB. Compress it or upload a smaller version.",
+    unsupportedFile:
+      "That file type is not supported yet. Upload a PDF, image, slide deck, or document.",
+    network:
+      "The connection dropped before we could save your changes. Keep this page open and try again.",
+    messageBlocked:
+      "This employer account must be verified before it can message students.",
+    boothUnavailable:
+      "That booth was just reserved by someone else. Choose another open booth on the floor plan.",
+    duplicateAccount:
+      "An account already exists for these ZJUT details. Log in or ask the support team for help.",
+    permissionDenied:
+      "You do not have access to this page. Switch accounts or contact the NEXHIBIT team.",
+    requiredField: "Complete this field so we can show accurate information.",
+    invalidUrl: "Enter a full link that starts with http:// or https://.",
+    invalidEmail: "Enter a school or work email address you can access.",
+  },
+
+  status: {
+    upcoming: "Upcoming",
+    ongoing: "Live now",
+    past: "Completed",
+    verified: "Verified by ZJUT",
+    pendingVerification: "Pending verification",
+    rejectedVerification: "Needs updated details",
+    profileLive: "Profile live",
+    profileDraft: "Draft profile",
+    boothReserved: "Booth reserved",
+    boothOpen: "Booth open",
+    shortlisted: "Shortlisted",
+    invited: "Invited",
+    replied: "Replied",
+    waiting: "Waiting for reply",
+    offerReported: "Offer reported",
+    hidden: "Hidden from employers",
+  },
+
+  marketing: {
+    hero: {
+      caption: "Built with ZJUT",
+      headline: "Where international students get seen.",
+      subheadline:
+        "The reverse career fair platform built with Zhejiang University of Technology. Employers come to you, already knowing your projects, languages, and availability.",
+      ctaPrimary: "I am a student",
+      ctaSecondary: "I am an employer",
+      trustLine: "100% verified profiles | 38+ nationalities | 2 focused events per year",
+      profileCardCta: "Verified by ZJUT",
+    },
+    howItWorks: {
+      caption: "For students",
+      heading: "How NEXHIBIT works",
+      steps: [
+        {
+          title: "Verify with ZJUT",
+          description:
+            "Sign up with your student ID. We sync verified academic data automatically, and you choose what employers can see.",
+        },
+        {
+          title: "Build a profile worth stopping for",
+          description:
+            "Add projects, languages, skills, awards, and availability so employers see evidence before they see a resume.",
+        },
+        {
+          title: "Let employers come to you",
+          description:
+            "At each reverse career fair, employers scan your QR badge, review your work, and start focused conversations.",
+        },
+      ],
+    },
+    employerValue: {
+      caption: "For employers",
+      heading: "Meet verified international talent without cold-searching.",
+      body:
+        "Browse student profiles by field, language ability, location preference, and availability before the event starts.",
+      bullets: [
+        "Find students who already match your regional markets.",
+        "Review project evidence before booking conversations.",
+        "Build a shortlist your whole hiring team can use.",
+      ],
+    },
+    comparison: {
+      traditionalTitle: "Traditional fair",
+      traditionalCaption: "Students chase booths, wait in lines, and repeat the same introduction.",
+      reverseTitle: "NEXHIBIT fair",
+      reverseCaption: "Students exhibit their work. Employers walk in with context and intent.",
+      studentChases: "Student chases employers",
+      employersCome: "Employers come to you",
+    },
+    stats: {
+      heading: "Built for a campus with global talent.",
+      studentsRegistered: "verified student profiles",
+      employersOnboarded: "employer partners",
+      successfulMatches: "student-employer matches",
+      countriesRepresented: "countries represented",
+    },
+    testimonials: {
+      heading: "What students told us",
+      intro:
+        "The platform started with a simple problem: international students had real work to show, but too few rooms where employers expected to see it.",
+      caption: "From 5 interviews",
+      note: "Quotes anonymized from semi-structured interviews conducted May 2026.",
+    },
+    finalCta: {
+      heading: "Ready to be discovered before the handshake?",
+      body:
+        "Create your verified profile now, then arrive at the next NEXHIBIT event with your work already visible.",
+      studentButton: "Create your profile",
+      employerButton: "Browse verified talent",
+    },
+    comparisonDetails: {
+      heading: "Traditional vs Reverse Career Fair",
+      traditionalItems: [
+        "Students chase employers booth to booth",
+        "Resume gets 6 seconds of attention",
+        "Language confidence determines outcome",
+        "International students get overlooked",
+      ],
+      reverseItems: [
+        "Employers come to student booths",
+        "Live demos, portfolios, real conversations",
+        "Verified profiles and interpreters available",
+        "Built specifically for international students",
+      ],
+    },
+    statsLabels: {
+      students: "Students",
+      employers: "Employers",
+      countries: "Countries",
+      verified: "Verified",
+    },
+  },
+
+  layout: {
+    footer: {
+      groups: [
+        {
+          title: "Product",
+          links: ["Features", "How it works", "Pricing", "For Employers"],
+        },
+        {
+          title: "Company",
+          links: ["About", "Team", "Contact", "Careers"],
+        },
+        {
+          title: "Resources",
+          links: ["Help Center", "Success Stories", "Blog", "Press"],
+        },
+        {
+          title: "Legal",
+          links: ["Privacy Policy", "Terms", "PIPL Compliance", "Cookie Policy"],
+        },
+      ],
+      copyright: "© 2026 NEXHIBIT · Built with Zhejiang University of Technology",
+    },
+  },
+
+  pages: {
+    login: {
+      heading: "Welcome back",
+      studentTab: "Student",
+      employerTab: "Employer",
+      studentIdPlaceholder: "e.g., 202210xxxxx",
+      passportPlaceholder: "Passport number used at registration",
+      employerEmailPlaceholder: "name@company.com",
+      passwordPlaceholder: "Enter your password",
+      studentButton: "Log in to your booth",
+      employerButton: "Log in to employer portal",
+      footerPrefix: "Do not have an account?",
+      footerLink: "Sign up",
+    },
+    signup: {
+      heading: "Join NEXHIBIT",
+      studentTab: "I am a student",
+      employerTab: "I am an employer",
+      emailPlaceholder: "student@example.com",
+      companyNamePlaceholder: "Company or organization name",
+      companyWebsitePlaceholder: "https://company.com",
+      studentButton: "Continue to verification",
+      employerButton: "Submit for verification",
+      employerHelper:
+        "Employer accounts require manual verification by ZJUT Career Services. Estimated review time: 1-2 business days.",
+      footerPrefix: "Already have an account?",
+      footerLink: "Log in",
+    },
+    about: {
+      heroCaption: "Our story",
+      heroHeading: "International students deserve to be seen.",
+      heroBody:
+        "NEXHIBIT grew from interviews with international students who had strong projects, multilingual ability, and real ambition, but very few moments where employers expected to notice them. We built a reverse career fair so the first signal is the student's work, not their confidence in a crowded line.",
+      problemHeading: "The gap is not talent. It is visibility.",
+      problemBody:
+        "Traditional career fairs reward speed, local networks, and fluent self-pitching under pressure. International students often navigate language barriers, resume-only screening, and limited channels designed for their cross-border strengths.",
+      problemStats: [
+        "1,500+ international students at ZJUT",
+        "5 interviews · 100% reported the same frustration",
+        "0 platforms built specifically for them",
+      ],
+      solutionHeading: "A fair built around discovery",
+      solutionBody:
+        "Students prepare verified booths with projects, languages, and availability. Employers arrive with context, scan the profile badge, and begin a conversation around evidence instead of guessing from a resume.",
+      traditionalFlow: "Traditional flow",
+      reverseFlow: "NEXHIBIT flow",
+      resumeDrop: "resume drop",
+      discoveryConversation: "discovery and conversation",
+      teamHeading: "Team",
+      teamMembers: [
+        { name: "[Team Member 1]", role: "Product and research" },
+        { name: "[Team Member 2]", role: "Frontend engineering" },
+        { name: "[Team Member 3]", role: "Data and validation" },
+        { name: "[Team Member 4]", role: "Presentation and outreach" },
+      ],
+      builtWithHeading: "Built with",
+      builtWithBody:
+        "NEXHIBIT is a student project developed in partnership with Zhejiang University of Technology's [Course Name] (2026).",
+      facultyAdvisor: "[Faculty Advisor Name]",
+      zjutLogo: "ZJUT",
+    },
+  },
+
+  forms: {
+    labels: {
+      fullName: "Full name",
+      studentId: "ZJUT student ID",
+      passportNumber: "Passport number",
+      email: "Email address",
+      password: "Password",
+      nationality: "Nationality",
+      major: "Major",
+      year: "Year of study",
+      gpa: "GPA",
+      hsk: "HSK level",
+      englishLevel: "English level",
+      headline: "Professional headline",
+      bio: "Short bio",
+      skills: "Skills",
+      projectTitle: "Project title",
+      projectDescription: "Project description",
+      availability: "Available from",
+      preferredLocations: "Preferred locations",
+      companyName: "Company name",
+      companyWebsite: "Company website",
+      hiringCategories: "Hiring categories",
+      message: "Message",
+    },
+    placeholders: {
+      fullName: "Your name as employers should see it",
+      headline: "Data analyst focused on China-Southeast Asia commerce",
+      bio: "Share what you build, what you care about, and where you want to grow.",
+      skills: "Python, market research, Mandarin HSK 4",
+      projectTitle: "Campus Navigator for International Students",
+      projectDescription: "Describe the problem, your role, and the result in two clear sentences.",
+      availability: "June 2026",
+      preferredLocations: "Hangzhou, Shanghai, Remote",
+      companySearch: "Search by company, industry, or hiring skill",
+      studentSearch: "Search students by skill, major, language, or country",
+      messageStudent: "Tell the student what caught your attention and what role you have in mind.",
+      messageEmployer: "Reply with your availability, questions, and any project link they should review.",
+    },
+    validationMessages: {
+      fullName: "Enter the name you want employers to use.",
+      studentId: "Enter your ZJUT student ID.",
+      passportNumber: "Enter the passport number linked to your ZJUT record.",
+      headline: "Write a one-line headline so employers can place you quickly.",
+      bio: "Write one or two sentences in your own voice.",
+      skills: "Add at least four skills that match your current work.",
+      projects: "Add at least two projects before publishing.",
+      companyName: "Enter your registered company or organization name.",
+      website: "Enter a valid company website so students can verify you too.",
+      message: "Write a short, specific message before sending.",
+    },
+  },
+
+  auth: {
+    studentWelcome: "Verify once. Get discovered throughout the event cycle.",
+    employerWelcome: "Create an employer account to browse verified ZJUT international talent.",
+    forgotPassword: "Reset your password",
+    passwordResetSent: "Check your inbox for a secure reset link.",
+    newToNexhibit: "New to NEXHIBIT?",
+    alreadyRegistered: "Already have an account?",
+  },
+
+  dashboard: {
+    student: {
+      greeting: "Your profile is your booth before the fair opens.",
+      nextSteps: "Recommended next steps",
+      profileStrength: "Profile strength",
+      employerViews: "Employer profile views",
+      unreadMessages: "Unread employer messages",
+      upcomingBooth: "Upcoming booth",
+    },
+    employer: {
+      greeting: "Your shortlist is ready when the event doors open.",
+      recommendedStudents: "Recommended students",
+      savedProfiles: "Saved profiles",
+      bookedSlots: "Booked event slots",
+      teamActivity: "Team activity",
+    },
+  },
+
+  events: {
+    card: {
+      slotsBooked: "slots booked",
+      employersRegistered: "employers registered",
+      satisfaction: "student satisfaction",
+      matchesGenerated: "matches generated",
+    },
+    details: {
+      checkIn: "Bring your student ID and QR badge for check-in.",
+      boothSetup: "Arrive 30 minutes early to set up your booth materials.",
+      employerAccess: "Employer teams can browse published profiles before the event.",
+      followUp: "After the event, message students while the conversation is still fresh.",
+    },
+  },
+
+  messaging: {
+    composerHint: "Specific messages get better replies. Mention the project or role you want to discuss.",
+    studentReplyHint: "Share your availability and link the project that best answers their question.",
+    employerReplyHint: "Give the student a clear next step, timeline, or interview window.",
+    unreadLabel: "Unread",
+  },
+
+  legal: {
+    privacyShort:
+      "Under China's Personal Information Protection Law (PIPL), you control your personal data and can update or hide optional profile fields at any time.",
+    verificationUse:
+      "ZJUT verification details are used to confirm eligibility. Passport numbers are never shown to employers.",
+    employerCode:
+      "Employers agree to use NEXHIBIT for legitimate hiring, internships, and career conversations only.",
+    studentConsent:
+      "Publishing your profile makes selected fields visible to verified employer accounts.",
+    dataRetention:
+      "Event and message records are retained only as long as needed for career services, reporting, and account support.",
+  },
+
+  accessibility: {
+    openMenu: "Open navigation menu",
+    closeMenu: "Close navigation menu",
+    previousSlide: "Show previous slide",
+    nextSlide: "Show next slide",
+    scanQr: "Scan profile QR code",
+    removeFilter: "Remove filter",
+    expandSection: "Expand section",
+    collapseSection: "Collapse section",
+  },
+} as const;
+
+export type Copy = typeof copy;
