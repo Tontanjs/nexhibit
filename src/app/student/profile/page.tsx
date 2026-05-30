@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
@@ -56,11 +56,7 @@ export default function ProfilePage() {
             <CardContent className="pt-6">
               {/* Mini profile preview */}
               <div className="flex flex-col items-center text-center">
-                <Avatar className="size-16 bg-ink-900">
-                  <AvatarFallback className="text-lg font-bold text-surface-0">
-                    {currentStudent.initials}
-                  </AvatarFallback>
-                </Avatar>
+                <StudentAvatar student={currentStudent} className="size-16" />
                 <h2 className="mt-3 text-sm font-bold text-ink-900">{currentStudent.name}</h2>
                 <p className="text-xs text-ink-500">{currentStudent.major}</p>
                 <VerifiedBadge className="mt-2" />
@@ -123,11 +119,7 @@ export default function ProfilePage() {
                   <CardTitle className="text-sm font-semibold">Profile photo</CardTitle>
                 </CardHeader>
                 <CardContent className="flex items-center gap-4">
-                  <Avatar className="size-16 bg-gold-50 border-2 border-gold-400">
-                    <AvatarFallback className="text-lg font-bold text-ink-900">
-                      {currentStudent.initials}
-                    </AvatarFallback>
-                  </Avatar>
+                  <StudentAvatar student={currentStudent} className="size-16 border-2 border-gold-400" />
                   <div className="flex-1">
                     <div className="rounded-lg border-2 border-dashed border-ink-300 p-4 text-center hover:border-gold-400 transition-colors cursor-pointer">
                       <p className="text-sm text-ink-500">{p.uploadAreaHint}</p>
@@ -437,11 +429,7 @@ function EmployerPreview({ onBack }: { onBack: () => void }) {
         {/* Hero */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-start gap-4">
-            <Avatar className="size-20 bg-ink-900">
-              <AvatarFallback className="text-2xl font-bold text-surface-0">
-                {currentStudent.initials}
-              </AvatarFallback>
-            </Avatar>
+            <StudentAvatar student={currentStudent} className="size-20" />
             <div>
               <h1 className="text-xl font-bold text-ink-900">{currentStudent.name}</h1>
               <p className="text-ink-600">{currentStudent.headline}</p>

@@ -2,6 +2,7 @@
 
 import { use, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, MapPin, CheckCircle2, Clock, BookOpen, ChevronRight, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
 import { FloorPlan } from "@/components/icons";
 import { copy } from "@/lib/copy";
@@ -17,6 +19,7 @@ import { events, employers } from "@/lib/mock-data";
 import { currentStudent } from "@/lib/current-user";
 import { timeSlots } from "@/lib/extended-data/time-slots";
 import { cn } from "@/lib/utils";
+import { getEventImageSrc } from "@/lib/visual-assets";
 
 const p = copy.pages.student;
 
@@ -62,8 +65,17 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Hero banner */}
-      <div className="relative mb-8 overflow-hidden rounded-xl bg-gradient-to-r from-ink-900 to-ink-700 px-6 py-8 text-surface-0 sm:px-10">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="relative mb-8 overflow-hidden rounded-xl bg-ink-900 px-6 py-8 text-surface-0 shadow-sm sm:px-10 sm:py-10">
+        <Image
+          src={getEventImageSrc(event.id)}
+          alt={`${event.title} event photo`}
+          fill
+          priority
+          sizes="(min-width: 1024px) 1180px, 100vw"
+          className="object-cover opacity-45"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/75 to-ink-900/25" />
+        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <Badge variant="gold" className="mb-3 text-xs">{event.cycle} {event.year}</Badge>
             <h1 className="text-2xl font-bold sm:text-3xl">{event.title}</h1>
@@ -185,12 +197,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
                   <Card key={employer.id} className="hover:shadow-sm transition-shadow">
                     <CardContent className="pt-4">
                       <div className="flex items-start gap-3">
-                        <div
-                          className="flex size-10 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white"
-                          style={{ backgroundColor: employer.logoColor }}
-                        >
-                          {employer.logoLetter}
-                        </div>
+                        <EmployerLogo employer={employer} />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-start justify-between gap-2">
                             <h3 className="text-sm font-semibold text-ink-900 truncate">{employer.name}</h3>

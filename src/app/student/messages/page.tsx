@@ -5,9 +5,11 @@ import { Send, Paperclip, MoreHorizontal, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { EmptyInbox } from "@/components/illustrations/EmptyInbox";
 import { copy } from "@/lib/copy";
+import { currentStudent } from "@/lib/current-user";
 import { employers } from "@/lib/mock-data";
 import { conversations } from "@/lib/extended-data/conversations";
 import { cn } from "@/lib/utils";
@@ -112,12 +114,7 @@ export default function MessagesPage() {
                     isActive && "bg-gold-50",
                   )}
                 >
-                  <div
-                    className="flex size-10 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white"
-                    style={{ backgroundColor: employer.logoColor }}
-                  >
-                    {employer.logoLetter}
-                  </div>
+                  <EmployerLogo employer={employer} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-1">
                       <p className={cn("truncate text-sm font-semibold", conv.unreadCount > 0 ? "text-ink-900" : "text-ink-700")}>
@@ -147,9 +144,7 @@ export default function MessagesPage() {
             <div className="flex items-center justify-between border-b border-ink-200 px-4 py-3">
               <div className="flex items-center gap-3">
                 <button className="text-xs text-ink-400 sm:hidden" onClick={() => setActiveConvId("")}>← Back</button>
-                <div className="flex size-9 items-center justify-center rounded-lg text-sm font-bold text-white" style={{ backgroundColor: activeEmployer.logoColor }}>
-                  {activeEmployer.logoLetter}
-                </div>
+                <EmployerLogo employer={activeEmployer} className="size-9" />
                 <div>
                   <p className="text-sm font-semibold text-ink-900">{activeEmployer.name}</p>
                   <button className="text-xs text-gold-600 hover:underline">{p.viewCompanyProfile}</button>
@@ -167,12 +162,7 @@ export default function MessagesPage() {
                 return (
                   <div key={msg.id} className={cn("flex", isStudent ? "justify-end" : "justify-start")}>
                     {!isStudent && (
-                      <div
-                        className="mr-2 flex size-7 shrink-0 items-center justify-center self-end rounded-full text-[10px] font-bold text-white"
-                        style={{ backgroundColor: activeEmployer.logoColor }}
-                      >
-                        {activeEmployer.logoLetter}
-                      </div>
+                      <EmployerLogo employer={activeEmployer} className="mr-2 size-7 self-end rounded-full" />
                     )}
                     <div
                       className={cn(
@@ -185,9 +175,7 @@ export default function MessagesPage() {
                       {msg.text}
                     </div>
                     {isStudent && (
-                      <Avatar className="ml-2 size-7 self-end shrink-0 bg-gold-500">
-                        <AvatarFallback className="text-[10px] font-bold text-ink-900">{activeConv.participantStudentId === "stu-001" ? "NS" : "S"}</AvatarFallback>
-                      </Avatar>
+                      <StudentAvatar student={currentStudent} className="ml-2 size-7 self-end" />
                     )}
                   </div>
                 );

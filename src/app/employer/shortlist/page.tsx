@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MessageSquare, X, Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { EmptyShortlist } from "@/components/illustrations/EmptyShortlist";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
@@ -93,9 +94,7 @@ export default function ShortlistPage() {
               >
                 {/* Avatar + info */}
                 <div className="flex flex-1 items-center gap-3">
-                  <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-ink-900 text-sm font-bold text-surface-0">
-                    {s.initials}
-                  </div>
+                  <StudentAvatar student={s} className="size-11" />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="text-sm font-semibold text-ink-900">{s.name}</p>

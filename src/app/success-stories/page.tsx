@@ -5,21 +5,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { copy } from "@/lib/copy";
+import { employers, students } from "@/lib/mock-data";
 
 const p = copy.pages.successStories;
 
 const stories = [
   {
     id: "story-001",
+    studentId: "stu-001",
+    employerId: "emp-001",
     name: "Nattapong Saetang",
-    initials: "NS",
     nationality: "🇹🇭 Thailand",
     major: "Software Engineering",
     year: "Year 3",
     employer: "Alibaba Cloud",
-    logoLetter: "AC",
-    logoColor: "#FF6A00",
     role: "Cloud Engineering Intern",
     quote:
       "At a traditional fair I would have queued for 40 minutes to hand over a resume. At NEXHIBIT, the recruiter had already seen my chatbot demo before she walked in. Our first conversation was about the actual code.",
@@ -28,14 +30,13 @@ const stories = [
   },
   {
     id: "story-002",
+    studentId: "stu-003",
+    employerId: "emp-002",
     name: "Ayesha Siddiqui",
-    initials: "AS",
     nationality: "🇵🇰 Pakistan",
     major: "Mechatronics Engineering",
     year: "Year 4",
     employer: "BYD International",
-    logoLetter: "BY",
-    logoColor: "#D71920",
     role: "EV Technical Documentation Intern",
     quote:
       "My SolidWorks assembly was in my portfolio. The hiring manager at BYD said it was the first time she could evaluate someone before speaking to them. The interview felt like a continuation of a conversation we had already started.",
@@ -44,14 +45,13 @@ const stories = [
   },
   {
     id: "story-003",
-    name: "Bolor-Erdene Gantulga",
-    initials: "BE",
+    studentId: "stu-008",
+    employerId: "emp-006",
+    name: "Bolor-Erdene Ganbold",
     nationality: "🇲🇳 Mongolia",
     major: "Applied Linguistics",
     year: "Year 3",
     employer: "Lingxi AI",
-    logoLetter: "LX",
-    logoColor: "#6D5DFB",
     role: "Localization QA Specialist",
     quote:
       "I was not sure a startup would be interested in a linguistics student. But Lingxi AI read my interpreter guide and asked specific questions about the terminology decisions I made for Central Asian business contexts. That felt completely different from a job board.",
@@ -60,14 +60,13 @@ const stories = [
   },
   {
     id: "story-004",
-    name: "Kwame Asante",
-    initials: "KA",
+    studentId: "stu-020",
+    employerId: "emp-003",
+    name: "Ama Nkrumah",
     nationality: "🇬🇭 Ghana",
     major: "International Business",
     year: "Year 4",
     employer: "SHEIN Global",
-    logoLetter: "S",
-    logoColor: "#111827",
     role: "Southeast Asia Campaign Operations Intern",
     quote:
       "SHEIN reached out after they saw my market research project on West African consumer trust in cross-border fashion. They were hiring for Southeast Asia but said the methodology transferred. I never expected that connection to happen.",
@@ -90,15 +89,17 @@ export default function SuccessStoriesPage() {
 
         {/* Stories */}
         <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 space-y-8">
-          {stories.map((story) => (
+          {stories.map((story) => {
+            const student = students.find((s) => s.id === story.studentId) ?? students[0];
+            const employer = employers.find((e) => e.id === story.employerId) ?? employers[0];
+
+            return (
             <Card key={story.id} className="overflow-hidden">
               <CardContent className="pt-5">
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
                   {/* Student info */}
                   <div className="flex shrink-0 flex-row items-center gap-3 sm:flex-col sm:items-center sm:text-center sm:w-32">
-                    <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-ink-900 text-xl font-bold text-surface-0">
-                      {story.initials}
-                    </div>
+                    <StudentAvatar student={student} className="size-14" />
                     <div>
                       <p className="text-sm font-semibold text-ink-900">{story.name}</p>
                       <p className="text-xs text-ink-400">{story.nationality}</p>
@@ -111,12 +112,7 @@ export default function SuccessStoriesPage() {
                   <div className="min-w-0 flex-1">
                     {/* Role + employer */}
                     <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <div
-                        className="flex size-7 shrink-0 items-center justify-center rounded-md text-[10px] font-bold text-white"
-                        style={{ backgroundColor: story.logoColor }}
-                      >
-                        {story.logoLetter}
-                      </div>
+                      <EmployerLogo employer={employer} className="size-7 rounded-md" />
                       <div>
                         <span className="text-xs font-medium text-ink-500">{p.roleAtLabel} </span>
                         <span className="text-sm font-semibold text-ink-900">{story.role}</span>
@@ -138,7 +134,8 @@ export default function SuccessStoriesPage() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </section>
 
         {/* CTA */}

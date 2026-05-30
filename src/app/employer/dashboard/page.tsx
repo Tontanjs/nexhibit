@@ -5,6 +5,7 @@ import { Users, Bookmark, MessageSquare, TrendingUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
 import { students } from "@/lib/mock-data";
@@ -101,9 +102,7 @@ export default function EmployerDashboardPage() {
               <Card key={s.id} className="overflow-hidden hover:shadow-md transition-shadow">
                 <CardContent className="pt-4">
                   <div className="flex items-start gap-3">
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink-900 text-sm font-bold text-surface-0">
-                      {s.initials}
-                    </div>
+                    <StudentAvatar student={s} className="size-10" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-ink-900">{s.name}</p>
                       <p className="text-xs text-ink-400">
@@ -151,9 +150,7 @@ export default function EmployerDashboardPage() {
                   href="/employer/messages"
                   className="flex items-center gap-3 rounded-lg border border-ink-200 px-4 py-3 hover:bg-ink-50 transition-colors"
                 >
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-ink-900 text-xs font-bold text-surface-0">
-                    {student.initials}
-                  </div>
+                  <StudentAvatar student={student} className="size-9" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-semibold text-ink-900">{student.name}</p>

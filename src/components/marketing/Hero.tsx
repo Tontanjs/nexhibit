@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 import { QRBadge, ScannerOverlay } from "@/components/icons";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { students } from "@/lib/mock-data";
@@ -67,9 +67,7 @@ export function Hero() {
                 )}
               >
                 <div className="flex items-start gap-4">
-                  <Avatar className="size-14 bg-ink-900">
-                    <AvatarFallback>{student.initials}</AvatarFallback>
-                  </Avatar>
+                  <StudentAvatar student={student} className="size-14" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <h2 className="truncate text-lg font-bold">{student.name}</h2>

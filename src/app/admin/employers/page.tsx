@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { copy } from "@/lib/copy";
 import { employers } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
@@ -85,12 +86,7 @@ export default function AdminEmployersPage() {
               >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2.5">
-                    <div
-                      className="flex size-8 shrink-0 items-center justify-center rounded-md text-xs font-bold text-white"
-                      style={{ backgroundColor: emp.logoColor }}
-                    >
-                      {emp.logoLetter}
-                    </div>
+                    <EmployerLogo employer={emp} className="size-8 rounded-md" />
                     <div>
                       <p className="font-medium text-ink-900">{emp.name}</p>
                       <p className="text-[11px] text-ink-400">{emp.location}</p>

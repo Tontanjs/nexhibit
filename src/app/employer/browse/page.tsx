@@ -21,6 +21,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { copy } from "@/lib/copy";
@@ -271,9 +272,7 @@ export default function BrowsePage() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex min-w-0 items-start gap-3">
                       <div className="relative shrink-0">
-                        <div className="flex size-12 items-center justify-center rounded-full bg-ink-900 text-sm font-bold text-surface-0">
-                          {s.initials}
-                        </div>
+                        <StudentAvatar student={s} className="size-12" />
                         <span className="absolute -bottom-0.5 -right-0.5 flex size-5 items-center justify-center rounded-full border-2 border-surface-0 bg-success text-surface-0">
                           <CheckCircle2 className="size-3" />
                         </span>

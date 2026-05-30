@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { QRBadge } from "@/components/icons";
 import { FloorPlan } from "@/components/icons";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { copy } from "@/lib/copy";
 import { currentStudent } from "@/lib/current-user";
 import { visitorStream } from "@/lib/extended-data/visitor-stream";
@@ -122,12 +123,7 @@ export default function EventDayPage() {
                     className="flex items-center justify-between gap-3 rounded-lg border border-ink-200 bg-surface-0 px-4 py-3"
                   >
                     <div className="flex items-center gap-3">
-                      <div
-                        className="flex size-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white"
-                        style={{ backgroundColor: employer.logoColor }}
-                      >
-                        {employer.logoLetter}
-                      </div>
+                      <EmployerLogo employer={employer} className="size-9" />
                       <div>
                         <p className="text-sm font-semibold text-ink-900">{employer.name}</p>
                         <p className="text-xs text-ink-400">{visit.visitedAt}</p>

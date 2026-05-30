@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { copy } from "@/lib/copy";
 import { events } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { getEventImageSrc } from "@/lib/visual-assets";
 
 const p = copy.pages.admin.events;
 
@@ -32,6 +35,16 @@ export default function AdminEventsPage() {
               className="rounded-xl border border-ink-200 bg-surface-0 p-5"
             >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="relative h-32 overflow-hidden rounded-lg bg-ink-100 sm:w-48">
+                  <Image
+                    src={getEventImageSrc(event.id)}
+                    alt={`${event.title} event photo`}
+                    fill
+                    sizes="192px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-900/45 to-transparent" />
+                </div>
                 {/* Left: event info */}
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">

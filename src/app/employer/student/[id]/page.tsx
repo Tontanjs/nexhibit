@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
@@ -69,9 +70,7 @@ export default function StudentDetailPage({
           <Card>
             <CardContent className="pt-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-                <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-ink-900 text-2xl font-bold text-surface-0">
-                  {student.initials}
-                </div>
+                <StudentAvatar student={student} className="size-16" />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <h1 className="text-xl font-bold text-ink-900">{student.name}</h1>

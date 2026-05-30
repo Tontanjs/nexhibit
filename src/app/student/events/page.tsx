@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, MapPin, Users, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { copy } from "@/lib/copy";
 import { events } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { getEventImageSrc } from "@/lib/visual-assets";
 import type { Event } from "@/lib/mock-data/types";
 
 type Filter = "Upcoming" | "Past" | "All";
@@ -27,13 +29,6 @@ function statusLabel(status: Event["status"]): string {
   if (status === "ongoing") return copy.status.ongoing;
   return copy.status.past;
 }
-
-const gradientsByIndex = [
-  "from-blue-600 to-indigo-700",
-  "from-violet-600 to-purple-700",
-  "from-emerald-600 to-teal-700",
-  "from-orange-600 to-amber-700",
-];
 
 export default function EventsPage() {
   const [filter, setFilter] = useState<Filter>("Upcoming");
@@ -81,7 +76,7 @@ export default function EventsPage() {
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((event, i) => (
-            <EventCard key={event.id} event={event} colorIndex={i} />
+            <EventCard key={event.id} event={event} featured={i === 0} />
           ))}
         </div>
       )}
@@ -89,7 +84,7 @@ export default function EventsPage() {
   );
 }
 
-function EventCard({ event, colorIndex }: { event: Event; colorIndex: number }) {
+function EventCard({ event, featured }: { event: Event; featured: boolean }) {
   const booked = event.bookedSlots;
   const total = event.totalSlots;
   const fillPct = Math.round((booked / total) * 100);
@@ -98,7 +93,15 @@ function EventCard({ event, colorIndex }: { event: Event; colorIndex: number }) 
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow flex flex-col">
       {/* Cover banner */}
-      <div className={cn("relative h-28 bg-gradient-to-br", gradientsByIndex[colorIndex % gradientsByIndex.length])}>
+      <div className={cn("relative h-44 overflow-hidden", featured && "sm:h-52")}>
+        <Image
+          src={getEventImageSrc(event.id)}
+          alt={`${event.title} event photo`}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover transition-transform duration-500 hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/20 to-transparent" />
         <div className="absolute inset-0 flex flex-col items-start justify-end p-4">
           <Badge variant={statusVariant(event.status)} className="text-xs">
             {statusLabel(event.status)}

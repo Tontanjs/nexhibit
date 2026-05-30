@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu, ChevronDown } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { copy } from "@/lib/copy";
@@ -37,9 +37,7 @@ export function StudentHeader({ user }: { user: Student }) {
               {copy.pages.student.portal}
             </Badge>
             <div className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-ink-100 cursor-pointer">
-              <Avatar className="size-8 bg-ink-900">
-                <AvatarFallback className="text-xs text-surface-0">{user.initials}</AvatarFallback>
-              </Avatar>
+              <StudentAvatar student={user} className="size-8" />
               <span className="text-sm font-medium text-ink-800">{user.name.split(" ")[0]}</span>
               <ChevronDown className="size-3.5 text-ink-400" aria-hidden="true" />
             </div>
@@ -57,9 +55,7 @@ export function StudentHeader({ user }: { user: Student }) {
                 <SheetTitle>{copy.pages.student.portal}</SheetTitle>
               </SheetHeader>
               <div className="mt-6 flex items-center gap-3 rounded-lg border border-ink-200 p-3">
-                <Avatar className="size-10 bg-ink-900">
-                  <AvatarFallback className="text-sm text-surface-0">{user.initials}</AvatarFallback>
-                </Avatar>
+                <StudentAvatar student={user} className="size-10" />
                 <div>
                   <p className="text-sm font-semibold text-ink-900">{user.name}</p>
                   <p className="text-xs text-ink-500">{user.major}</p>

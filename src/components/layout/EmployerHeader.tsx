@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu, ChevronDown, Building2 } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { copy } from "@/lib/copy";
@@ -37,12 +38,7 @@ export function EmployerHeader({ employer }: Props) {
 
         {/* Desktop: employer identity */}
         <div className="hidden sm:flex items-center gap-2">
-          <div
-            className="flex size-8 items-center justify-center rounded-lg text-xs font-bold text-white"
-            style={{ backgroundColor: employer.logoColor }}
-          >
-            {employer.logoLetter}
-          </div>
+          <EmployerLogo employer={employer} className="size-8 rounded-md" />
           <span className="text-sm font-semibold text-ink-900">{employer.name}</span>
           <ChevronDown className="size-4 text-ink-400" />
         </div>

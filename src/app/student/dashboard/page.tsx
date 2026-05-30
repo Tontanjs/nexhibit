@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { copy } from "@/lib/copy";
 import { currentStudent } from "@/lib/current-user";
 import { employers } from "@/lib/mock-data";
@@ -108,9 +109,7 @@ export default function DashboardPage() {
             return (
               <div key={visit.id} className="flex items-center justify-between gap-3 rounded-lg border border-ink-200 px-4 py-3 hover:bg-ink-50 transition-colors">
                 <div className="flex items-center gap-3">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white" style={{ backgroundColor: employer.logoColor }}>
-                    {employer.logoLetter}
-                  </div>
+                  <EmployerLogo employer={employer} />
                   <div>
                     <p className="text-sm font-semibold text-ink-900">{employer.name}</p>
                     <p className="text-xs text-ink-400">{employer.industry} · Viewed {visit.visitedAt}</p>
@@ -154,9 +153,7 @@ export default function DashboardPage() {
                   <tr key={app.id} className={cn("transition-colors hover:bg-ink-50", i < arr.length - 1 && "border-b border-ink-200")}>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2.5">
-                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md text-xs font-bold text-white" style={{ backgroundColor: employer.logoColor }}>
-                          {employer.logoLetter}
-                        </div>
+                        <EmployerLogo employer={employer} className="size-8 rounded-md" />
                         <span className="font-medium text-ink-900 truncate max-w-[120px]">{employer.name}</span>
                       </div>
                     </td>
@@ -190,9 +187,7 @@ export default function DashboardPage() {
               <Card key={fb.id}>
                 <CardContent className="pt-4">
                   <div className="flex items-start gap-3">
-                    <div className="flex size-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white" style={{ backgroundColor: employer.logoColor }}>
-                      {employer.logoLetter}
-                    </div>
+                    <EmployerLogo employer={employer} className="size-9" />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
                         <p className="text-sm font-semibold text-ink-900">{employer.name}</p>

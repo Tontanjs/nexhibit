@@ -5,7 +5,8 @@ import { Send, Paperclip, MoreHorizontal, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { EmployerLogo } from "@/components/brand/EmployerLogo";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { EmptyInbox } from "@/components/illustrations/EmptyInbox";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
@@ -134,9 +135,7 @@ export default function EmployerMessagesPage() {
                     isActive && "bg-gold-50",
                   )}
                 >
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink-900 text-xs font-bold text-surface-0">
-                    {student.initials}
-                  </div>
+                  <StudentAvatar student={student} className="size-10" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-1">
                       <p
@@ -180,9 +179,7 @@ export default function EmployerMessagesPage() {
                 >
                   ← Back
                 </button>
-                <div className="flex size-9 items-center justify-center rounded-full bg-ink-900 text-sm font-bold text-surface-0">
-                  {activeStudent.initials}
-                </div>
+                <StudentAvatar student={activeStudent} className="size-9" />
                 <div>
                   <p className="text-sm font-semibold text-ink-900">{activeStudent.name}</p>
                   <a href={`/employer/student/${activeStudent.id}`} className="text-xs text-gold-600 hover:underline">
@@ -205,9 +202,7 @@ export default function EmployerMessagesPage() {
                     className={cn("flex", isEmployer ? "justify-end" : "justify-start")}
                   >
                     {!isEmployer && (
-                      <div className="mr-2 flex size-7 shrink-0 items-center justify-center self-end rounded-full bg-ink-900 text-[10px] font-bold text-surface-0">
-                        {activeStudent.initials}
-                      </div>
+                      <StudentAvatar student={activeStudent} className="mr-2 size-7 self-end" />
                     )}
                     <div
                       className={cn(
@@ -220,11 +215,7 @@ export default function EmployerMessagesPage() {
                       {msg.text}
                     </div>
                     {isEmployer && (
-                      <Avatar className="ml-2 size-7 self-end shrink-0 bg-gold-500">
-                        <AvatarFallback className="text-[10px] font-bold text-ink-900">
-                          {currentEmployer.logoLetter}
-                        </AvatarFallback>
-                      </Avatar>
+                      <EmployerLogo employer={currentEmployer} className="ml-2 size-7 self-end rounded-full" />
                     )}
                   </div>
                 );

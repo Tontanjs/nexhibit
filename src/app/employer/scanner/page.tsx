@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScannerOverlay } from "@/components/icons";
+import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
@@ -131,9 +132,7 @@ export default function ScannerPage() {
 
             {/* Student info */}
             <div className="flex items-center gap-4">
-              <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-ink-900 text-xl font-bold text-surface-0">
-                {scanned.initials}
-              </div>
+              <StudentAvatar student={scanned} className="size-14" />
               <div>
                 <div className="flex items-center gap-2">
                   <p className="text-lg font-bold text-ink-900">{scanned.name}</p>
