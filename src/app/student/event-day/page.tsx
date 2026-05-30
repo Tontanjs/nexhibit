@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { FolderOpen, PauseCircle, QrCode } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,18 +93,18 @@ export default function EventDayPage() {
                 onClick={() => setQrOpen(true)}
                 className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border-2 border-gold-400 bg-gold-50 text-ink-900 transition-colors hover:bg-gold-100"
               >
-                <span className="text-2xl">📲</span>
+                <QrCode className="size-6" aria-hidden="true" />
                 <span className="text-sm font-semibold">{p.showQrLabel}</span>
               </button>
               <Link
                 href="/student/profile"
                 className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-ink-200 bg-surface-0 text-ink-700 transition-colors hover:border-ink-300 hover:bg-ink-50"
               >
-                <span className="text-2xl">📁</span>
+                <FolderOpen className="size-6" aria-hidden="true" />
                 <span className="text-sm font-medium">{p.openPortfolioLabel}</span>
               </Link>
               <button className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-ink-200 bg-surface-0 text-ink-700 transition-colors hover:border-ink-300 hover:bg-ink-50">
-                <span className="text-2xl">⏸️</span>
+                <PauseCircle className="size-6" aria-hidden="true" />
                 <span className="text-sm font-medium">{p.requestBreakLabel}</span>
               </button>
             </div>

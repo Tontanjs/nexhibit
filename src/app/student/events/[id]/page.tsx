@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { getEventImageSrc } from "@/lib/visual-assets";
 
 const p = copy.pages.student;
+const pDetail = copy.pages.student.eventDetail;
 
 const schedule = [
   { time: "9:00", label: "Opening ceremony & welcome" },
@@ -101,13 +102,13 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
           <Tabs defaultValue="overview" className="min-w-0">
             <TabsList className="mb-6 justify-start overflow-x-auto">
               <TabsTrigger value="overview" className="flex-none">
-                Overview
+                {pDetail.tabOverview}
               </TabsTrigger>
               <TabsTrigger value="employers" className="flex-none">
-                Registered Employers
+                {pDetail.tabEmployers}
               </TabsTrigger>
               <TabsTrigger value="layout" className="flex-none">
-                Booth Layout
+                {pDetail.tabLayout}
               </TabsTrigger>
             </TabsList>
 

@@ -26,12 +26,14 @@ export const copy = {
     },
     student: {
       overview: "Your overview",
-      profile: "Your profile",
+      profile: "Profile",
       portfolio: "Your portfolio",
-      events: "Your events",
+      events: "Events",
       messages: "Messages",
       matches: "Employer interest",
       settings: "Privacy settings",
+      eventDay: "Event Day",
+      dashboard: "Dashboard",
     },
     employer: {
       overview: "Your hiring dashboard",
@@ -293,6 +295,25 @@ export const copy = {
       countries: "Countries",
       verified: "Verified",
     },
+    demo: {
+      eyebrow: "Prototype access",
+      subheading: "Navigate directly to any portal to see the full experience.",
+      student: {
+        label: "Student Portal",
+        description: "Profile editing, event booking, event-day live view, and employer messaging.",
+        cta: "Open student portal",
+      },
+      employer: {
+        label: "Employer Portal",
+        description: "Browse 30 verified student profiles, shortlist, scan QR badges, and message students.",
+        cta: "Open employer portal",
+      },
+      admin: {
+        label: "Admin Console",
+        description: "Platform analytics, employer accounts, and event management.",
+        cta: "Open admin console",
+      },
+    },
   },
 
   layout: {
@@ -448,6 +469,11 @@ export const copy = {
         messagePlaceholder: "Type a message...",
         emptyHeading: "No conversations yet",
         emptyBody: "Your conversations with employers will appear here. Start one from any employer's profile.",
+      },
+      eventDetail: {
+        tabOverview: "Overview",
+        tabEmployers: "Registered Employers",
+        tabLayout: "Booth Layout",
       },
       settings: {
         heading: "Settings",
@@ -690,10 +716,10 @@ export const copy = {
       discoveryConversation: "discovery and conversation",
       teamHeading: "Team",
       teamMembers: [
-        { name: "[Team Member 1]", role: "Product and research" },
-        { name: "[Team Member 2]", role: "Frontend engineering" },
-        { name: "[Team Member 3]", role: "Data and validation" },
-        { name: "[Team Member 4]", role: "Presentation and outreach" },
+        { name: "[Team Member 1]", role: "Product and research", initials: "PR" },
+        { name: "[Team Member 2]", role: "Frontend engineering", initials: "FE" },
+        { name: "[Team Member 3]", role: "Data and validation", initials: "DV" },
+        { name: "[Team Member 4]", role: "Presentation and outreach", initials: "PO" },
       ],
       builtWithHeading: "Built with",
       builtWithBody:

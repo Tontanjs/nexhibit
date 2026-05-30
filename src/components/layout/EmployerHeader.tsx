@@ -63,7 +63,8 @@ export function EmployerHeader({ employer }: Props) {
                   href={href}
                   className={cn(
                     "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                    pathname === href
+                    pathname === href ||
+                    (href === "/employer/browse" && pathname.startsWith("/employer/student"))
                       ? "bg-ink-900 text-surface-0"
                       : "text-ink-600 hover:bg-ink-100 hover:text-ink-900",
                   )}
@@ -79,7 +80,9 @@ export function EmployerHeader({ employer }: Props) {
       {/* Secondary nav */}
       <div className="flex overflow-x-auto border-b border-ink-100 bg-surface-0 px-4 sm:px-6">
         {secondaryNavLinks.map(({ label, href }) => {
-          const isActive = pathname === href;
+          const isActive =
+            pathname === href ||
+            (href === "/employer/browse" && pathname.startsWith("/employer/student"));
           return (
             <Link
               key={href}

@@ -48,7 +48,7 @@ export const events: Event[] = [
   {
     id: "evt-003",
     slug: "spring-career-fair-2026-april-18",
-    title: "Spring Career Fair 2026",
+    title: "Spring Career Fair 2026 — Session I",
     cycle: "Spring",
     year: 2026,
     date: "April 18, 2026",

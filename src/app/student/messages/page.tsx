@@ -24,7 +24,7 @@ function getEmployer(id: string) {
 
 function formatTime(isoString: string): string {
   const date = new Date(isoString);
-  const now = new Date("2026-05-30T00:00:00+08:00");
+  const now = new Date("2026-06-05T00:00:00+08:00");
   const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
   if (diffDays === 0) return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
   if (diffDays === 1) return "Yesterday";

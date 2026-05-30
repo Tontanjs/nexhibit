@@ -13,11 +13,11 @@ import { cn } from "@/lib/utils";
 import type { Student } from "@/lib/mock-data/types";
 
 const secondaryNavLinks = [
-  { label: "Profile", href: "/student/profile" },
-  { label: "Events", href: "/student/events" },
-  { label: "Event Day", href: "/student/event-day" },
-  { label: "Dashboard", href: "/student/dashboard" },
-  { label: "Messages", href: "/student/messages" },
+  { label: copy.navigation.student.profile, href: "/student/profile" },
+  { label: copy.navigation.student.events, href: "/student/events" },
+  { label: copy.navigation.student.eventDay, href: "/student/event-day" },
+  { label: copy.navigation.student.dashboard, href: "/student/dashboard" },
+  { label: copy.navigation.student.messages, href: "/student/messages" },
 ];
 
 export function StudentHeader({ user }: { user: Student }) {

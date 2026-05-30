@@ -51,10 +51,10 @@ export default function AboutPage() {
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="text-center text-3xl font-bold tracking-normal text-ink-900 md:text-4xl">{copy.pages.about.teamHeading}</h2>
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {copy.pages.about.teamMembers.map((member, index) => (
+              {copy.pages.about.teamMembers.map((member) => (
                 <Card key={member.name} className="p-6 text-center shadow-sm">
                   <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-gold-500 text-xl font-extrabold text-ink-900">
-                    {index + 1}
+                    {member.initials}
                   </div>
                   <h3 className="mt-5 text-xl font-semibold text-ink-900">{member.name}</h3>
                   <p className="mt-2 text-sm text-ink-600">{member.role}</p>

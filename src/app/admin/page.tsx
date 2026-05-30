@@ -5,6 +5,7 @@ import {
   Area,
   BarChart,
   Bar,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -166,7 +167,7 @@ export default function AdminDashboardPage() {
                 />
                 <Bar dataKey="value" name="Students" radius={[4, 4, 0, 0]}>
                   {studentsByCategory.map((entry) => (
-                    <rect key={entry.label} fill={CATEGORY_FILL[entry.label] ?? "#94A3B8"} />
+                    <Cell key={entry.label} fill={CATEGORY_FILL[entry.label] ?? "#94A3B8"} />
                   ))}
                 </Bar>
               </BarChart>

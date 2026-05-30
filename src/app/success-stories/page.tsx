@@ -26,7 +26,7 @@ const stories = [
     quote:
       "At a traditional fair I would have queued for 40 minutes to hand over a resume. At NEXHIBIT, the recruiter had already seen my chatbot demo before she walked in. Our first conversation was about the actual code.",
     outcome: "6-month internship, converting to full-time after graduation",
-    event: "Spring Career Fair 2026",
+    event: "Spring Career Fair 2026 — Session I",
   },
   {
     id: "story-002",
@@ -41,7 +41,7 @@ const stories = [
     quote:
       "My SolidWorks assembly was in my portfolio. The hiring manager at BYD said it was the first time she could evaluate someone before speaking to them. The interview felt like a continuation of a conversation we had already started.",
     outcome: "Joined BYD International in Shenzhen, August 2026",
-    event: "Spring Career Fair 2026",
+    event: "Spring Career Fair 2026 — Session I",
   },
   {
     id: "story-003",
