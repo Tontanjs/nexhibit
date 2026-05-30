@@ -24,7 +24,12 @@ export function Navbar() {
 
         <div className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
-            <Link key={link.href} className="text-sm font-medium text-ink-600 transition-colors hover:text-ink-900" href={link.href}>
+            <Link
+              key={link.href}
+              data-underline="true"
+              className="text-sm font-medium text-ink-600 transition hover:-translate-y-0.5 hover:text-ink-900"
+              href={link.href}
+            >
               {link.label}
             </Link>
           ))}
@@ -42,7 +47,7 @@ export function Navbar() {
         <Sheet>
           <SheetTrigger
             aria-label={copy.accessibility.openMenu}
-            className="inline-flex size-11 items-center justify-center rounded-md text-ink-800 hover:bg-ink-100 md:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-md text-ink-800 transition hover:-translate-y-0.5 hover:bg-ink-100 md:hidden"
           >
             <Menu className="size-5" aria-hidden="true" />
           </SheetTrigger>

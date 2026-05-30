@@ -53,7 +53,7 @@ export function Logo({
       >
         Nexhibit
       </text>
-      <circle cx={config.dotX} cy={dotY} r={config.dotR} fill="#F5C518" />
+      <circle className="logo-dot-pulse" cx={config.dotX} cy={dotY} r={config.dotR} fill="#F5C518" />
 
       {showTagline ? (
         <text

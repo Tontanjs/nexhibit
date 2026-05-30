@@ -159,6 +159,7 @@ export const copy = {
     qrCopied: "Profile QR link copied.",
     settingsSaved: "Your settings are saved.",
     teammateInvited: "Invitation sent to your teammate.",
+    loginSuccess: "Login verified. Opening your portal.",
   },
 
   errors: {
@@ -213,6 +214,11 @@ export const copy = {
       ctaPrimary: "I am a student",
       ctaSecondary: "I am an employer",
       trustLine: "100% verified profiles | 38+ nationalities | 2 focused events per year",
+      trustStats: [
+        { value: 100, suffix: "%", label: "verified profiles" },
+        { value: 38, suffix: "+", label: "nationalities" },
+        { value: 2, suffix: "", label: "focused events per year" },
+      ],
       profileCardCta: "Verified by ZJUT",
     },
     employerShowcase: {
@@ -223,9 +229,109 @@ export const copy = {
       statOne: "8 featured partners",
       statTwo: "30 verified students",
       statThree: "Real portfolio signals",
+      stats: [
+        { value: 8, label: "featured partners" },
+        { value: 30, label: "verified students" },
+        { value: 100, suffix: "%", label: "real portfolio signals" },
+      ],
       cta: "Browse employer view",
       cardLabel: "Now reviewing",
       skillsLabel: "Hiring signals",
+      liveBadge: "Live — Companies actively reviewing",
+    },
+    liveActivity: [
+      "Nattapong S. just verified with ZJUT",
+      "BYD International saved 3 profiles to their shortlist",
+      "Booth slots opened for Spring Fair 2026",
+      "Cathay Robotics messaged a robotics finalist",
+      "Alibaba Cloud reviewed portfolio evidence before the fair",
+      "Siemens China shortlisted multilingual automation talent",
+    ],
+    logoCloud: {
+      heading: "Trusted by employers across China",
+    },
+    motionStats: {
+      heading: "A verified talent floor with real signal.",
+      students: "students verified",
+      employers: "partner companies",
+      events: "focused events per year",
+      verified: "verified profiles",
+    },
+    testimonialCarousel: {
+      caption: "Student outcomes",
+      heading: "Proof that the room changed.",
+      quotes: [
+        {
+          name: "Nattapong Saetang",
+          program: "Software Engineering",
+          flag: "🇹🇭",
+          quote:
+            "Three employers walked into my booth in twenty minutes. I did not have to repeat my pitch once.",
+        },
+        {
+          name: "Nguyen Thi Minh Linh",
+          program: "Data Science",
+          flag: "🇻🇳",
+          quote:
+            "The conversation started from my dashboard project, not my visa status. That changed the whole tone.",
+        },
+        {
+          name: "Ayesha Khan",
+          program: "Mechatronics Engineering",
+          flag: "🇵🇰",
+          quote:
+            "My QR badge made the event feel structured. Employers arrived already knowing what I could build.",
+        },
+        {
+          name: "P4",
+          program: "Year 3 Business",
+          flag: "🇮🇩",
+          quote:
+            "Now I can show my work before explaining my accent.",
+        },
+      ],
+    },
+    faq: {
+      caption: "Questions students ask first",
+      heading: "Clear rules before the event begins.",
+      items: [
+        {
+          question: "How does ZJUT verification work?",
+          answer:
+            "Students sign in with ZJUT records, then NEXHIBIT marks verified academic fields so employers know the profile comes from the university context.",
+        },
+        {
+          question: "Who can become a NEXHIBIT employer?",
+          answer:
+            "Verified companies recruiting international students can browse profiles, book event slots, scan QR badges, and message students after review.",
+        },
+        {
+          question: "Are interpreters really provided?",
+          answer:
+            "The event model supports interpreter availability for selected booths and clearer language signals inside every student profile.",
+        },
+        {
+          question: "Can I attend without a booth?",
+          answer:
+            "Students can still build a verified profile and browse event information, but booth slots create the strongest employer discovery signal.",
+        },
+        {
+          question: "What happens to my data after the event?",
+          answer:
+            "Profile visibility and contact permissions stay under student control. Students can pause visibility, export their data, or request deletion.",
+        },
+        {
+          question: "Is NEXHIBIT only for ZJUT students?",
+          answer:
+            "This prototype is scoped to Zhejiang University of Technology so the verification, event layout, and demo story stay focused.",
+        },
+      ],
+    },
+    finalMotionCta: {
+      heading: "Ready to be seen?",
+      body:
+        "Build a verified profile that moves before you enter the hall, then let employers arrive with context.",
+      liveCounterLabel: "students joined this week",
     },
     howItWorks: {
       caption: "For students",
@@ -685,6 +791,9 @@ export const copy = {
     },
     login: {
       heading: "Welcome back",
+      motionPill: "Where students get seen",
+      motionHeadline: "Verify once. Get discovered throughout the event cycle.",
+      keyboardHint: "Press ⌘ + Enter to submit",
       studentTab: "Student",
       employerTab: "Employer",
       studentIdPlaceholder: "e.g., 202210xxxxx",

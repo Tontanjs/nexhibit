@@ -32,7 +32,7 @@ export function Footer() {
             <ul className="mt-4 grid gap-3">
               {group.links.map((link) => (
                 <li key={link}>
-                  <Link className="text-sm text-ink-300 transition-colors hover:text-surface-0" href={footerRoutes[link] ?? "/"}>
+                  <Link data-underline="true" className="text-sm text-ink-300 transition-colors hover:text-surface-0" href={footerRoutes[link] ?? "/"}>
                     {link}
                   </Link>
                 </li>
@@ -44,7 +44,7 @@ export function Footer() {
       <div className="border-t border-surface-0/10">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-6 text-sm text-ink-300 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <Logo size="sm" variant="dark" showTagline={false} />
-          <p>{copy.layout.footer.copyright}</p>
+          <p className="footer-typewriter">{copy.layout.footer.copyright}</p>
         </div>
       </div>
     </footer>

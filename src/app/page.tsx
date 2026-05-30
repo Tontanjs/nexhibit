@@ -1,13 +1,16 @@
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ComparisonSection } from "@/components/marketing/ComparisonSection";
-import { CTASection } from "@/components/marketing/CTASection";
 import { DemoAccess } from "@/components/marketing/DemoAccess";
 import { EmployerMarquee } from "@/components/marketing/EmployerMarquee";
+import { FAQAccordion } from "@/components/marketing/FAQAccordion";
+import { FinalMotionCTA } from "@/components/marketing/FinalMotionCTA";
 import { Hero } from "@/components/marketing/Hero";
 import { HowItWorks } from "@/components/marketing/HowItWorks";
-import { StatsStrip } from "@/components/marketing/StatsStrip";
-import { TestimonialGrid } from "@/components/marketing/TestimonialGrid";
+import { LiveActivityTicker } from "@/components/marketing/LiveActivityTicker";
+import { LogoCloud } from "@/components/marketing/LogoCloud";
+import { MotionStatsBand } from "@/components/marketing/MotionStatsBand";
+import { TestimonialCarousel } from "@/components/marketing/TestimonialCarousel";
 
 export default function Home() {
   return (
@@ -15,13 +18,16 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <LiveActivityTicker />
         <EmployerMarquee />
         <DemoAccess />
         <HowItWorks />
+        <LogoCloud />
         <ComparisonSection />
-        <StatsStrip />
-        <TestimonialGrid />
-        <CTASection />
+        <MotionStatsBand />
+        <TestimonialCarousel />
+        <FAQAccordion />
+        <FinalMotionCTA />
       </main>
       <Footer />
     </>
