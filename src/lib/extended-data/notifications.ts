@@ -1,0 +1,13 @@
+import type { Notification } from "./types";
+
+export const notifications: Notification[] = [
+  { id: "not-001", type: "message", recipientType: "student", recipientId: "stu-001", actorId: "emp-001", text: "Alibaba Cloud sent details for your Friday product debugging exercise.", timestamp: "12 minutes ago", isoTimestamp: "2026-05-29T20:48:00+08:00", read: false, link: "/student/messages" },
+  { id: "not-002", type: "profile_view", recipientType: "student", recipientId: "stu-003", actorId: "emp-002", text: "BYD International viewed your sorting arm project notes.", timestamp: "24 minutes ago", isoTimestamp: "2026-05-29T20:36:00+08:00", read: false, link: "/student/dashboard" },
+  { id: "not-003", type: "message", recipientType: "student", recipientId: "stu-008", actorId: "emp-006", text: "Lingxi AI sent a localization QA trial task.", timestamp: "38 minutes ago", isoTimestamp: "2026-05-29T20:22:00+08:00", read: false, link: "/student/messages" },
+  { id: "not-004", type: "shortlist", recipientType: "student", recipientId: "stu-001", actorId: "emp-004", text: "Bosch China saved your profile to their automation shortlist.", timestamp: "58 minutes ago", isoTimestamp: "2026-05-29T20:02:00+08:00", read: false, link: "/student/dashboard" },
+  { id: "not-005", type: "profile_view", recipientType: "student", recipientId: "stu-005", actorId: "emp-003", text: "SHEIN reviewed your Indonesia cross-border beauty study.", timestamp: "3 hours ago", isoTimestamp: "2026-05-29T18:00:00+08:00", read: true, link: "/student/dashboard" },
+  { id: "not-006", type: "feedback", recipientType: "student", recipientId: "stu-001", actorId: "emp-005", text: "Siemens China left feedback on your QR booth presentation.", timestamp: "7 hours ago", isoTimestamp: "2026-05-29T14:00:00+08:00", read: true, link: "/student/dashboard" },
+  { id: "not-007", type: "event_reminder", recipientType: "student", recipientId: "stu-001", text: "Reminder: update your QR badge before Spring Career Fair booth check-in.", timestamp: "23 hours ago", isoTimestamp: "2026-05-28T22:00:00+08:00", read: true, link: "/student/events/evt-001" },
+  { id: "not-008", type: "profile_view", recipientType: "student", recipientId: "stu-004", actorId: "emp-004", text: "Bosch China viewed your dorm energy monitor project.", timestamp: "2 days ago", isoTimestamp: "2026-05-27T09:45:00+08:00", read: true, link: "/student/dashboard" },
+  { id: "not-009", type: "shortlist", recipientType: "student", recipientId: "stu-006", actorId: "emp-006", text: "Pinduoduo saved your Central Asia market research profile.", timestamp: "18 hours ago", isoTimestamp: "2026-05-29T03:00:00+08:00", read: true, link: "/student/dashboard" },
+];

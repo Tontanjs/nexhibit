@@ -1,0 +1,10 @@
+import type { VisitorEvent } from "./types";
+
+export const visitorStream: VisitorEvent[] = [
+  { id: "visit-001", studentId: "stu-001", employerId: "emp-001", visitedAt: "10:06 AM", isoTimestamp: "2026-04-18T10:06:00+08:00", status: "viewed", duration: 214 },
+  { id: "visit-002", studentId: "stu-001", employerId: "emp-004", visitedAt: "10:18 AM", isoTimestamp: "2026-04-18T10:18:00+08:00", status: "saved", duration: 406 },
+  { id: "visit-003", studentId: "stu-001", employerId: "emp-005", visitedAt: "10:34 AM", isoTimestamp: "2026-04-18T10:34:00+08:00", status: "left_feedback", duration: 512 },
+  { id: "visit-004", studentId: "stu-001", employerId: "emp-002", visitedAt: "10:52 AM", isoTimestamp: "2026-04-18T10:52:00+08:00", status: "viewed", duration: 188 },
+  { id: "visit-005", studentId: "stu-001", employerId: "emp-007", visitedAt: "11:11 AM", isoTimestamp: "2026-04-18T11:11:00+08:00", status: "saved", duration: 331 },
+  { id: "visit-006", studentId: "stu-001", employerId: "emp-006", visitedAt: "11:27 AM", isoTimestamp: "2026-04-18T11:27:00+08:00", status: "viewing" },
+];
