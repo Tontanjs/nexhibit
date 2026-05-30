@@ -49,6 +49,11 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mb-6 overflow-hidden rounded-lg border border-ink-200 bg-ink-900 p-5 text-surface-0 shadow-2xl shadow-ink-900/10">
+        <p className="text-xs font-semibold uppercase tracking-wide text-gold-400">{copy.status.profileLive}</p>
+        <h1 className="mt-2 text-2xl font-bold text-surface-0">{p.heading}</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-300">{copy.helperText.portfolioUpload}</p>
+      </div>
       <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
         {/* Sidebar */}
         <aside className="w-full shrink-0 lg:sticky lg:top-[145px] lg:w-[280px]">

@@ -27,7 +27,7 @@ export default function AboutPage() {
             </div>
             <div className="grid gap-4">
               {copy.pages.about.problemStats.map((stat) => (
-                <Card key={stat} className="p-6 shadow-sm">
+                <Card key={stat} className="p-6 transition-all hover:-translate-y-1 hover:border-gold-500/35 hover:shadow-lg">
                   <p className="text-xl font-semibold leading-snug text-ink-900">{stat}</p>
                 </Card>
               ))}
@@ -52,8 +52,8 @@ export default function AboutPage() {
             <h2 className="text-center text-3xl font-bold tracking-normal text-ink-900 md:text-4xl">{copy.pages.about.teamHeading}</h2>
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {copy.pages.about.teamMembers.map((member) => (
-                <Card key={member.name} className="p-6 text-center shadow-sm">
-                  <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-gold-500 text-xl font-extrabold text-ink-900">
+                <Card key={member.name} className="p-6 text-center transition-all hover:-translate-y-1 hover:border-gold-500/35 hover:shadow-lg">
+                  <div className="mx-auto flex size-16 items-center justify-center rounded-lg bg-ink-900 text-xl font-extrabold text-gold-400 shadow-lg shadow-ink-900/15">
                     {member.initials}
                   </div>
                   <h3 className="mt-5 text-xl font-semibold text-ink-900">{member.name}</h3>

@@ -3,6 +3,25 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { copy } from "@/lib/copy";
 
+const footerRoutes: Record<string, string> = {
+  Features: "/#how-it-works",
+  "How it works": "/#how-it-works",
+  Pricing: "/signup",
+  "For Employers": "/#employers",
+  About: "/about",
+  Team: "/about",
+  Contact: "/about",
+  Careers: "/success-stories",
+  "Help Center": "/student/settings",
+  "Success Stories": "/success-stories",
+  Blog: "/success-stories",
+  Press: "/about",
+  "Privacy Policy": "/student/settings",
+  Terms: "/student/settings",
+  "PIPL Compliance": "/student/settings",
+  "Cookie Policy": "/student/settings",
+};
+
 export function Footer() {
   return (
     <footer className="bg-dark">
@@ -13,7 +32,7 @@ export function Footer() {
             <ul className="mt-4 grid gap-3">
               {group.links.map((link) => (
                 <li key={link}>
-                  <Link className="text-sm text-ink-300 transition-colors hover:text-surface-0" href="#">
+                  <Link className="text-sm text-ink-300 transition-colors hover:text-surface-0" href={footerRoutes[link] ?? "/"}>
                     {link}
                   </Link>
                 </li>

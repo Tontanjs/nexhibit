@@ -10,7 +10,7 @@ import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { label: "Dashboard", href: "/admin" },
+  { label: copy.navigation.admin.overview, href: "/admin" },
   { label: copy.navigation.admin.employers, href: "/admin/employers" },
   { label: copy.navigation.admin.events, href: "/admin/events" },
 ];
@@ -20,17 +20,19 @@ export function AdminHeader() {
 
   return (
     <header className="sticky top-0 z-40 bg-ink-900 shadow-sm">
-      <div className="flex h-14 items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="flex h-14 items-center justify-between gap-3 overflow-hidden px-4 sm:gap-4 sm:px-6">
         <div className="flex items-center gap-3">
-          <Logo size="sm" showTagline={false} variant="light" />
-          <Badge variant="secondary" className="text-xs">{copy.pages.admin.portal}</Badge>
+          <Link href="/" aria-label={copy.brand.name}>
+            <Logo size="sm" showTagline={false} variant="dark" />
+          </Link>
+          <Badge variant="secondary" className="hidden text-xs sm:inline-flex">{copy.pages.admin.portal}</Badge>
         </div>
         <div className="flex items-center gap-1 text-surface-0">
           <ShieldCheck className="size-3.5 text-gold-400" />
-          <span className="text-xs font-medium text-ink-300">ZJUT Career Services</span>
+          <span className="hidden text-xs font-medium text-ink-300 sm:inline">{copy.pages.admin.serviceLabel}</span>
         </div>
       </div>
-      <div className="flex border-b border-ink-700 bg-ink-900 px-4 sm:px-6">
+      <div className="flex overflow-x-auto border-b border-ink-700 bg-ink-900 px-4 scrollbar-hide sm:px-6">
         {navLinks.map(({ label, href }) => {
           const isActive = pathname === href;
           return (

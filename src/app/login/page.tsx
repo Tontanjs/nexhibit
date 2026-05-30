@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Sparkles } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
 import { buttonVariants } from "@/components/ui/button";
@@ -12,14 +12,33 @@ import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen bg-surface-50 px-4 py-6 sm:px-6">
-      <Link className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink-700 hover:text-ink-900" href="/">
-        <ArrowLeft className="size-4" aria-hidden="true" />
-        {copy.navigation.marketing.backHome}
-      </Link>
+    <main className="relative min-h-screen overflow-hidden bg-ink-900 px-4 py-6 sm:px-6">
+      <div className="absolute inset-0 subtle-grid opacity-25" aria-hidden="true" />
+      <div className="relative">
+        <Link className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink-200 hover:text-surface-0" href="/">
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          {copy.navigation.marketing.backHome}
+        </Link>
+      </div>
 
-      <div className="mx-auto flex min-h-[calc(100vh-96px)] w-full max-w-md items-center justify-center py-10">
-        <Card className="w-full p-6 shadow-sm sm:p-8">
+      <div className="relative mx-auto grid min-h-[calc(100vh-96px)] w-full max-w-5xl items-center gap-8 py-10 md:grid-cols-[0.95fr_1fr]">
+        <section className="hidden rounded-lg border border-surface-0/10 bg-surface-0/[0.06] p-8 text-surface-0 shadow-2xl backdrop-blur md:block">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/25 bg-gold-500/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-gold-400">
+            <Sparkles className="size-4" aria-hidden="true" />
+            {copy.brand.tagline}
+          </div>
+          <h2 className="mt-8 text-4xl font-extrabold leading-tight">{copy.auth.studentWelcome}</h2>
+          <div className="mt-8 grid gap-3 text-sm text-ink-200">
+            {[copy.helperText.zjutVerification, copy.helperText.privacyDefault, copy.helperText.messageEtiquette].map((item) => (
+              <div key={item} className="flex gap-3 rounded-lg border border-surface-0/10 bg-surface-0/[0.05] p-3">
+                <ShieldCheck className="mt-0.5 size-4 shrink-0 text-gold-400" aria-hidden="true" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <Card className="w-full p-6 shadow-2xl sm:p-8">
           <div className="flex justify-center">
             <Logo size="md" showTagline={false} />
           </div>

@@ -25,7 +25,7 @@ export function CTASection() {
         </div>
         <FloorPlan
           highlightedBooth="B-23"
-          className="hidden h-auto w-full max-w-xl rounded-lg shadow-2xl md:block"
+          className="hidden h-auto w-full max-w-xl rounded-lg border border-ink-900/10 shadow-2xl shadow-ink-900/25 md:block"
           numbering="global"
         />
       </div>

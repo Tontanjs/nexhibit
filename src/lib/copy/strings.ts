@@ -37,7 +37,9 @@ export const copy = {
     },
     employer: {
       overview: "Your hiring dashboard",
+      dashboard: "Dashboard",
       browse: "Browse students",
+      scanner: "Scanner",
       shortlist: "Your shortlist",
       events: "Book event slots",
       messages: "Messages",
@@ -212,6 +214,18 @@ export const copy = {
       ctaSecondary: "I am an employer",
       trustLine: "100% verified profiles | 38+ nationalities | 2 focused events per year",
       profileCardCta: "Verified by ZJUT",
+    },
+    employerShowcase: {
+      caption: "Employer discovery feed",
+      heading: "Companies keep moving through the talent floor.",
+      body:
+        "A live-style employer showcase turns the landing page into the event itself: verified companies, hiring focus areas, and cross-border roles always in motion.",
+      statOne: "8 featured partners",
+      statTwo: "30 verified students",
+      statThree: "Real portfolio signals",
+      cta: "Browse employer view",
+      cardLabel: "Now reviewing",
+      skillsLabel: "Hiring signals",
     },
     howItWorks: {
       caption: "For students",
@@ -608,8 +622,10 @@ export const copy = {
     },
     admin: {
       portal: "Admin Portal",
+      serviceLabel: "ZJUT Career Services",
       dashboard: {
         heading: "Platform Overview",
+        summary: "Verified student growth, employer activation, and event outcomes for the June 2026 demo.",
         studentsLabel: "Students registered",
         employersLabel: "Employers onboarded",
         matchesLabel: "Successful matches",
@@ -716,15 +732,15 @@ export const copy = {
       discoveryConversation: "discovery and conversation",
       teamHeading: "Team",
       teamMembers: [
-        { name: "[Team Member 1]", role: "Product and research", initials: "PR" },
-        { name: "[Team Member 2]", role: "Frontend engineering", initials: "FE" },
-        { name: "[Team Member 3]", role: "Data and validation", initials: "DV" },
-        { name: "[Team Member 4]", role: "Presentation and outreach", initials: "PO" },
+        { name: "Product Research", role: "Student interviews, employer needs, and reverse-fair workflow", initials: "PR" },
+        { name: "Experience Design", role: "Portal flows, visual system, and presentation-ready interaction polish", initials: "XD" },
+        { name: "Data Validation", role: "Mock cohort quality, matching logic, and acceptance criteria", initials: "DV" },
+        { name: "Demo Storytelling", role: "June 5 narrative, live demo path, and stakeholder handoff", initials: "DS" },
       ],
       builtWithHeading: "Built with",
       builtWithBody:
-        "NEXHIBIT is a student project developed in partnership with Zhejiang University of Technology's [Course Name] (2026).",
-      facultyAdvisor: "[Faculty Advisor Name]",
+        "NEXHIBIT is a polished student prototype for Zhejiang University of Technology's international career development context, designed for a June 2026 reverse career fair demo.",
+      facultyAdvisor: "ZJUT International College · Career Services concept",
       zjutLogo: "ZJUT",
     },
   },

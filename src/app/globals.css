@@ -15,6 +15,7 @@
   --color-surface-0: #FFFFFF;
   --color-surface-50: #FAFAF9;
   --color-surface-100: #F4F4F2;
+  --color-surface-200: #E7E5E1;
 
   --color-gold-50: #FFFCE8;
   --color-gold-400: #F8D547;
@@ -54,6 +55,11 @@
   box-sizing: border-box;
 }
 
+::selection {
+  background: color-mix(in srgb, var(--color-gold-500) 45%, transparent);
+  color: var(--color-ink-900);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -61,7 +67,9 @@ html {
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background: var(--color-surface-50);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 250, 249, 0.98) 36%, rgba(244, 244, 242, 0.92)),
+    linear-gradient(90deg, rgba(245, 197, 24, 0.06), transparent 34%, rgba(10, 14, 26, 0.04));
   color: var(--color-ink-900);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -80,7 +88,9 @@ select {
 }
 
 .bg-dark {
-  background: var(--color-ink-900);
+  background:
+    linear-gradient(135deg, rgba(245, 197, 24, 0.08), transparent 28%),
+    linear-gradient(180deg, #0A0E1A 0%, #111827 54%, #0A0E1A 100%);
   color: var(--color-surface-50);
 }
 
@@ -89,4 +99,87 @@ select {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+.app-shell {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(250, 250, 249, 0.9) 42%, rgba(244, 244, 242, 0.86)),
+    linear-gradient(90deg, rgba(245, 197, 24, 0.08), transparent 32%, rgba(45, 55, 72, 0.05));
+}
+
+.subtle-grid {
+  background-image:
+    linear-gradient(rgba(100, 116, 139, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 116, 139, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(18px);
+}
+
+@keyframes nexhibit-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes nexhibit-marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes nexhibit-float {
+  0%, 100% {
+    transform: translateY(0) rotate(var(--card-rotate, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--card-rotate, 0deg));
+  }
+}
+
+.marquee-track {
+  width: max-content;
+  animation: nexhibit-marquee-left 38s linear infinite;
+}
+
+.marquee-track-reverse {
+  width: max-content;
+  animation: nexhibit-marquee-right 44s linear infinite;
+}
+
+.marquee-track:hover,
+.marquee-track:focus-within,
+.marquee-track-reverse:hover,
+.marquee-track-reverse:focus-within {
+  animation-play-state: paused;
+}
+
+.float-card {
+  animation: nexhibit-float 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

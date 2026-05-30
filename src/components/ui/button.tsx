@@ -5,22 +5,22 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all duration-200 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-ink-900 text-surface-0 hover:bg-ink-800",
-        primary: "bg-gold-500 text-ink-900 hover:bg-gold-600",
+        default: "bg-ink-900 text-surface-0 shadow-sm shadow-ink-900/15 hover:-translate-y-0.5 hover:bg-ink-800 hover:shadow-md",
+        primary: "bg-gold-500 text-ink-900 shadow-sm shadow-gold-500/25 hover:-translate-y-0.5 hover:bg-gold-600 hover:shadow-md",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20",
         outline:
-          "border border-ink-200 bg-surface-0 text-ink-900 shadow-xs hover:bg-ink-100",
+          "border border-ink-200 bg-surface-0 text-ink-900 shadow-xs hover:-translate-y-0.5 hover:border-ink-300 hover:bg-ink-50 hover:shadow-sm",
         secondary:
-          "border border-ink-900 bg-transparent text-ink-900 hover:bg-ink-100",
+          "border border-ink-900 bg-transparent text-ink-900 hover:-translate-y-0.5 hover:bg-ink-100",
         ghost:
           "text-ink-700 hover:bg-ink-100 hover:text-ink-900",
         inverse:
-          "border border-surface-0/60 bg-transparent text-surface-0 hover:bg-surface-0/10",
+          "border border-surface-0/60 bg-transparent text-surface-0 hover:-translate-y-0.5 hover:bg-surface-0/10 hover:shadow-md",
         link: "text-ink-900 underline-offset-4 hover:underline",
       },
       size: {

@@ -21,12 +21,15 @@ export function HowItWorks() {
             const Icon = icons[index];
 
             return (
-              <Card key={step.title} className="p-8 shadow-sm">
-                <div className="flex size-12 items-center justify-center rounded-full bg-gold-50 text-gold-600">
+              <Card key={step.title} className="group relative overflow-hidden p-8 transition-all hover:-translate-y-1 hover:border-gold-500/35 hover:shadow-lg">
+                <span className="absolute right-6 top-4 text-6xl font-black leading-none text-ink-100 transition-colors group-hover:text-gold-50">
+                  0{index + 1}
+                </span>
+                <div className="relative flex size-12 items-center justify-center rounded-lg border border-gold-500/20 bg-gold-50 text-gold-600">
                   <Icon className="size-6" aria-hidden="true" />
                 </div>
-                <h3 className="mt-6 text-2xl font-semibold text-ink-900">{step.title}</h3>
-                <p className="mt-3 text-base leading-relaxed text-ink-600">{step.description}</p>
+                <h3 className="relative mt-6 text-2xl font-semibold text-ink-900">{step.title}</h3>
+                <p className="relative mt-3 text-base leading-relaxed text-ink-600">{step.description}</p>
               </Card>
             );
           })}

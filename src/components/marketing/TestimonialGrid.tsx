@@ -21,8 +21,8 @@ export function TestimonialGrid() {
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {selectedQuotes.map((quote) => (
-            <Card key={quote.id} className="p-8 shadow-sm">
-              <div className="text-6xl font-extrabold leading-none text-gold-500">“</div>
+            <Card key={quote.id} className="p-8 transition-all hover:-translate-y-1 hover:border-gold-500/35 hover:shadow-lg">
+              <div className="text-6xl font-extrabold leading-none text-gold-500">&ldquo;</div>
               <blockquote className="mt-2 text-lg italic leading-relaxed text-ink-800">{quote.text}</blockquote>
               <p className="mt-6 text-sm font-semibold text-ink-900">{quote.authorCode}</p>
               <p className="mt-1 text-sm text-ink-500">{quote.authorContext}</p>

@@ -28,22 +28,25 @@ const portals = [
 
 export function DemoAccess() {
   return (
-    <section className="border-b border-ink-200 bg-surface-0 py-10 md:py-12">
+    <section className="border-b border-ink-200 bg-surface-0 py-12 md:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-7 flex flex-col items-center gap-2 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-ink-200 bg-ink-50 px-3 py-1">
+        <div className="mb-8 flex flex-col items-center gap-2 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/30 bg-gold-50 px-3 py-1">
             <span className="size-1.5 rounded-full bg-gold-500" aria-hidden="true" />
-            <span className="text-xs font-semibold text-ink-600">{d.eyebrow}</span>
+            <span className="text-xs font-bold uppercase tracking-wide text-ink-700">{d.eyebrow}</span>
           </div>
-          <p className="text-sm text-ink-500">{d.subheading}</p>
+          <p className="max-w-2xl text-sm leading-relaxed text-ink-500">{d.subheading}</p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
           {portals.map(({ icon: Icon, label, description, cta, href }) => (
-            <Card key={label} className="flex flex-col gap-4 p-5 transition-shadow hover:shadow-md">
+            <Card
+              key={label}
+              className="group flex flex-col gap-4 overflow-hidden p-5 transition-all hover:-translate-y-1 hover:border-gold-500/40 hover:shadow-lg"
+            >
               <div className="flex items-start gap-3">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-md bg-ink-100">
-                  <Icon className="size-5 text-ink-600" aria-hidden="true" />
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-ink-200 bg-ink-900 text-gold-400 shadow-sm transition-colors group-hover:border-gold-500/40">
+                  <Icon className="size-5" aria-hidden="true" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-ink-900">{label}</p>

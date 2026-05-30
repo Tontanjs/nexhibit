@@ -6,7 +6,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   return (
     <>
       <StudentHeader user={currentStudent} />
-      <main className="min-h-[calc(100vh-200px)]">{children}</main>
+      <main className="app-shell min-h-[calc(100vh-200px)]">{children}</main>
       <Footer />
     </>
   );

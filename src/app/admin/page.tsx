@@ -38,7 +38,11 @@ const CATEGORY_FILL: Record<string, string> = {
 export default function AdminDashboardPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
-      <h1 className="text-xl font-bold text-ink-900">{p.heading}</h1>
+      <div className="overflow-hidden rounded-lg border border-ink-200 bg-ink-900 p-6 text-surface-0 shadow-2xl shadow-ink-900/10">
+        <p className="text-xs font-semibold uppercase tracking-wide text-gold-400">{copy.pages.admin.serviceLabel}</p>
+        <h1 className="mt-2 text-2xl font-bold text-surface-0 sm:text-3xl">{p.heading}</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-300">{p.summary}</p>
+      </div>
 
       {/* KPI row */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

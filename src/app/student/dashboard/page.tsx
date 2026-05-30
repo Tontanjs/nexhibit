@@ -45,7 +45,7 @@ export default function DashboardPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
       {/* Welcome strip */}
-      <div className="rounded-xl bg-gradient-to-r from-ink-900 to-ink-700 px-6 py-5 text-surface-0">
+      <div className="overflow-hidden rounded-lg border border-surface-0/10 bg-ink-900 px-6 py-5 text-surface-0 shadow-2xl shadow-ink-900/10">
         <p className="text-base font-medium text-ink-300">{p.welcomePrefix} {currentStudent.name.split(" ")[0]},</p>
         <p className="text-lg font-semibold text-surface-0">{p.welcomeSuffix}</p>
       </div>

@@ -15,22 +15,24 @@ import type { Employer } from "@/lib/mock-data/types";
 type Props = { employer: Employer };
 
 const secondaryNavLinks = [
-  { label: "Dashboard", href: "/employer/dashboard" },
-  { label: "Browse", href: "/employer/browse" },
-  { label: "Scanner", href: "/employer/scanner" },
-  { label: "Shortlist", href: "/employer/shortlist" },
-  { label: "Messages", href: "/employer/messages" },
+  { label: copy.navigation.employer.dashboard, href: "/employer/dashboard" },
+  { label: copy.navigation.employer.browse, href: "/employer/browse" },
+  { label: copy.navigation.employer.scanner, href: "/employer/scanner" },
+  { label: copy.navigation.employer.shortlist, href: "/employer/shortlist" },
+  { label: copy.navigation.employer.messages, href: "/employer/messages" },
 ];
 
 export function EmployerHeader({ employer }: Props) {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 bg-surface-0 shadow-sm">
+    <header className="sticky top-0 z-40 border-b border-ink-200/70 bg-surface-0/95 shadow-sm backdrop-blur">
       {/* Primary bar */}
       <div className="flex h-16 items-center justify-between gap-4 border-b border-ink-200 px-4 sm:px-6">
         <div className="flex items-center gap-3">
-          <Logo size="sm" showTagline={false} variant="dark" />
+          <Link href="/" aria-label={copy.brand.name}>
+            <Logo size="sm" showTagline={false} />
+          </Link>
           <Badge variant="secondary" className="hidden text-xs sm:inline-flex">
             {copy.pages.employer.portal}
           </Badge>
@@ -78,7 +80,7 @@ export function EmployerHeader({ employer }: Props) {
       </div>
 
       {/* Secondary nav */}
-      <div className="flex overflow-x-auto border-b border-ink-100 bg-surface-0 px-4 sm:px-6">
+      <div className="flex overflow-x-auto border-b border-ink-100 bg-surface-0/95 px-4 sm:px-6">
         {secondaryNavLinks.map(({ label, href }) => {
           const isActive =
             pathname === href ||

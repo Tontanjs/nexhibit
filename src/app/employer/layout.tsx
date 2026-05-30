@@ -6,7 +6,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
   return (
     <>
       <EmployerHeader employer={currentEmployer} />
-      <main className="min-h-[calc(100vh-200px)]">{children}</main>
+      <main className="app-shell min-h-[calc(100vh-200px)]">{children}</main>
       <Footer />
     </>
   );

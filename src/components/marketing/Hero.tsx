@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 import { QRBadge, ScannerOverlay } from "@/components/icons";
@@ -10,24 +11,22 @@ import { students } from "@/lib/mock-data";
 import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
-const cardStyles = [
-  "rotate-[-3deg] translate-x-0",
-  "rotate-[2deg] translate-x-8",
-  "rotate-[-1deg] translate-x-3",
-];
+const cardRotations = ["-3deg", "2deg", "-1deg"];
 
 export function Hero() {
   const featuredStudents = students.slice(0, 3);
 
   return (
-    <section className="bg-dark overflow-hidden">
-      <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 py-24 sm:px-6 md:grid-cols-[1fr_0.9fr] md:items-center md:py-32 lg:px-8">
+    <section className="bg-dark relative overflow-hidden" id="students">
+      <div className="absolute inset-0 subtle-grid opacity-20" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-ink-900 to-transparent" aria-hidden="true" />
+      <div className="relative mx-auto grid w-full max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[1fr_0.9fr] md:items-center md:py-20 lg:px-8">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
-          <div className="inline-flex items-center gap-2 rounded-full bg-gold-500 px-4 py-2 text-xs font-bold uppercase tracking-wide text-ink-900">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-500 px-4 py-2 text-xs font-bold uppercase tracking-wide text-ink-900 shadow-lg shadow-gold-500/10">
             <Sparkles className="size-4" aria-hidden="true" />
             {copy.marketing.hero.caption}
           </div>
-          <h1 className="mt-8 text-5xl font-extrabold leading-[1.05] tracking-normal text-surface-0 sm:text-6xl md:text-7xl">
+          <h1 className="mt-8 text-5xl font-extrabold leading-[1.02] tracking-normal text-surface-0 sm:text-6xl 2xl:text-7xl">
             {copy.marketing.hero.headline}
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-300 md:mx-0">
@@ -43,9 +42,28 @@ export function Hero() {
             </Link>
           </div>
           <p className="mt-6 text-sm font-medium text-ink-400">{copy.marketing.hero.trustLine}</p>
+
+          <div className="mt-8 grid gap-3 sm:hidden">
+            {featuredStudents.map((student) => (
+              <article
+                key={student.id}
+                className="rounded-lg border border-surface-0/10 bg-surface-0/[0.08] p-3 text-left shadow-xl backdrop-blur"
+              >
+                <div className="flex items-center gap-3">
+                  <StudentAvatar student={student} className="size-11" />
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-bold text-surface-0">
+                      {student.name} <span aria-hidden="true">{student.nationalityFlag}</span>
+                    </p>
+                    <p className="truncate text-xs text-ink-300">{student.headline}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
 
-        <div className="relative hidden min-h-[560px] md:block" id="students">
+        <div className="relative hidden min-h-[500px] md:block">
           <ScannerOverlay
             scanning
             instruction={copy.accessibility.scanQr}
@@ -57,14 +75,16 @@ export function Hero() {
             verifiedCaption={copy.status.verified}
             className="absolute bottom-8 right-4 h-52 w-40 rotate-6 drop-shadow-2xl"
           />
-          <div className="absolute left-0 top-20 grid w-[420px] gap-5">
+          <div className="absolute left-0 top-10 grid w-[420px] gap-4">
             {featuredStudents.map((student, index) => (
               <article
                 key={student.id}
                 className={cn(
-                  "rounded-lg border border-surface-0/10 bg-surface-0 p-5 text-ink-900 shadow-2xl",
-                  cardStyles[index],
+                  "float-card rounded-lg border border-surface-0/20 bg-surface-0 p-5 text-ink-900 shadow-2xl shadow-ink-900/30",
+                  index === 1 && "ml-8",
+                  index === 2 && "ml-3",
                 )}
+                style={{ "--card-rotate": cardRotations[index] } as CSSProperties}
               >
                 <div className="flex items-start gap-4">
                   <StudentAvatar student={student} className="size-14" />

@@ -44,9 +44,21 @@ export default function EventsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-ink-900">{p.heading}</h1>
-        <p className="mt-1 text-ink-500">{p.subheading}</p>
+      <div className="mb-8 overflow-hidden rounded-lg border border-ink-200 bg-ink-900 p-6 text-surface-0 shadow-2xl shadow-ink-900/10">
+        <h1 className="text-2xl font-bold text-surface-0">{p.heading}</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-300">{p.subheading}</p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {[
+            { label: p.tabUpcoming, value: events.filter((e) => e.status !== "past").length },
+            { label: p.tabPast, value: events.filter((e) => e.status === "past").length },
+            { label: p.employersLabel, value: events.reduce((sum, e) => sum + e.registeredEmployers, 0) },
+          ].map((item) => (
+            <div key={item.label} className="rounded-lg border border-surface-0/10 bg-surface-0/[0.06] px-4 py-3">
+              <p className="text-2xl font-bold text-gold-400">{item.value}</p>
+              <p className="text-xs font-semibold text-ink-300">{item.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Filter tabs */}
