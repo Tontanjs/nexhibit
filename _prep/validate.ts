@@ -34,11 +34,11 @@ function wordCount(text: string) {
 }
 
 const expectedStudentCategories: Record<StudentCategory, number> = {
-  Business: 3,
-  Engineering: 4,
-  Health: 2,
-  Language: 2,
-  Other: 1,
+  Business: 8,
+  Engineering: 10,
+  Health: 5,
+  Language: 5,
+  Other: 2,
 };
 
 const categoryCounts: Record<StudentCategory, number> = {
@@ -62,9 +62,27 @@ const requiredNationalities = [
   "Nigeria",
   "Cambodia",
   "India",
+  "Malaysia",
+  "Bangladesh",
+  "Nepal",
+  "Sri Lanka",
+  "Laos",
+  "Turkey",
+  "Myanmar",
+  "Ghana",
+  "Kenya",
+  "Uzbekistan",
+  "Brazil",
+  "Morocco",
+  "South Africa",
+  "Tajikistan",
+  "Kyrgyzstan",
+  "Ukraine",
+  "Mexico",
+  "Peru",
 ];
 
-assert(students.length === 12, "Expected exactly 12 students.");
+assert(students.length === 30, "Expected exactly 30 students.");
 assertUnique(students.map((student) => student.id), "Student IDs");
 assertUnique(students.map((student) => student.nationality), "Student nationalities");
 
