@@ -6,3 +6,4 @@ export * from "./visitor-stream";
 export * from "./activity-feed";
 export * from "./application-statuses";
 export * from "./feedback";
+export * from "./chart-data";
