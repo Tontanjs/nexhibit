@@ -86,11 +86,17 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
       <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
         {/* Main column */}
         <div className="min-w-0 flex-1">
-          <Tabs defaultValue="overview">
-            <TabsList className="mb-6">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="employers">Registered Employers</TabsTrigger>
-              <TabsTrigger value="layout">Booth Layout</TabsTrigger>
+          <Tabs defaultValue="overview" className="min-w-0">
+            <TabsList className="mb-6 justify-start overflow-x-auto">
+              <TabsTrigger value="overview" className="flex-none">
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="employers" className="flex-none">
+                Registered Employers
+              </TabsTrigger>
+              <TabsTrigger value="layout" className="flex-none">
+                Booth Layout
+              </TabsTrigger>
             </TabsList>
 
             {/* Overview tab */}
