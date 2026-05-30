@@ -144,8 +144,9 @@ export function EmployerMarquee() {
                 <Marquee
                   key={columnIndex}
                   orientation="vertical"
-                  direction={columnIndex === 1 ? "up" : "down"}
-                  speed={columnIndex === 0 ? "50s" : columnIndex === 1 ? "60s" : "45s"}
+                  direction="up"
+                  speed={columnIndex === 0 ? "42s" : columnIndex === 1 ? "52s" : "46s"}
+                  pauseOnHover={false}
                   className="h-full"
                   contentClassName="gap-0"
                 >

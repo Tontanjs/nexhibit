@@ -9,6 +9,7 @@ export function Marquee({
   speed = "40s",
   direction = "left",
   orientation = "horizontal",
+  pauseOnHover = true,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -16,6 +17,7 @@ export function Marquee({
   speed?: string;
   direction?: "left" | "right" | "up" | "down";
   orientation?: "horizontal" | "vertical";
+  pauseOnHover?: boolean;
 }) {
   const animationName =
     orientation === "vertical"
@@ -30,7 +32,8 @@ export function Marquee({
     <div className={cn("group/marquee overflow-hidden", className)}>
       <div
         className={cn(
-          "flex w-max group-hover/marquee:[animation-play-state:paused]",
+          "flex w-max",
+          pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
           orientation === "vertical" ? "w-full flex-col" : "items-center",
           contentClassName,
         )}
