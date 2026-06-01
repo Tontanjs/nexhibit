@@ -96,7 +96,7 @@ export default function LoginPage() {
       </div>
 
       <div className="relative z-10 mx-auto grid min-h-[calc(100vh-96px)] w-full max-w-6xl items-center gap-8 py-10 md:grid-cols-[0.95fr_1fr]">
-        <section className="hidden text-surface-0 md:block">
+        <section className="order-2 text-surface-0 md:order-1">
           <Reveal>
             <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/25 bg-gold-500/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-gold-400">
               <span className="pulse-dot size-1.5 rounded-full bg-gold-500" aria-hidden="true" />
@@ -122,6 +122,7 @@ export default function LoginPage() {
         </section>
 
         <motion.div
+          className="order-1 md:order-2"
           initial={{ opacity: 0, x: 28 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}

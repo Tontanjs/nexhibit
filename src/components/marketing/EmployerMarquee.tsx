@@ -141,23 +141,24 @@ export function EmployerMarquee() {
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-20 bg-gradient-to-t from-ink-900 to-transparent" aria-hidden="true" />
             <div className="grid h-full gap-4 md:grid-cols-3">
               {columns.map((column, columnIndex) => (
-                <Marquee
-                  key={columnIndex}
-                  orientation="vertical"
-                  direction="up"
-                  speed={columnIndex === 0 ? "42s" : columnIndex === 1 ? "52s" : "46s"}
-                  pauseOnHover={false}
-                  className="h-full"
-                  contentClassName="gap-0"
-                >
-                  {column.map((employer, index) => (
-                    <EmployerShowcaseCard
-                      key={`${columnIndex}-${employer.id}`}
-                      employer={employer}
-                      active={index === 0}
-                    />
-                  ))}
-                </Marquee>
+                <div key={columnIndex} className={columnIndex > 0 ? "hidden md:block" : "h-full"}>
+                  <Marquee
+                    orientation="vertical"
+                    direction="up"
+                    speed={columnIndex === 0 ? "42s" : columnIndex === 1 ? "52s" : "46s"}
+                    pauseOnHover={false}
+                    className="h-full"
+                    contentClassName="gap-0"
+                  >
+                    {column.map((employer, index) => (
+                      <EmployerShowcaseCard
+                        key={`${columnIndex}-${employer.id}`}
+                        employer={employer}
+                        active={index === 0}
+                      />
+                    ))}
+                  </Marquee>
+                </div>
               ))}
             </div>
           </div>

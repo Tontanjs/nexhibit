@@ -2,7 +2,7 @@ export const copy = {
   brand: {
     name: "NEXHIBIT",
     displayName: "Nexhibit",
-    tagline: "Where students get seen.",
+    tagline: "Where students get seen",
     description:
       "The reverse career fair platform for international students at Zhejiang University of Technology.",
   },
@@ -208,7 +208,7 @@ export const copy = {
   marketing: {
     hero: {
       caption: "Built with ZJUT",
-      headline: "Where international students get seen.",
+      headline: "Where international students get seen",
       subheadline:
         "The reverse career fair platform built with Zhejiang University of Technology. Employers come to you, already knowing your projects, languages, and availability.",
       ctaPrimary: "I am a student",
@@ -223,7 +223,7 @@ export const copy = {
     },
     employerShowcase: {
       caption: "Employer discovery feed",
-      heading: "Companies keep moving through the talent floor.",
+      heading: "Companies keep moving through the talent floor",
       body:
         "A live-style employer showcase turns the landing page into the event itself: verified companies, hiring focus areas, and cross-border roles always in motion.",
       statOne: "8 featured partners",
@@ -251,7 +251,7 @@ export const copy = {
       heading: "Trusted by employers across China",
     },
     motionStats: {
-      heading: "A verified talent floor with real signal.",
+      heading: "A verified talent floor with real signal",
       students: "students verified",
       employers: "partner companies",
       events: "focused events per year",
@@ -259,7 +259,7 @@ export const copy = {
     },
     testimonialCarousel: {
       caption: "Student outcomes",
-      heading: "Proof that the room changed.",
+      heading: "Proof that the room changed",
       quotes: [
         {
           name: "Nattapong Saetang",
@@ -293,7 +293,7 @@ export const copy = {
     },
     faq: {
       caption: "Questions students ask first",
-      heading: "Clear rules before the event begins.",
+      heading: "Clear rules before the event begins",
       items: [
         {
           question: "How does ZJUT verification work?",
@@ -374,7 +374,7 @@ export const copy = {
       employersCome: "Employers come to you",
     },
     stats: {
-      heading: "Built for a campus with global talent.",
+      heading: "Built for a campus with global talent",
       studentsRegistered: "verified student profiles",
       employersOnboarded: "employer partners",
       successfulMatches: "student-employer matches",
@@ -792,7 +792,7 @@ export const copy = {
     login: {
       heading: "Welcome back",
       motionPill: "Where students get seen",
-      motionHeadline: "Verify once. Get discovered throughout the event cycle.",
+      motionHeadline: "Verify once. Get discovered throughout the event cycle",
       keyboardHint: "Press ⌘ + Enter to submit",
       studentTab: "Student",
       employerTab: "Employer",
@@ -821,10 +821,10 @@ export const copy = {
     },
     about: {
       heroCaption: "Our story",
-      heroHeading: "International students deserve to be seen.",
+      heroHeading: "International students deserve to be seen",
       heroBody:
         "NEXHIBIT grew from interviews with international students who had strong projects, multilingual ability, and real ambition, but very few moments where employers expected to notice them. We built a reverse career fair so the first signal is the student's work, not their confidence in a crowded line.",
-      problemHeading: "The gap is not talent. It is visibility.",
+      problemHeading: "The gap is not talent. It is visibility",
       problemBody:
         "Traditional career fairs reward speed, local networks, and fluent self-pitching under pressure. International students often navigate language barriers, resume-only screening, and limited channels designed for their cross-border strengths.",
       problemStats: [
@@ -908,7 +908,7 @@ export const copy = {
   },
 
   auth: {
-    studentWelcome: "Verify once. Get discovered throughout the event cycle.",
+    studentWelcome: "Verify once. Get discovered throughout the event cycle",
     employerWelcome: "Create an employer account to browse verified ZJUT international talent.",
     forgotPassword: "Reset your password",
     passwordResetSent: "Check your inbox for a secure reset link.",

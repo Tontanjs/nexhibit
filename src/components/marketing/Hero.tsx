@@ -60,7 +60,7 @@ export function Hero() {
             as="h1"
             text={copy.marketing.hero.headline}
             highlight={["seen"]}
-            className="mt-8 block text-5xl font-extrabold leading-[1.02] tracking-normal text-surface-0 sm:text-6xl 2xl:text-7xl"
+            className="mt-8 block text-4xl font-extrabold leading-[1.02] tracking-normal text-surface-0 sm:text-6xl 2xl:text-7xl"
           />
           <motion.div
             className="mx-auto mt-6 h-px w-12 origin-left bg-gold-500 md:mx-0"
@@ -93,12 +93,12 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.5}>
-            <div className="mt-6 flex flex-wrap justify-center gap-x-3 gap-y-2 text-sm font-medium text-ink-400 md:justify-start">
+            <div className="mt-6 flex flex-col gap-2 text-sm font-medium text-ink-400 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-center sm:gap-x-3 sm:gap-y-2 md:justify-start">
               {copy.marketing.hero.trustStats.map((stat, index) => (
                 <span key={stat.label} className="inline-flex items-baseline gap-1">
                   <CountUp value={stat.value} suffix={stat.suffix} className="font-bold text-ink-200" />
                   <span>{stat.label}</span>
-                  {index < copy.marketing.hero.trustStats.length - 1 ? <span className="ml-2 text-ink-600">|</span> : null}
+                  {index < copy.marketing.hero.trustStats.length - 1 ? <span className="ml-2 hidden text-ink-600 sm:inline">|</span> : null}
                 </span>
               ))}
             </div>

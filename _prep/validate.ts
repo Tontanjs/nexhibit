@@ -151,7 +151,7 @@ for (const quote of quotes) {
 assert(platformStats.verificationRate === 100, "Platform verificationRate should remain 100.");
 assert(platformStats.eventsPerYear === 2, "Platform eventsPerYear should remain 2.");
 assert(copy.brand.name === "NEXHIBIT", "copy.brand.name should remain NEXHIBIT.");
-assert(copy.brand.tagline === "Where students get seen.", "copy.brand.tagline changed unexpectedly.");
+assert(copy.brand.tagline === "Where students get seen", "copy.brand.tagline changed unexpectedly.");
 
 if (failures.length > 0) {
   console.error(`NEXHIBIT prep validation failed with ${failures.length} issue(s):`);

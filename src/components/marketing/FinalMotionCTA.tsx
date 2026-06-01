@@ -15,7 +15,7 @@ const d = copy.marketing.finalMotionCta;
 
 export function FinalMotionCTA() {
   return (
-    <section className="relative overflow-hidden bg-ink-900 py-24 text-surface-0">
+    <section className="relative overflow-hidden bg-ink-900 py-16 text-surface-0 md:py-24">
       <GradientMesh className="opacity-35" />
       <GridBackground className="motion-safe:animate-[nexhibit-marquee-left_120s_linear_infinite]" />
       <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
@@ -23,7 +23,7 @@ export function FinalMotionCTA() {
           as="h2"
           text={d.heading}
           highlight={["seen"]}
-          className="block text-5xl font-extrabold leading-tight tracking-normal sm:text-6xl"
+          className="block text-4xl font-extrabold leading-tight tracking-normal sm:text-5xl md:text-6xl"
         />
         <Reveal delay={0.2}>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-300">{d.body}</p>
