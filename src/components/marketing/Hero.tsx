@@ -43,8 +43,8 @@ export function Hero() {
       <SpotlightCursor />
       <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-ink-900 to-transparent" aria-hidden="true" />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[0.92fr_1.08fr] md:items-center md:py-20 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,1fr)] gap-12 px-4 py-16 sm:px-6 md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] md:items-center md:py-20 lg:px-8">
+        <div className="mx-auto w-full min-w-0 max-w-3xl text-center md:mx-0 md:text-left">
           <motion.div
             className="inline-flex origin-left items-center gap-2 overflow-hidden rounded-full border border-gold-400/40 bg-gold-500 px-4 py-2 text-xs font-bold uppercase tracking-wide text-ink-900 shadow-lg shadow-gold-500/10"
             initial={reduceMotion ? false : { width: 0, opacity: 0 }}
@@ -60,7 +60,7 @@ export function Hero() {
             as="h1"
             text={copy.marketing.hero.headline}
             highlight={["seen"]}
-            className="mt-8 block text-4xl font-extrabold leading-[1.02] tracking-normal text-surface-0 sm:text-6xl 2xl:text-7xl"
+            className="mx-auto mt-8 block max-w-[22rem] text-[clamp(2.65rem,12vw,3.5rem)] font-extrabold leading-[1.02] tracking-normal text-surface-0 sm:max-w-3xl sm:text-6xl md:mx-0 2xl:text-7xl"
           />
           <motion.div
             className="mx-auto mt-6 h-px w-12 origin-left bg-gold-500 md:mx-0"
@@ -71,21 +71,21 @@ export function Hero() {
             aria-hidden="true"
           />
           <Reveal delay={0.28}>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-300 md:mx-0">
+            <p className="mx-auto mt-6 max-w-[22rem] text-base leading-relaxed text-ink-300 sm:max-w-2xl sm:text-lg md:mx-0">
               {copy.marketing.hero.subheadline}
             </p>
           </Reveal>
 
           <Reveal delay={0.4}>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-start">
-              <MagneticButton className="w-full sm:w-auto">
-                <Link className={cn(buttonVariants({ variant: "primary", size: "lg" }), "group w-full sm:w-auto")} href="/signup">
+            <div className="mx-auto mt-8 flex w-full max-w-[22rem] flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center md:mx-0 md:justify-start">
+              <MagneticButton className="w-full min-w-0 sm:w-auto">
+                <Link className={cn(buttonVariants({ variant: "primary", size: "lg" }), "group w-full max-w-full sm:w-auto")} href="/signup">
                   {copy.marketing.hero.ctaPrimary}
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </Link>
               </MagneticButton>
-              <MagneticButton className="w-full sm:w-auto">
-                <Link className={cn(buttonVariants({ variant: "inverse", size: "lg" }), "w-full sm:w-auto")} href="/signup">
+              <MagneticButton className="w-full min-w-0 sm:w-auto">
+                <Link className={cn(buttonVariants({ variant: "inverse", size: "lg" }), "w-full max-w-full sm:w-auto")} href="/signup">
                   {copy.marketing.hero.ctaSecondary}
                 </Link>
               </MagneticButton>
@@ -93,24 +93,24 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.5}>
-            <div className="mt-6 flex flex-col gap-2 text-sm font-medium text-ink-400 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-center sm:gap-x-3 sm:gap-y-2 md:justify-start">
+            <div className="mx-auto mt-6 flex max-w-[22rem] flex-col gap-2 text-center text-sm font-medium text-ink-400 md:mx-0 md:max-w-none md:flex-row md:flex-wrap md:items-baseline md:justify-start md:gap-x-3 md:gap-y-2 md:text-left">
               {copy.marketing.hero.trustStats.map((stat, index) => (
-                <span key={stat.label} className="inline-flex items-baseline gap-1">
+                <span key={stat.label} className="inline-flex justify-center gap-1 md:items-baseline md:justify-start">
                   <CountUp value={stat.value} suffix={stat.suffix} className="font-bold text-ink-200" />
                   <span>{stat.label}</span>
-                  {index < copy.marketing.hero.trustStats.length - 1 ? <span className="ml-2 hidden text-ink-600 sm:inline">|</span> : null}
+                  {index < copy.marketing.hero.trustStats.length - 1 ? <span className="ml-2 hidden text-ink-600 md:inline">|</span> : null}
                 </span>
               ))}
             </div>
           </Reveal>
 
-          <div className="mt-8 grid gap-3 sm:hidden">
+          <div className="mx-auto mt-8 grid w-full max-w-[22rem] grid-cols-[minmax(0,1fr)] gap-3 sm:hidden">
             {featuredStudents.slice(0, 3).map((student) => (
               <article
                 key={student.id}
-                className="rounded-lg border border-surface-0/10 bg-surface-0/[0.08] p-3 text-left shadow-xl backdrop-blur"
+                className="min-w-0 rounded-lg border border-surface-0/10 bg-surface-0/[0.08] p-3 text-left shadow-xl backdrop-blur"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                   <StudentAvatar student={student} className="size-11" />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-bold text-surface-0">
