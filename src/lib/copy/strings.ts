@@ -809,11 +809,17 @@ export const copy = {
       heading: "Join NEXHIBIT",
       studentTab: "I am a student",
       employerTab: "I am an employer",
+      demoNoticeTitle: "Prototype preview",
+      demoNoticeBody:
+        "No personal data is needed for this demo. These fields stay visible to show the real workflow, but they are locked for the presentation.",
+      demoFieldBadge: "Demo field locked",
       emailPlaceholder: "student@example.com",
       companyNamePlaceholder: "Company or organization name",
       companyWebsitePlaceholder: "https://company.com",
       studentButton: "Continue to verification",
       employerButton: "Submit for verification",
+      studentDemoButton: "Open student demo flow",
+      employerDemoButton: "Open employer demo portal",
       employerHelper:
         "Employer accounts require manual verification by ZJUT Career Services. Estimated review time: 1-2 business days.",
       footerPrefix: "Already have an account?",

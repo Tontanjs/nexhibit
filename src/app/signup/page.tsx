@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Building2, GraduationCap, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Building2, GraduationCap, LockKeyhole, ShieldCheck } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
 import { buttonVariants } from "@/components/ui/button";
@@ -9,6 +9,48 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+
+function PrototypeNotice() {
+  return (
+    <div className="rounded-lg border border-gold-500/25 bg-gold-50/70 p-4 shadow-inner">
+      <div className="flex gap-3">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-gold-500 text-ink-900">
+          <LockKeyhole className="size-4" aria-hidden="true" />
+        </span>
+        <div>
+          <p className="text-sm font-bold text-ink-900">{copy.pages.signup.demoNoticeTitle}</p>
+          <p className="mt-1 text-sm leading-relaxed text-ink-600">{copy.pages.signup.demoNoticeBody}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LockedInput({
+  id,
+  placeholder,
+  type = "text",
+}: {
+  id: string;
+  placeholder: string;
+  type?: string;
+}) {
+  return (
+    <div className="relative">
+      <Input
+        id={id}
+        placeholder={placeholder}
+        type={type}
+        disabled
+        aria-disabled="true"
+        className="h-12 border-dashed border-ink-200 bg-ink-50/80 pr-3 text-ink-500 shadow-inner disabled:opacity-100 sm:pr-32"
+      />
+      <span className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-full border border-ink-200 bg-surface-0 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-ink-400 sm:inline-flex">
+        {copy.pages.signup.demoFieldBadge}
+      </span>
+    </div>
+  );
+}
 
 export default function SignupPage() {
   return (
@@ -53,41 +95,43 @@ export default function SignupPage() {
 
             <TabsContent value="student">
               <div className="grid gap-4">
+                <PrototypeNotice />
                 <div className="grid gap-2">
                   <Label htmlFor="student-id">{copy.forms.labels.studentId}</Label>
-                  <Input id="student-id" placeholder={copy.pages.login.studentIdPlaceholder} />
+                  <LockedInput id="student-id" placeholder={copy.pages.login.studentIdPlaceholder} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="passport">{copy.forms.labels.passportNumber}</Label>
-                  <Input id="passport" placeholder={copy.pages.login.passportPlaceholder} type="password" />
+                  <LockedInput id="passport" placeholder={copy.pages.login.passportPlaceholder} type="password" />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">{copy.forms.labels.email}</Label>
-                  <Input id="email" placeholder={copy.pages.signup.emailPlaceholder} type="email" />
+                  <LockedInput id="email" placeholder={copy.pages.signup.emailPlaceholder} type="email" />
                 </div>
                 <Link className={cn(buttonVariants({ variant: "primary" }), "w-full")} href="/student/onboarding">
-                  {copy.pages.signup.studentButton}
+                  {copy.pages.signup.studentDemoButton}
                 </Link>
               </div>
             </TabsContent>
 
             <TabsContent value="employer">
               <div className="grid gap-4">
+                <PrototypeNotice />
                 <div className="grid gap-2">
                   <Label htmlFor="company-name">{copy.forms.labels.companyName}</Label>
-                  <Input id="company-name" placeholder={copy.pages.signup.companyNamePlaceholder} />
+                  <LockedInput id="company-name" placeholder={copy.pages.signup.companyNamePlaceholder} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="work-email">{copy.forms.labels.email}</Label>
-                  <Input id="work-email" placeholder={copy.pages.login.employerEmailPlaceholder} type="email" />
+                  <LockedInput id="work-email" placeholder={copy.pages.login.employerEmailPlaceholder} type="email" />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="company-website">{copy.forms.labels.companyWebsite}</Label>
-                  <Input id="company-website" placeholder={copy.pages.signup.companyWebsitePlaceholder} />
+                  <LockedInput id="company-website" placeholder={copy.pages.signup.companyWebsitePlaceholder} />
                 </div>
                 <p className="text-sm leading-relaxed text-ink-500">{copy.pages.signup.employerHelper}</p>
                 <Link className={cn(buttonVariants({ variant: "primary" }), "w-full")} href="/employer/dashboard">
-                  {copy.pages.signup.employerButton}
+                  {copy.pages.signup.employerDemoButton}
                 </Link>
               </div>
             </TabsContent>
