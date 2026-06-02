@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { FolderOpen, PauseCircle, QrCode } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -36,6 +35,7 @@ function getEmployer(id: string) {
 
 export default function EventDayPage() {
   const [qrOpen, setQrOpen] = useState(false);
+  const [breakOpen, setBreakOpen] = useState(false);
   const [countdown] = useState("12:34");
 
   const myVisits = visitorStream.filter((v) => v.studentId === currentStudent.id);
@@ -96,14 +96,18 @@ export default function EventDayPage() {
                 <QrCode className="size-6" aria-hidden="true" />
                 <span className="text-sm font-semibold">{p.showQrLabel}</span>
               </button>
-              <Link
+              <a
                 href="/student/profile"
                 className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-ink-200 bg-surface-0 text-ink-700 transition-colors hover:border-ink-300 hover:bg-ink-50"
               >
                 <FolderOpen className="size-6" aria-hidden="true" />
                 <span className="text-sm font-medium">{p.openPortfolioLabel}</span>
-              </Link>
-              <button className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-ink-200 bg-surface-0 text-ink-700 transition-colors hover:border-ink-300 hover:bg-ink-50">
+              </a>
+              <button
+                type="button"
+                onClick={() => setBreakOpen(true)}
+                className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-ink-200 bg-surface-0 text-ink-700 transition-colors hover:border-ink-300 hover:bg-ink-50"
+              >
                 <PauseCircle className="size-6" aria-hidden="true" />
                 <span className="text-sm font-medium">{p.requestBreakLabel}</span>
               </button>
@@ -200,6 +204,18 @@ export default function EventDayPage() {
             <p className="text-xs text-ink-500">Booth {BOOTH} · {SLOT_TIME}</p>
           </div>
           <Button variant="outline" className="w-full" onClick={() => setQrOpen(false)}>Close</Button>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={breakOpen} onOpenChange={setBreakOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>{p.breakDialogTitle}</DialogTitle>
+            <DialogDescription>{p.breakDialogBody}</DialogDescription>
+          </DialogHeader>
+          <Button variant="primary" className="w-full" onClick={() => setBreakOpen(false)}>
+            {p.breakDialogButton}
+          </Button>
         </DialogContent>
       </Dialog>
     </div>

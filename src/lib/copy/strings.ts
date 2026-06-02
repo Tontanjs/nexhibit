@@ -561,6 +561,10 @@ export const copy = {
         feedbackLabel: "feedback received",
         qrInstruction: "Show this to visiting employers",
         qrDialogTitle: "Your QR badge",
+        breakDialogTitle: "Break request noted",
+        breakDialogBody:
+          "Prototype mode: in a live fair, this would notify event staff and temporarily pause employer walk-ups for your booth.",
+        breakDialogButton: "Back to event day",
       },
       dashboard: {
         welcomePrefix: "Hey",

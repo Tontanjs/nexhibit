@@ -1,9 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 import { cn } from "@/lib/utils";
+import { useStableReducedMotion } from "@/components/motion/use-stable-reduced-motion";
 
 type RevealDirection = "up" | "down" | "left" | "right" | "fade";
 
@@ -40,24 +41,18 @@ export function Reveal({
   distance?: number;
   once?: boolean;
 }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useStableReducedMotion();
   const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: once });
-
-  if (reduceMotion) {
-    return (
-      <div ref={ref} className={className}>
-        {children}
-      </div>
-    );
-  }
+  const hiddenState = { opacity: 0, ...getOffset(direction, distance) };
+  const visibleState = { opacity: 1, x: 0, y: 0 };
 
   return (
     <motion.div
       ref={ref}
       className={cn("will-change-[transform,opacity]", className)}
-      initial={{ opacity: 0, ...getOffset(direction, distance) }}
-      animate={inView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...getOffset(direction, distance) }}
-      transition={{ duration: 0.56, delay, ease: easeOutExpo }}
+      initial={reduceMotion ? false : hiddenState}
+      animate={reduceMotion ? visibleState : inView ? visibleState : hiddenState}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.56, delay, ease: easeOutExpo }}
     >
       {children}
     </motion.div>

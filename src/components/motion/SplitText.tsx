@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { createElement } from "react";
+import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
+import { useStableReducedMotion } from "@/components/motion/use-stable-reduced-motion";
 
 const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -20,7 +20,7 @@ export function SplitText({
   highlight?: string[];
   once?: boolean;
 }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useStableReducedMotion();
   const words = text.split(" ");
   const Component =
     as === "h1"
@@ -33,20 +33,17 @@ export function SplitText({
             ? motion.p
             : motion.span;
 
-  if (reduceMotion) {
-    return createElement(as, { className }, text);
-  }
-
   return (
     <Component
       aria-label={text}
       className={cn("inline-block", className)}
-      initial="hidden"
-      whileInView="show"
+      initial={reduceMotion ? false : "hidden"}
+      animate={reduceMotion ? "show" : undefined}
+      whileInView={reduceMotion ? undefined : "show"}
       viewport={{ once, amount: 0.65 }}
       variants={{
         hidden: {},
-        show: { transition: { staggerChildren: 0.04 } },
+        show: { transition: { staggerChildren: reduceMotion ? 0 : 0.04 } },
       }}
     >
       {words.map((word, index) => {
@@ -64,7 +61,7 @@ export function SplitText({
                   y: 0,
                   scale: isHighlighted ? [1, 1.045, 1] : 1,
                   transition: {
-                    duration: isHighlighted ? 0.72 : 0.56,
+                    duration: reduceMotion ? 0 : isHighlighted ? 0.72 : 0.56,
                     ease: easeOutExpo,
                   },
                 },

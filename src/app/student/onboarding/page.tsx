@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { CheckCircle2, Lock, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -30,7 +29,6 @@ type PrivacyState = {
 };
 
 export default function OnboardingPage() {
-  const router = useRouter();
   const [privacy, setPrivacy] = useState<PrivacyState>({
     gpa: true,
     courses: true,
@@ -214,12 +212,14 @@ export default function OnboardingPage() {
         <p className="mb-6 text-center text-sm text-ink-500">{p.privacyNote}</p>
 
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <Button variant="secondary" onClick={() => router.push("/student/profile")}>
-            {p.skipButton}
+          <Button variant="secondary" asChild>
+            <a href="/student/dashboard">{p.skipButton}</a>
           </Button>
-          <Button variant="primary" onClick={() => router.push("/student/profile")}>
-            {p.saveButton}
-            <ArrowRight className="size-4" />
+          <Button variant="primary" asChild>
+            <a href="/student/dashboard">
+              {p.saveButton}
+              <ArrowRight className="size-4" />
+            </a>
           </Button>
         </div>
       </div>
