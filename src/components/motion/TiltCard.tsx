@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
 
+import { useShouldReduceMotion } from "@/components/motion/motion-preference";
 import { cn } from "@/lib/utils";
 
 export function TiltCard({
@@ -16,7 +17,7 @@ export function TiltCard({
   glare?: boolean;
   max?: number;
 }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useShouldReduceMotion();
   const [hovered, setHovered] = useState(false);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);

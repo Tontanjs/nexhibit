@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { motion, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 
 import { QRBadge, ScannerOverlay } from "@/components/icons";
 import { CountUp } from "@/components/motion/CountUp";
@@ -13,6 +13,7 @@ import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitText } from "@/components/motion/SplitText";
 import { SpotlightCursor } from "@/components/motion/SpotlightCursor";
+import { useShouldReduceMotion } from "@/components/motion/motion-preference";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +31,7 @@ const cardPositions = [
 
 export function Hero() {
   const featuredStudents = students.slice(0, 4);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useShouldReduceMotion();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const rotateY = useTransform(mouseX, [-1, 1], [-4, 4]);

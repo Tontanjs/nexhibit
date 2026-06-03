@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
 
+import { isMotionForced } from "@/components/motion/motion-preference";
 import { cn } from "@/lib/utils";
 
 export function SpotlightCursor({ className }: { className?: string }) {
@@ -17,7 +18,7 @@ export function SpotlightCursor({ className }: { className?: string }) {
     const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (!canHover.matches || reduceMotion.matches) {
+    if (!canHover.matches || (reduceMotion.matches && !isMotionForced())) {
       return undefined;
     }
 

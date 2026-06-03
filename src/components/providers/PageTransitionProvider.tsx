@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+
+import { useShouldReduceMotion } from "@/components/motion/motion-preference";
 
 const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export function PageTransitionProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useShouldReduceMotion();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

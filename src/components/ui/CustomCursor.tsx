@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
+import { isMotionForced } from "@/components/motion/motion-preference";
+
 type CursorMode = "default" | "hover" | "view";
 
 export function CustomCursor() {
@@ -25,7 +27,7 @@ export function CustomCursor() {
     const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (!canHover.matches || reduceMotion.matches) {
+    if (!canHover.matches || (reduceMotion.matches && !isMotionForced())) {
       return undefined;
     }
 

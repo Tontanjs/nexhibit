@@ -428,16 +428,20 @@ select:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html:not([data-motion="force"]) {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
+  html:not([data-motion="force"]) *,
+  html:not([data-motion="force"]) *::before,
+  html:not([data-motion="force"]) *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
+  }
+
+  html[data-motion="force"] .motion-reduce\:hidden {
+    display: block !important;
   }
 }

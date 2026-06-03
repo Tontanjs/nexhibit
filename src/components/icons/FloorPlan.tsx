@@ -95,7 +95,7 @@ export function FloorPlan({
           }
 
           @media (prefers-reduced-motion: reduce) {
-            .nexhibit-highlight-ring {
+            html:not([data-motion="force"]) .nexhibit-highlight-ring {
               animation: none;
               opacity: 1;
             }

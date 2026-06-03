@@ -1,11 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
+import { useShouldReduceMotion } from "@/components/motion/motion-preference";
 import { cn } from "@/lib/utils";
 
 export function GridBackground({ className }: { className?: string }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useShouldReduceMotion();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1200], [0, 360]);
 

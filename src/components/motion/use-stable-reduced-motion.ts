@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useShouldReduceMotion } from "@/components/motion/motion-preference";
 
 export function useStableReducedMotion() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useShouldReduceMotion();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

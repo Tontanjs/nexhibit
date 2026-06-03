@@ -1,17 +1,18 @@
 "use client";
 
 import { Calendar, ShieldCheck, Sparkles } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitText } from "@/components/motion/SplitText";
+import { useShouldReduceMotion } from "@/components/motion/motion-preference";
 import { Card } from "@/components/ui/card";
 import { copy } from "@/lib/copy";
 
 const icons = [ShieldCheck, Calendar, Sparkles];
 
 export function HowItWorks() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useShouldReduceMotion();
 
   return (
     <section className="relative overflow-hidden bg-surface-50 py-20 md:py-24" id="how-it-works">

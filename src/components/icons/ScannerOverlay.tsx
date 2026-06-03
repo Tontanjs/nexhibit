@@ -54,7 +54,7 @@ export function ScannerOverlay({
             }
 
             @media (prefers-reduced-motion: reduce) {
-              .nexhibit-scanner-line {
+              html:not([data-motion="force"]) .nexhibit-scanner-line {
                 animation: none;
                 transform: translateY(158px);
               }

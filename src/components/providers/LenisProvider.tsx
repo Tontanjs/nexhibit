@@ -3,12 +3,14 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
+import { isMotionForced } from "@/components/motion/motion-preference";
+
 export function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobile = window.matchMedia("(max-width: 767px)");
 
-    if (reduceMotion.matches || mobile.matches) {
+    if ((reduceMotion.matches && !isMotionForced()) || mobile.matches) {
       return undefined;
     }
 

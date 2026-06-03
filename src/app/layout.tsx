@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { LenisProvider } from "@/components/providers/LenisProvider";
+import { MotionPreferenceProvider } from "@/components/providers/MotionPreferenceProvider";
 import { PageTransitionProvider } from "@/components/providers/PageTransitionProvider";
 import { copy } from "@/lib/copy";
 import "./globals.css";
@@ -30,10 +31,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full`}>
       <body className="min-h-full">
-        <LenisProvider>
-          <PageTransitionProvider>{children}</PageTransitionProvider>
-        </LenisProvider>
-        <CustomCursor />
+        <MotionPreferenceProvider>
+          <LenisProvider>
+            <PageTransitionProvider>{children}</PageTransitionProvider>
+          </LenisProvider>
+          <CustomCursor />
+        </MotionPreferenceProvider>
         <Toaster richColors position="top-right" toastOptions={{ className: "nexhibit-toast" }} />
         {enableVercelAnalytics ? <Analytics /> : null}
       </body>
