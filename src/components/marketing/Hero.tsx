@@ -13,7 +13,7 @@ import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitText } from "@/components/motion/SplitText";
 import { SpotlightCursor } from "@/components/motion/SpotlightCursor";
-import { useShouldReduceMotion } from "@/components/motion/motion-preference";
+import { useStableReducedMotion } from "@/components/motion/use-stable-reduced-motion";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +31,7 @@ const cardPositions = [
 
 export function Hero() {
   const featuredStudents = students.slice(0, 4);
-  const reduceMotion = useShouldReduceMotion();
+  const reduceMotion = useStableReducedMotion();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const rotateY = useTransform(mouseX, [-1, 1], [-4, 4]);

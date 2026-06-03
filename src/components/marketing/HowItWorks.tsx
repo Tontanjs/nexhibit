@@ -5,14 +5,14 @@ import { motion } from "framer-motion";
 
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitText } from "@/components/motion/SplitText";
-import { useShouldReduceMotion } from "@/components/motion/motion-preference";
+import { useStableReducedMotion } from "@/components/motion/use-stable-reduced-motion";
 import { Card } from "@/components/ui/card";
 import { copy } from "@/lib/copy";
 
 const icons = [ShieldCheck, Calendar, Sparkles];
 
 export function HowItWorks() {
-  const reduceMotion = useShouldReduceMotion();
+  const reduceMotion = useStableReducedMotion();
 
   return (
     <section className="relative overflow-hidden bg-surface-50 py-20 md:py-24" id="how-it-works">

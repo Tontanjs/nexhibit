@@ -1,27 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 import { isMotionForced } from "@/components/motion/motion-preference";
 
 type CursorMode = "default" | "hover" | "view";
 
 export function CustomCursor() {
-  const [active, setActive] = useState(false);
-  const [mode, setMode] = useState<CursorMode>("default");
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-  const dotX = useSpring(x, { stiffness: 900, damping: 48, mass: 0.3 });
-  const dotY = useSpring(y, { stiffness: 900, damping: 48, mass: 0.3 });
-  const ringX = useSpring(x, { stiffness: 170, damping: 24, mass: 0.9 });
-  const ringY = useSpring(y, { stiffness: 170, damping: 24, mass: 0.9 });
+  const dotRef = useRef<HTMLDivElement | null>(null);
+  const ringRef = useRef<HTMLDivElement | null>(null);
+  const frameRef = useRef(0);
+  const cursorRef = useRef({
+    mode: "default" as CursorMode,
+    ringX: -100,
+    ringY: -100,
+    targetX: -100,
+    targetY: -100,
+  });
   const targetRef = useRef<EventTarget | null>(null);
-
-  const dotTranslateX = useTransform(dotX, (value) => value - 4);
-  const dotTranslateY = useTransform(dotY, (value) => value - 4);
-  const ringTranslateX = useTransform(ringX, (value) => value - (mode === "view" ? 34 : mode === "hover" ? 28 : 16));
-  const ringTranslateY = useTransform(ringY, (value) => value - (mode === "view" ? 18 : mode === "hover" ? 28 : 16));
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -33,6 +30,18 @@ export function CustomCursor() {
 
     setActive(true);
     document.body.classList.add("custom-cursor-active");
+
+    const setMode = (nextMode: CursorMode) => {
+      const cursor = cursorRef.current;
+      if (cursor.mode === nextMode) {
+        return;
+      }
+
+      cursor.mode = nextMode;
+      if (ringRef.current) {
+        ringRef.current.dataset.mode = nextMode;
+      }
+    };
 
     const updateMode = (target: EventTarget | null) => {
       if (!(target instanceof Element)) {
@@ -54,8 +63,20 @@ export function CustomCursor() {
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      x.set(event.clientX);
-      y.set(event.clientY);
+      if (event.pointerType && event.pointerType !== "mouse") {
+        return;
+      }
+
+      const cursor = cursorRef.current;
+      const wasOffscreen = cursor.targetX < 0 || cursor.targetY < 0;
+      cursor.targetX = event.clientX;
+      cursor.targetY = event.clientY;
+
+      if (wasOffscreen) {
+        cursor.ringX = event.clientX;
+        cursor.ringY = event.clientY;
+      }
+
       if (targetRef.current !== event.target) {
         targetRef.current = event.target;
         updateMode(event.target);
@@ -63,20 +84,43 @@ export function CustomCursor() {
     };
 
     const handlePointerLeave = () => {
-      x.set(-100);
-      y.set(-100);
+      const cursor = cursorRef.current;
+      cursor.targetX = -100;
+      cursor.targetY = -100;
+      cursor.ringX = -100;
+      cursor.ringY = -100;
       setMode("default");
     };
 
+    const renderCursor = () => {
+      const cursor = cursorRef.current;
+      const dot = dotRef.current;
+      const ring = ringRef.current;
+
+      if (dot) {
+        dot.style.transform = `translate3d(${cursor.targetX}px, ${cursor.targetY}px, 0) translate(-50%, -50%)`;
+      }
+
+      if (ring) {
+        cursor.ringX += (cursor.targetX - cursor.ringX) * 0.34;
+        cursor.ringY += (cursor.targetY - cursor.ringY) * 0.34;
+        ring.style.transform = `translate3d(${cursor.ringX}px, ${cursor.ringY}px, 0) translate(-50%, -50%)`;
+      }
+
+      frameRef.current = window.requestAnimationFrame(renderCursor);
+    };
+
+    frameRef.current = window.requestAnimationFrame(renderCursor);
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     document.documentElement.addEventListener("pointerleave", handlePointerLeave);
 
     return () => {
+      window.cancelAnimationFrame(frameRef.current);
       document.body.classList.remove("custom-cursor-active");
       window.removeEventListener("pointermove", handlePointerMove);
       document.documentElement.removeEventListener("pointerleave", handlePointerLeave);
     };
-  }, [x, y]);
+  }, []);
 
   if (!active) {
     return null;
@@ -84,25 +128,15 @@ export function CustomCursor() {
 
   return (
     <>
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[100] size-2 rounded-full bg-gold-500 mix-blend-difference"
-        style={{ x: dotTranslateX, y: dotTranslateY }}
-        aria-hidden="true"
-      />
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[99] grid place-items-center rounded-full border border-gold-400/80 text-[10px] font-bold uppercase tracking-wide text-gold-200 mix-blend-difference"
-        animate={{
-          width: mode === "view" ? 68 : mode === "hover" ? 56 : 32,
-          height: mode === "view" ? 36 : mode === "hover" ? 56 : 32,
-          borderRadius: mode === "view" ? 999 : 999,
-          backgroundColor: mode === "default" ? "rgba(245,197,24,0)" : "rgba(245,197,24,0.28)",
-        }}
-        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        style={{ x: ringTranslateX, y: ringTranslateY }}
+      <div ref={dotRef} className="custom-cursor-dot" aria-hidden="true" />
+      <div
+        ref={ringRef}
+        className="custom-cursor-ring"
+        data-mode="default"
         aria-hidden="true"
       >
-        {mode === "view" ? "View ->" : null}
-      </motion.div>
+        <span className="custom-cursor-label">View</span>
+      </div>
     </>
   );
 }

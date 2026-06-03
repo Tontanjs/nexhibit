@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
-import { useShouldReduceMotion } from "@/components/motion/motion-preference";
+import { useStableReducedMotion } from "@/components/motion/use-stable-reduced-motion";
 import { cn } from "@/lib/utils";
 
 export function MagneticButton({
@@ -12,7 +12,7 @@ export function MagneticButton({
   children: React.ReactNode;
   className?: string;
 }) {
-  const reduceMotion = useShouldReduceMotion();
+  const reduceMotion = useStableReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 150, damping: 15 });

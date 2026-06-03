@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-import { useShouldReduceMotion } from "@/components/motion/motion-preference";
+import { useStableReducedMotion } from "@/components/motion/use-stable-reduced-motion";
 
 const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export function PageTransitionProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const reduceMotion = useShouldReduceMotion();
+  const reduceMotion = useStableReducedMotion();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
