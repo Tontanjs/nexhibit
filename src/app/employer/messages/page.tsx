@@ -1,7 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Paperclip, MoreHorizontal, Search } from "lucide-react";
+import Link from "next/link";
+import {
+  Archive,
+  BriefcaseBusiness,
+  CalendarClock,
+  Flag,
+  MapPin,
+  MoreHorizontal,
+  Paperclip,
+  Search,
+  Send,
+  Sparkles,
+  Star,
+} from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,8 +24,10 @@ import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { EmptyInbox } from "@/components/illustrations/EmptyInbox";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
+import { employerRoles, getCandidateSignal, getRoleFit } from "@/lib/employer-workspace";
 import { students } from "@/lib/mock-data";
 import { conversations } from "@/lib/extended-data/conversations";
+import { calculateMatchScore, getMatchTier } from "@/lib/utils-lib/matching";
 import { cn } from "@/lib/utils";
 
 const p = copy.pages.employer.messages;
@@ -43,6 +59,37 @@ const employerConversations = conversations.filter(
   (c) => c.participantEmployerId === currentEmployer.id,
 );
 
+const quickReplies = [
+  "Thank you for sharing your profile. Your project evidence is clear and useful for our team review.",
+  "Could you send your portfolio link and one short note explaining your role in the project?",
+  "Are you available for a short interview during the Spring Career Fair booth session?",
+  "We would like to invite you to our booth. Please bring one project demo or architecture diagram.",
+  "Thank you. We will review your profile with the hiring team and follow up soon.",
+];
+
+const recruiterActions = [
+  { label: "Attach role brief", icon: BriefcaseBusiness },
+  { label: "Send interview request", icon: CalendarClock },
+  { label: "Share booth location", icon: MapPin },
+  { label: "Mark priority", icon: Star },
+  { label: "Archive", icon: Archive },
+];
+
+function getScore(studentId: string) {
+  const student = students.find((s) => s.id === studentId);
+  if (!student) return 0;
+  return calculateMatchScore({
+    studentCategory: student.category,
+    studentSkills: [...student.skills],
+    studentEnglishLevel: student.englishLevel,
+    studentHSK: student.hsk,
+    employerHiringCategories: [...currentEmployer.hiringCategories],
+    employerHiringSkills: [...currentEmployer.hiringSkills],
+    studentId: student.id,
+    employerId: currentEmployer.id,
+  }).score;
+}
+
 export default function EmployerMessagesPage() {
   const [filter, setFilter] = useState<ConvFilter>("All");
   const [activeConvId, setActiveConvId] = useState(
@@ -67,6 +114,10 @@ export default function EmployerMessagesPage() {
     employerConversations.find((c) => c.id === activeConvId) ??
     employerConversations[0];
   const activeStudent = getStudent(activeConv?.participantStudentId ?? "");
+  const activeSignal = activeStudent ? getCandidateSignal(activeStudent.id) : null;
+  const activeScore = activeStudent ? getScore(activeStudent.id) : 0;
+  const activeTier = getMatchTier(activeScore);
+  const activeRoleFit = activeStudent ? getRoleFit(activeStudent, employerRoles[0]) : null;
 
   return (
     <div className="flex h-[calc(100vh-145px)] overflow-hidden">
@@ -182,10 +233,10 @@ export default function EmployerMessagesPage() {
                 <StudentAvatar student={activeStudent} className="size-9" />
                 <div>
                   <p className="text-sm font-semibold text-ink-900">{activeStudent.name}</p>
-                  <a href={`/employer/student/${activeStudent.id}`} className="text-xs text-gold-600 hover:underline">
-                    {p.viewStudentProfile}
-                  </a>
-                </div>
+                <Link href={`/employer/student/${activeStudent.id}`} className="text-xs text-gold-600 hover:underline">
+                  {p.viewStudentProfile}
+                </Link>
+              </div>
               </div>
               <button className="flex size-8 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100">
                 <MoreHorizontal className="size-4" />
@@ -224,6 +275,53 @@ export default function EmployerMessagesPage() {
 
             {/* Input bar */}
             <div className="border-t border-ink-200 px-4 py-3">
+              <div className="mb-3 flex flex-wrap gap-2">
+                {recruiterActions.map(({ label, icon: Icon }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => {
+                      if (label === "Archive") toast.success("Conversation archived in this mock workspace.");
+                      else setDraft(`${label}: `);
+                    }}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-surface-0 px-3 py-1.5 text-xs font-semibold text-ink-600 transition hover:border-gold-300 hover:bg-gold-50 hover:text-ink-900"
+                  >
+                    <Icon className="size-3.5" aria-hidden="true" />
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="mb-3 rounded-lg border border-gold-200 bg-gold-50/70 p-3">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.16em] text-gold-700">
+                    <Sparkles className="size-3.5" aria-hidden="true" />
+                    Recruiter quick replies
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setDraft(
+                        `Hi ${activeStudent.name.split(" ")[0]}, thanks for the detailed update. Based on your ${activeSignal?.roleFit ?? "role"} fit, could you share one short example of a tradeoff you made while building the project?`,
+                      )
+                    }
+                    className="rounded-full bg-ink-900 px-3 py-1 text-xs font-semibold text-surface-0 transition hover:bg-ink-800"
+                  >
+                    Draft with AI
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {quickReplies.map((reply, index) => (
+                    <button
+                      key={reply}
+                      type="button"
+                      onClick={() => setDraft(reply)}
+                      className="rounded-full bg-surface-0 px-3 py-1.5 text-xs font-medium text-ink-700 shadow-sm ring-1 ring-ink-100 transition hover:-translate-y-0.5 hover:text-ink-900 hover:ring-gold-200"
+                    >
+                      Template {index + 1}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div className="flex items-center gap-2">
                 <button className="flex size-9 shrink-0 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100">
                   <Paperclip className="size-4" />
@@ -261,6 +359,62 @@ export default function EmployerMessagesPage() {
           </div>
         )}
       </div>
+
+      {activeStudent && activeSignal && activeRoleFit && (
+        <aside className="hidden w-[320px] shrink-0 border-l border-ink-200 bg-ink-50/80 p-4 lg:block">
+          <div className="rounded-xl border border-ink-200 bg-surface-0 p-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <StudentAvatar student={activeStudent} className="size-12" />
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-ink-900">{activeStudent.name}</p>
+                <p className="truncate text-xs text-ink-400">{activeStudent.major}</p>
+              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="rounded-lg bg-ink-50 p-3">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-ink-400">Match</p>
+                <p className="mt-1 text-lg font-bold text-gold-700">{activeScore}%</p>
+                <p className="text-[11px] text-ink-400">{activeTier} match</p>
+              </div>
+              <div className="rounded-lg bg-ink-50 p-3">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-ink-400">Stage</p>
+                <p className="mt-1 text-sm font-bold text-ink-900">{activeSignal.stage}</p>
+                <p className="text-[11px] text-ink-400">{activeSignal.status}</p>
+              </div>
+            </div>
+            <div className="mt-4 space-y-3">
+              {[
+                ["Role fit", activeSignal.roleFit],
+                ["Availability", activeStudent.availableFrom],
+                ["Response", activeSignal.responseSpeed],
+                ["Last activity", activeSignal.lastActivity],
+              ].map(([label, value]) => (
+                <div key={label}>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-400">{label}</p>
+                  <p className="mt-0.5 text-sm text-ink-800">{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {activeStudent.skills.slice(0, 5).map((skill) => (
+                <span key={skill} className="rounded-full bg-ink-100 px-2 py-0.5 text-[10px] font-medium text-ink-600">
+                  {skill}
+                </span>
+              ))}
+            </div>
+            <div className="mt-4 rounded-lg border border-gold-200 bg-gold-50/70 p-3">
+              <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-gold-700">
+                <Flag className="size-3.5" aria-hidden="true" />
+                Recruiter note
+              </div>
+              <p className="text-xs leading-5 text-ink-600">{activeSignal.note}</p>
+            </div>
+            <Button variant="primary" size="sm" className="mt-4 w-full" asChild>
+              <Link href={`/employer/student/${activeStudent.id}`}>Open full dossier</Link>
+            </Button>
+          </div>
+        </aside>
+      )}
     </div>
   );
 }

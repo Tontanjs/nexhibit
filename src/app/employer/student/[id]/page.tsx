@@ -2,7 +2,22 @@
 
 import { use, useState } from "react";
 import Link from "next/link";
-import { MessageSquare, Bookmark, Star, GraduationCap, MapPin, Clock, Calendar, Check, Send } from "lucide-react";
+import {
+  Activity,
+  Bookmark,
+  BriefcaseBusiness,
+  Calendar,
+  Check,
+  Clock,
+  Download,
+  GraduationCap,
+  MapPin,
+  MessageSquare,
+  Send,
+  Star,
+  StickyNote,
+  UserPlus,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { Drawer } from "vaul";
 import { toast } from "sonner";
@@ -11,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
 import { CountUp } from "@/components/motion/CountUp";
@@ -19,6 +35,7 @@ import { TiltCard } from "@/components/motion/TiltCard";
 import { Textarea } from "@/components/ui/textarea";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
+import { employerRoles, getCandidateSignal, getRoleFit, recruiterActivity } from "@/lib/employer-workspace";
 import { students } from "@/lib/mock-data";
 import { calculateMatchScore, getMatchTier, getMatchExplanation } from "@/lib/utils-lib/matching";
 import { getCategoryColors } from "@/lib/utils-lib/colors";
@@ -43,6 +60,11 @@ export default function StudentDetailPage({
   const student = students.find((s) => s.id === id) ?? students[0];
   const [shortlisted, setShortlisted] = useState(SEEDED_SHORTLIST.has(student.id));
   const [messageOpen, setMessageOpen] = useState(false);
+  const [selectedRoleId, setSelectedRoleId] = useState(employerRoles[0].id);
+  const [privateNote, setPrivateNote] = useState("");
+  const signal = getCandidateSignal(student.id);
+  const selectedRole = employerRoles.find((role) => role.id === selectedRoleId) ?? employerRoles[0];
+  const roleFit = getRoleFit(student, selectedRole);
 
   const { score, factors } = calculateMatchScore({
     studentCategory: student.category,
@@ -145,6 +167,18 @@ export default function StudentDetailPage({
                   )}
                   {shortlisted ? p.shortlisted : p.addToShortlist}
                 </Button>
+                <Button variant="outline" size="sm" onClick={() => toast.success("Booth invitation prepared.")}>
+                  <UserPlus className="mr-1.5 size-3.5" />
+                  Invite to booth
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => toast.success("Interview invite prepared.")}>
+                  <Calendar className="mr-1.5 size-3.5" />
+                  Invite interview
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => toast.success("Candidate profile export prepared.")}>
+                  <Download className="mr-1.5 size-3.5" />
+                  Download profile
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -156,6 +190,8 @@ export default function StudentDetailPage({
               <TabsTrigger value="overview">{p.tabOverview}</TabsTrigger>
               <TabsTrigger value="portfolio">{p.tabPortfolio}</TabsTrigger>
               <TabsTrigger value="academic">{p.tabAcademic}</TabsTrigger>
+              <TabsTrigger value="notes">Notes</TabsTrigger>
+              <TabsTrigger value="activity">Activity</TabsTrigger>
             </TabsList>
 
             {/* Overview */}
@@ -193,6 +229,21 @@ export default function StudentDetailPage({
                     })}
                   </div>
                   <p className="mt-2 text-[11px] text-ink-400">Gold = matches your hiring skills</p>
+                </CardContent>
+              </Card>
+              <Card className="border-gold-200 bg-gold-50/60">
+                <CardContent className="pt-4">
+                  <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-gold-700">
+                    Recruiter summary
+                  </h3>
+                  <p className="text-sm leading-relaxed text-ink-700">{signal.note}</p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {signal.tags.map((tag) => (
+                      <Badge key={tag} variant="gold" className="text-[10px]">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -260,6 +311,61 @@ export default function StudentDetailPage({
                 </Card>
               )}
             </TabsContent>
+
+            <TabsContent value="notes" className="mt-4 space-y-4">
+              <Card>
+                <CardContent className="pt-4">
+                  <div className="mb-3 flex items-center gap-2">
+                    <StickyNote className="size-4 text-gold-600" aria-hidden="true" />
+                    <h3 className="text-sm font-semibold text-ink-900">Private recruiter note</h3>
+                  </div>
+                  <Textarea
+                    value={privateNote}
+                    onChange={(event) => setPrivateNote(event.target.value)}
+                    placeholder={signal.note}
+                    className="min-h-36"
+                  />
+                  <div className="mt-3 flex justify-end">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      disabled={!privateNote.trim()}
+                      onClick={() => {
+                        toast.success("Private note saved locally for this demo.");
+                        setPrivateNote("");
+                      }}
+                    >
+                      Save note
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="activity" className="mt-4 space-y-4">
+              <Card>
+                <CardContent className="pt-4">
+                  <div className="mb-4 flex items-center gap-2">
+                    <Activity className="size-4 text-gold-600" aria-hidden="true" />
+                    <h3 className="text-sm font-semibold text-ink-900">Recruiter activity timeline</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { type: "Profile viewed", text: `${currentEmployer.name} opened this candidate dossier.`, timestamp: "Today" },
+                      { type: signal.stage, text: signal.lastActivity, timestamp: "Latest" },
+                      ...recruiterActivity.slice(0, 3),
+                    ].map((item, index) => (
+                      <div key={`${item.type}-${index}`} className="relative pl-6">
+                        <span className="absolute left-0 top-1.5 size-2.5 rounded-full bg-gold-500 ring-4 ring-gold-100" />
+                        <p className="text-sm font-semibold text-ink-900">{item.type}</p>
+                        <p className="mt-0.5 text-xs leading-5 text-ink-500">{item.text}</p>
+                        <p className="mt-0.5 text-[11px] text-ink-400">{item.timestamp}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
         </div>
 
@@ -269,6 +375,20 @@ export default function StudentDetailPage({
           <Card className="border-2 border-gold-400">
             <CardContent className="pt-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">{p.matchScore}</p>
+              <div className="mt-3">
+                <Select value={selectedRoleId} onValueChange={setSelectedRoleId}>
+                  <SelectTrigger className="h-9 w-full text-xs">
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {employerRoles.map((role) => (
+                      <SelectItem key={role.id} value={role.id}>
+                        {role.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               <p className={cn("mt-1 text-4xl font-black", tierColor)}>
                 <CountUp value={score} suffix="%" />
               </p>
@@ -286,6 +406,17 @@ export default function StudentDetailPage({
                   </p>
                 ))}
               </div>
+              <div className="mt-4 rounded-lg border border-gold-200 bg-gold-50/70 p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-semibold text-gold-700">{roleFit.label}</p>
+                  <span className="text-sm font-bold text-ink-900">{roleFit.score}%</span>
+                </div>
+                <div className="mt-2 space-y-1">
+                  {roleFit.reasons.map((reason) => (
+                    <p key={reason} className="text-[11px] leading-4 text-ink-600">· {reason}</p>
+                  ))}
+                </div>
+              </div>
             </CardContent>
           </Card>
 
@@ -297,6 +428,7 @@ export default function StudentDetailPage({
                 { icon: GraduationCap, label: p.lookingFor, value: student.lookingFor },
                 { icon: Clock, label: p.responseTime, value: student.responseTime },
                 { icon: MapPin, label: p.preferredLocations, value: student.preferredLocations.join(", ") },
+                { icon: BriefcaseBusiness, label: "Pipeline stage", value: signal.stage },
               ].map(({ icon: Icon, label, value }, index) => (
                 <motion.div
                   key={label}

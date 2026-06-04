@@ -8,15 +8,21 @@ import {
   BriefcaseBusiness,
   CheckCircle2,
   Clock3,
+  FileText,
   Globe2,
   GraduationCap,
   Search,
+  Send,
   ShieldCheck,
+  SlidersHorizontal,
   Sparkles,
+  StickyNote,
   TrendingUp,
+  UserPlus,
   Users,
   X,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +32,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
+import { employerRoles, getCandidateSignal, getRoleFit } from "@/lib/employer-workspace";
 import { students } from "@/lib/mock-data";
 import { calculateMatchScore, getMatchTier } from "@/lib/utils-lib/matching";
 import { filterStudents, sortStudents } from "@/lib/utils-lib/filters";
@@ -62,7 +69,12 @@ export default function BrowsePage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [sortBy, setSortBy] = useState<SortBy>("match_desc");
+  const [selectedRoleId, setSelectedRoleId] = useState(employerRoles[0].id);
+  const [minimumScore, setMinimumScore] = useState("all");
+  const [shortlistOnly, setShortlistOnly] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(12);
   const [shortlisted, setShortlisted] = useState<Set<string>>(SEEDED_SHORTLIST);
+  const selectedRole = employerRoles.find((role) => role.id === selectedRoleId) ?? employerRoles[0];
   const scoreMap = useMemo(() => {
     const map = new Map<string, number>();
     for (const s of students) map.set(s.id, calcScore(s.id));
@@ -74,8 +86,13 @@ export default function BrowsePage() {
       searchQuery: search,
       categories: category !== "all" ? [category] : undefined,
     });
-    return sortStudents(base, sortBy, scoreMap);
-  }, [search, category, sortBy, scoreMap]);
+    return sortStudents(base, sortBy, scoreMap).filter((student) => {
+      const score = scoreMap.get(student.id) ?? 0;
+      if (minimumScore !== "all" && score < Number(minimumScore)) return false;
+      if (shortlistOnly && !shortlisted.has(student.id)) return false;
+      return true;
+    });
+  }, [search, category, sortBy, scoreMap, minimumScore, shortlistOnly, shortlisted]);
 
   const talentStats = useMemo(() => {
     const strongMatches = students.filter((s) => (scoreMap.get(s.id) ?? 0) >= 88).length;
@@ -99,7 +116,8 @@ export default function BrowsePage() {
     });
   }
 
-  const hasFilters = category !== "all" || search.trim().length > 0;
+  const hasFilters = category !== "all" || search.trim().length > 0 || minimumScore !== "all" || shortlistOnly;
+  const visibleStudents = filtered.slice(0, visibleCount);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -159,12 +177,12 @@ export default function BrowsePage() {
         </div>
       </section>
 
-      <div className="mb-5 rounded-lg border border-ink-200 bg-surface-0 p-3 shadow-sm sm:p-4">
+      <div className="sticky top-[116px] z-20 mb-5 rounded-lg border border-ink-200 bg-surface-0/95 p-3 shadow-sm backdrop-blur sm:p-4">
         <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-ink-800">
-          <Search className="size-4 text-ink-400" />
+          <SlidersHorizontal className="size-4 text-ink-400" />
           {p.searchPanelTitle}
         </div>
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_180px_190px_auto]">
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_180px_220px_160px_150px_auto]">
           <div className="relative min-w-0">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-400" />
             <Input
@@ -188,6 +206,19 @@ export default function BrowsePage() {
             </SelectContent>
           </Select>
 
+          <Select value={selectedRoleId} onValueChange={setSelectedRoleId}>
+            <SelectTrigger className="h-11 w-full">
+              <SelectValue placeholder="Role fit" />
+            </SelectTrigger>
+            <SelectContent>
+              {employerRoles.map((role) => (
+                <SelectItem key={role.id} value={role.id}>
+                  {role.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortBy)}>
             <SelectTrigger className="h-11 w-full">
               <SelectValue placeholder={p.sortLabel} />
@@ -201,6 +232,30 @@ export default function BrowsePage() {
             </SelectContent>
           </Select>
 
+          <Select value={minimumScore} onValueChange={setMinimumScore}>
+            <SelectTrigger className="h-11 w-full">
+              <SelectValue placeholder="Match score" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any match</SelectItem>
+              <SelectItem value="75">75%+ match</SelectItem>
+              <SelectItem value="88">88%+ strong</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <button
+            type="button"
+            onClick={() => setShortlistOnly((value) => !value)}
+            className={cn(
+              "h-11 rounded-md border px-3 text-xs font-semibold transition",
+              shortlistOnly
+                ? "border-gold-400 bg-gold-50 text-ink-900"
+                : "border-ink-200 bg-surface-0 text-ink-500 hover:bg-ink-50",
+            )}
+          >
+            Shortlist only
+          </button>
+
           {hasFilters && (
             <Button
               variant="ghost"
@@ -208,6 +263,8 @@ export default function BrowsePage() {
               onClick={() => {
                 setSearch("");
                 setCategory("all");
+                setMinimumScore("all");
+                setShortlistOnly(false);
               }}
               className="h-11 w-full justify-center text-ink-500 hover:text-ink-800 lg:w-auto"
             >
@@ -223,7 +280,10 @@ export default function BrowsePage() {
           {p.showingPrefix} <span className="font-semibold text-ink-800">{filtered.length}</span> {p.showingConnector}{" "}
           <span className="font-semibold text-ink-800">{students.length}</span> {p.verifiedProfilesLabel}
         </p>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <Badge variant="gold" className="text-[10px]">
+            Role: {selectedRole.title}
+          </Badge>
           {currentEmployer.hiringSkills.slice(0, 4).map((skill) => (
             <Badge key={skill} variant="outline" className="text-[10px] text-ink-500">
               {skill}
@@ -239,11 +299,13 @@ export default function BrowsePage() {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((s) => {
+          {visibleStudents.map((s) => {
             const score = scoreMap.get(s.id) ?? 0;
             const tier = getMatchTier(score);
             const catColors = getCategoryColors(s.category);
             const isShortlisted = shortlisted.has(s.id);
+            const signal = getCandidateSignal(s.id);
+            const roleFit = getRoleFit(s, selectedRole);
             const tierColor =
               tier === "Strong"
                 ? "text-success"
@@ -341,9 +403,32 @@ export default function BrowsePage() {
                     <div className="h-1.5 overflow-hidden rounded-full bg-ink-200">
                       <div className={cn("h-full rounded-full", barColor)} style={{ width: `${score}%` }} />
                     </div>
+                    <div className="mt-3 rounded-md bg-surface-0 p-2 ring-1 ring-ink-100">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="truncate text-xs font-semibold text-ink-800">{roleFit.label}</p>
+                        <span className="text-xs font-bold text-gold-700">{roleFit.score}%</span>
+                      </div>
+                      <p className="mt-1 line-clamp-2 text-[11px] leading-4 text-ink-500">
+                        {signal.matchReasons[0]} · {roleFit.reasons[0]}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="mt-auto flex gap-2 pt-4">
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    <Badge variant={signal.status === "Strong match" ? "success" : "outline"} className="text-[10px]">
+                      {signal.status}
+                    </Badge>
+                    <Badge variant="outline" className="text-[10px]">
+                      {signal.eventStatus}
+                    </Badge>
+                    {isShortlisted && (
+                      <Badge variant="gold" className="text-[10px]">
+                        Already shortlisted
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className="mt-auto grid grid-cols-2 gap-2 pt-4">
                     <Button variant="outline" size="sm" className="h-9 flex-1 px-2 text-xs" asChild>
                       <Link href={`/employer/student/${s.id}`}>{p.viewProfile}</Link>
                     </Button>
@@ -355,11 +440,51 @@ export default function BrowsePage() {
                     >
                       {isShortlisted ? p.shortlisted : p.shortlist}
                     </Button>
+                    <Button variant="ghost" size="sm" className="h-8 px-2 text-xs" asChild>
+                      <Link href="/employer/messages">
+                        <Send className="size-3.5" />
+                        Message
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-2 text-xs"
+                      onClick={() => toast.success(`Booth invitation prepared for ${s.name}.`)}
+                    >
+                      <UserPlus className="size-3.5" />
+                      Invite
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-2 text-xs"
+                      onClick={() => toast.success(`Private note added for ${s.name}.`)}
+                    >
+                      <StickyNote className="size-3.5" />
+                      Note
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-2 text-xs"
+                      onClick={() => toast.success(`${s.name}'s profile export prepared.`)}
+                    >
+                      <FileText className="size-3.5" />
+                      Export
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             );
           })}
+        </div>
+      )}
+      {filtered.length > visibleStudents.length && (
+        <div className="mt-6 flex justify-center">
+          <Button variant="outline" onClick={() => setVisibleCount((count) => count + 9)}>
+            Load more verified students
+          </Button>
         </div>
       )}
     </div>
