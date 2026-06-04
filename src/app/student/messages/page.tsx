@@ -1,7 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Paperclip, MoreHorizontal, Search } from "lucide-react";
+import Link from "next/link";
+import {
+  BriefcaseBusiness,
+  CalendarClock,
+  FileText,
+  MoreHorizontal,
+  Paperclip,
+  Search,
+  Send,
+  Sparkles,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +41,18 @@ function formatTime(isoString: string): string {
   if (diffDays < 7) return `${diffDays}d ago`;
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
+
+const composerActions = [
+  { label: "Share availability", icon: CalendarClock },
+  { label: "Attach portfolio", icon: BriefcaseBusiness },
+  { label: "Attach resume", icon: FileText },
+];
+
+const quickReplies = [
+  "Thanks for reviewing my portfolio. I can share a short project note and demo video here.",
+  "Friday afternoon works for me. I will prepare one example of a product decision changed after user feedback.",
+  "I am interested in the role. Could you share the expected language mix and internship timeline?",
+];
 
 export default function MessagesPage() {
   const [filter, setFilter] = useState<ConvFilter>("All");
@@ -147,7 +169,12 @@ export default function MessagesPage() {
                 <EmployerLogo employer={activeEmployer} className="size-9" />
                 <div>
                   <p className="text-sm font-semibold text-ink-900">{activeEmployer.name}</p>
-                  <button className="text-xs text-gold-600 hover:underline">{p.viewCompanyProfile}</button>
+                  <Link
+                    href={`/student/companies/${activeEmployer.id}`}
+                    className="text-xs font-semibold text-gold-600 hover:underline"
+                  >
+                    {p.viewCompanyProfile}
+                  </Link>
                 </div>
               </div>
               <button className="flex size-8 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100">
@@ -184,6 +211,37 @@ export default function MessagesPage() {
 
             {/* Input bar */}
             <div className="border-t border-ink-200 px-4 py-3">
+              <div className="mb-3 flex flex-wrap gap-2">
+                {composerActions.map(({ label, icon: Icon }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => setDraft(`${label}: `)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-surface-0 px-3 py-1.5 text-xs font-semibold text-ink-600 transition hover:border-gold-300 hover:bg-gold-50 hover:text-ink-900"
+                  >
+                    <Icon className="size-3.5" aria-hidden="true" />
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="mb-3 rounded-lg border border-gold-200 bg-gold-50/70 p-3">
+                <div className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.16em] text-gold-700">
+                  <Sparkles className="size-3.5" aria-hidden="true" />
+                  Quick replies
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {quickReplies.map((reply, index) => (
+                    <button
+                      key={reply}
+                      type="button"
+                      onClick={() => setDraft(reply)}
+                      className="rounded-full bg-surface-0 px-3 py-1.5 text-xs font-medium text-ink-700 shadow-sm ring-1 ring-ink-100 transition hover:-translate-y-0.5 hover:text-ink-900 hover:ring-gold-200"
+                    >
+                      Option {index + 1}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div className="flex items-center gap-2">
                 <button className="flex size-9 shrink-0 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100">
                   <Paperclip className="size-4" />

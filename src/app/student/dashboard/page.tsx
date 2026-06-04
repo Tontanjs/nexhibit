@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { MessageSquare, Eye, Bookmark, Star, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarClock,
+  CheckCircle2,
+  ClipboardCheck,
+  Eye,
+  Bookmark,
+  MessageSquare,
+  Star,
+  TrendingUp,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -41,6 +51,42 @@ export default function DashboardPage() {
   const savedCount = myVisits.filter((v) => v.status === "saved" || v.status === "left_feedback" || v.status === "messaged").length;
   const unreadMessages = 2;
   const visibleFeedback = employerFeedback.filter((f) => f.studentId === currentStudent.id && f.visibleToStudent);
+  const myApplications = applicationStatuses.filter((a) => a.studentId === currentStudent.id);
+
+  const nextActions = [
+    {
+      title: "Reply to Alibaba Cloud",
+      body: "Confirm the debugging exercise context and bring one product decision changed after feedback.",
+      href: "/student/messages",
+      cta: "Open message",
+      icon: MessageSquare,
+      accent: "bg-gold-50 text-gold-700",
+    },
+    {
+      title: "Prepare booth evidence",
+      body: "Keep the chatbot test notes, QR badge, and architecture diagram ready for Spring Fair check-in.",
+      href: "/student/event-day",
+      cta: "Open event day",
+      icon: ClipboardCheck,
+      accent: "bg-emerald-50 text-emerald-700",
+    },
+    {
+      title: "Review company fit",
+      body: "Compare salary bands and hiring signals before your next employer conversation.",
+      href: "/student/companies/emp-001",
+      cta: "View company",
+      icon: CalendarClock,
+      accent: "bg-indigo-50 text-indigo-700",
+    },
+  ];
+
+  const pipelineStages = [
+    { key: "profile_viewed", label: "Viewed" },
+    { key: "shortlisted", label: "Shortlisted" },
+    { key: "messaged", label: "Messaged" },
+    { key: "interview_scheduled", label: "Interview" },
+    { key: "offer", label: "Offer" },
+  ] as const;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
@@ -72,6 +118,79 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Demo guidance */}
+      <div className="grid gap-4 lg:grid-cols-[1.35fr_0.85fr]">
+        <Card className="overflow-hidden border-gold-200/80 bg-gradient-to-br from-gold-50 via-surface-0 to-surface-0">
+          <CardContent className="pt-5">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-700">
+                  Next best actions
+                </p>
+                <h2 className="mt-1 text-base font-semibold text-ink-900">
+                  What to do before the fair floor opens
+                </h2>
+              </div>
+              <Badge variant="gold" className="hidden text-xs sm:inline-flex">
+                Demo-ready
+              </Badge>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {nextActions.map(({ title, body, href, cta, icon: Icon, accent }) => (
+                <Link
+                  key={title}
+                  href={href}
+                  className="group rounded-lg border border-ink-200 bg-surface-0 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-gold-300 hover:shadow-md"
+                >
+                  <span className={cn("mb-3 flex size-9 items-center justify-center rounded-lg", accent)}>
+                    <Icon className="size-4" aria-hidden="true" />
+                  </span>
+                  <p className="text-sm font-semibold text-ink-900">{title}</p>
+                  <p className="mt-1 min-h-[54px] text-xs leading-5 text-ink-500">{body}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-ink-900">
+                    {cta}
+                    <ArrowRight className="size-3.5 transition group-hover:translate-x-0.5" aria-hidden="true" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="overflow-hidden">
+          <CardContent className="pt-5">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink-400">
+                  Pipeline snapshot
+                </p>
+                <h2 className="mt-1 text-base font-semibold text-ink-900">
+                  Employer interest is moving
+                </h2>
+              </div>
+              <CheckCircle2 className="size-5 text-success" aria-hidden="true" />
+            </div>
+            <div className="mt-5 space-y-3">
+              {pipelineStages.map((stage) => {
+                const count = myApplications.filter((app) => app.stage === stage.key).length;
+                const width = `${Math.max(count * 22, count ? 18 : 6)}%`;
+                return (
+                  <div key={stage.key}>
+                    <div className="mb-1 flex items-center justify-between text-xs">
+                      <span className="font-medium text-ink-700">{stage.label}</span>
+                      <span className="text-ink-400">{count}</span>
+                    </div>
+                    <div className="h-2 overflow-hidden rounded-full bg-ink-100">
+                      <div className="h-full rounded-full bg-gold-500" style={{ width }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Who viewed your profile */}
@@ -148,7 +267,7 @@ export default function DashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {applicationStatuses.filter((a) => a.studentId === currentStudent.id).map((app, i, arr) => {
+              {myApplications.map((app, i, arr) => {
                 const employer = getEmployer(app.employerId);
                 if (!employer) return null;
                 const meta = stageMeta[app.stage] ?? stageMeta.profile_viewed;

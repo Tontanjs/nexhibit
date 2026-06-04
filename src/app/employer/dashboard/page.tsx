@@ -1,10 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { Users, Bookmark, MessageSquare, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  Bookmark,
+  CalendarClock,
+  MessageSquare,
+  ScanLine,
+  Target,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
@@ -43,6 +53,34 @@ export default function EmployerDashboardPage() {
     .sort((a, b) => b.score - a.score)
     .slice(0, 3);
 
+  const pipeline = [
+    { label: "New matches", value: 12, tone: "bg-ink-100 text-ink-800" },
+    { label: "Reviewed", value: 9, tone: "bg-sky-50 text-sky-700" },
+    { label: "Shortlisted", value: SEEDED_SHORTLIST.length, tone: "bg-gold-50 text-gold-700" },
+    { label: "Messages", value: employerConvs.length, tone: "bg-indigo-50 text-indigo-700" },
+  ];
+
+  const commandCenter = [
+    {
+      title: "Scan Spring Fair QR badges",
+      body: "Use scanner mode at the booth to open verified student profiles instantly.",
+      href: "/employer/scanner",
+      icon: ScanLine,
+    },
+    {
+      title: "Review top technical matches",
+      body: "Start with TypeScript, Python, and bilingual support tooling overlap.",
+      href: "/employer/browse",
+      icon: Target,
+    },
+    {
+      title: "Schedule follow-ups",
+      body: "Turn promising booth conversations into structured post-event interviews.",
+      href: "/employer/messages",
+      icon: CalendarClock,
+    },
+  ];
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
       {/* Welcome strip */}
@@ -78,6 +116,69 @@ export default function EmployerDashboardPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Hiring command center */}
+      <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
+        <Card className="overflow-hidden border-ink-900 bg-ink-900 text-surface-0">
+          <CardContent className="pt-5">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-400">
+                  Live hiring pipeline
+                </p>
+                <h2 className="mt-1 text-base font-semibold text-surface-0">
+                  Reverse fair activity
+                </h2>
+              </div>
+              <Badge variant="gold" className="bg-gold-500 text-ink-900">
+                Active
+              </Badge>
+            </div>
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              {pipeline.map((item) => (
+                <div key={item.label} className="rounded-lg border border-surface-0/10 bg-surface-0/5 p-3">
+                  <p className="text-2xl font-bold text-gold-400">{item.value}</p>
+                  <p className="mt-1 text-xs text-ink-300">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="overflow-hidden">
+          <CardContent className="pt-5">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink-400">
+                  Recommended workflow
+                </p>
+                <h2 className="mt-1 text-base font-semibold text-ink-900">
+                  Turn profile signals into conversations
+                </h2>
+              </div>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {commandCenter.map(({ title, body, href, icon: Icon }) => (
+                <Link
+                  key={title}
+                  href={href}
+                  className="group rounded-lg border border-ink-200 bg-surface-0 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-gold-300 hover:shadow-md"
+                >
+                  <span className="mb-3 flex size-9 items-center justify-center rounded-lg bg-gold-50 text-gold-700">
+                    <Icon className="size-4" aria-hidden="true" />
+                  </span>
+                  <p className="text-sm font-semibold text-ink-900">{title}</p>
+                  <p className="mt-1 min-h-[54px] text-xs leading-5 text-ink-500">{body}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-ink-900">
+                    Open
+                    <ArrowRight className="size-3.5 transition group-hover:translate-x-0.5" aria-hidden="true" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Recommended students */}

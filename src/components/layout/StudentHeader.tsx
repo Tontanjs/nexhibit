@@ -6,6 +6,7 @@ import { Menu, ChevronDown } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
+import { NotificationDropdown } from "@/components/layout/NotificationDropdown";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { copy } from "@/lib/copy";
@@ -33,6 +34,7 @@ export function StudentHeader({ user }: { user: Student }) {
           </Link>
 
           <div className="hidden items-center gap-3 md:flex">
+            <NotificationDropdown recipientType="student" recipientId={user.id} />
             <Badge variant="secondary" className="text-xs font-semibold">
               {copy.pages.student.portal}
             </Badge>
@@ -60,6 +62,10 @@ export function StudentHeader({ user }: { user: Student }) {
                   <p className="text-sm font-semibold text-ink-900">{user.name}</p>
                   <p className="text-xs text-ink-500">{user.major}</p>
                 </div>
+              </div>
+              <div className="mt-4 flex items-center justify-between rounded-lg border border-gold-200 bg-gold-50/70 px-3 py-2">
+                <span className="text-xs font-semibold text-ink-700">Demo notifications</span>
+                <NotificationDropdown recipientType="student" recipientId={user.id} />
               </div>
               <div className="mt-6 flex flex-col gap-1">
                 {secondaryNavLinks.map((link) => (

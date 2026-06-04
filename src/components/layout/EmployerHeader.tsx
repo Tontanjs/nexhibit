@@ -6,6 +6,7 @@ import { Menu, ChevronDown, Building2 } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
+import { NotificationDropdown } from "@/components/layout/NotificationDropdown";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { copy } from "@/lib/copy";
@@ -40,6 +41,7 @@ export function EmployerHeader({ employer }: Props) {
 
         {/* Desktop: employer identity */}
         <div className="hidden sm:flex items-center gap-2">
+          <NotificationDropdown recipientType="employer" recipientId={employer.id} />
           <EmployerLogo employer={employer} className="size-8 rounded-md" />
           <span className="text-sm font-semibold text-ink-900">{employer.name}</span>
           <ChevronDown className="size-4 text-ink-400" />
@@ -58,6 +60,10 @@ export function EmployerHeader({ employer }: Props) {
                 {employer.name}
               </SheetTitle>
             </SheetHeader>
+            <div className="mx-4 mt-4 flex items-center justify-between rounded-lg border border-gold-200 bg-gold-50/70 px-3 py-2">
+              <span className="text-xs font-semibold text-ink-700">Demo notifications</span>
+              <NotificationDropdown recipientType="employer" recipientId={employer.id} />
+            </div>
             <nav className="flex flex-col gap-1 p-4">
               {secondaryNavLinks.map(({ label, href }) => (
                 <Link
