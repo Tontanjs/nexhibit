@@ -119,6 +119,9 @@ export default function DashboardPage() {
                   <Badge variant={variant} className="text-xs whitespace-nowrap">{statusLabel}</Badge>
                   <div className="flex gap-1.5">
                     <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>
+                      <Link href={`/student/companies/${employer.id}`}>{p.viewCompany}</Link>
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>
                       <Link href="/student/messages">{p.sendMessage}</Link>
                     </Button>
                   </div>
@@ -162,9 +165,14 @@ export default function DashboardPage() {
                     </td>
                     <td className="hidden px-4 py-3 text-ink-400 sm:table-cell">{app.lastUpdate}</td>
                     <td className="px-4 py-3">
-                      <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>
-                        <Link href="/student/messages">{p.sendMessage}</Link>
-                      </Button>
+                      <div className="flex flex-wrap gap-1.5">
+                        <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>
+                          <Link href={`/student/companies/${employer.id}`}>{p.viewCompany}</Link>
+                        </Button>
+                        <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>
+                          <Link href="/student/messages">{p.sendMessage}</Link>
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -180,17 +188,21 @@ export default function DashboardPage() {
       <div>
         <h2 className="mb-4 text-base font-semibold text-ink-900">{p.feedbackTitle}</h2>
         <div className="space-y-3">
-          {visibleFeedback.slice(0, 3).map((fb) => {
+          {visibleFeedback.map((fb) => {
             const employer = getEmployer(fb.employerId);
             if (!employer) return null;
             return (
               <Card key={fb.id}>
                 <CardContent className="pt-4">
                   <div className="flex items-start gap-3">
-                    <EmployerLogo employer={employer} className="size-9" />
+                    <Link href={`/student/companies/${employer.id}`} aria-label={`View ${employer.name}`}>
+                      <EmployerLogo employer={employer} className="size-9 transition hover:scale-105" />
+                    </Link>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="text-sm font-semibold text-ink-900">{employer.name}</p>
+                        <Link href={`/student/companies/${employer.id}`} className="text-sm font-semibold text-ink-900 hover:text-gold-700">
+                          {employer.name}
+                        </Link>
                         <div className="flex shrink-0 gap-0.5">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <Star key={i} className={cn("size-3.5", i < fb.rating ? "fill-gold-500 text-gold-500" : "text-ink-200")} />

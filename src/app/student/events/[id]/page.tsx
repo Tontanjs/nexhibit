@@ -3,14 +3,13 @@
 import { use, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, MapPin, CheckCircle2, Clock, BookOpen, ChevronRight, Star } from "lucide-react";
+import { ArrowRight, Calendar, MapPin, CheckCircle2, Clock, BookOpen, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
 import { FloorPlan } from "@/components/icons";
@@ -195,16 +194,15 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
             <TabsContent value="employers">
               <div className="grid gap-4 sm:grid-cols-2">
                 {employers.map((employer) => (
-                  <Card key={employer.id} className="hover:shadow-sm transition-shadow">
-                    <CardContent className="pt-4">
+                  <Card key={employer.id} className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md">
+                    <Link href={`/student/companies/${employer.id}`} className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500">
+                      <CardContent className="pt-4">
                       <div className="flex items-start gap-3">
                         <EmployerLogo employer={employer} />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-start justify-between gap-2">
                             <h3 className="text-sm font-semibold text-ink-900 truncate">{employer.name}</h3>
-                            <button aria-label="Save for follow-up">
-                              <Star className="size-4 text-ink-300 hover:text-gold-500 transition-colors" />
-                            </button>
+                            <ArrowRight className="size-4 shrink-0 text-ink-300 transition group-hover:text-gold-500" />
                           </div>
                           <p className="text-xs text-ink-500">{employer.industry} · {employer.size}</p>
                           <div className="mt-2 flex flex-wrap gap-1">
@@ -212,9 +210,11 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
                               <Badge key={cat} variant="secondary" className="text-xs">{cat}</Badge>
                             ))}
                           </div>
+                          <p className="mt-3 text-xs font-semibold text-gold-700">View company profile</p>
                         </div>
                       </div>
-                    </CardContent>
+                      </CardContent>
+                    </Link>
                   </Card>
                 ))}
               </div>
@@ -346,16 +346,15 @@ function BookingForm({
           {/* Category (locked to student's category) */}
           <div>
             <label className="mb-1.5 block text-xs font-semibold text-ink-700">{p.categoryLabel}</label>
-            <Select defaultValue={currentStudent.category}>
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {["Business", "Engineering", "Health", "Language", "Other"].map((cat) => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="rounded-lg border border-ink-200 bg-ink-50 px-3 py-3">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-sm font-semibold text-ink-900">{currentStudent.category}</span>
+                <Badge variant="secondary" className="text-[10px]">Locked</Badge>
+              </div>
+              <p className="mt-1 text-xs leading-relaxed text-ink-400">
+                Category is synced from your verified student profile for this prototype.
+              </p>
+            </div>
           </div>
 
           {/* Time slot picker */}
