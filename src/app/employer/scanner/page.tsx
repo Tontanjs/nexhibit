@@ -86,6 +86,9 @@ export default function ScannerPage() {
         employerHiringSkills: [...currentEmployer.hiringSkills],
         studentId: scanned.id,
         employerId: currentEmployer.id,
+        studentGpa: scanned.gpa,
+        studentPreferredLocations: scanned.preferredLocations,
+        employerLocation: currentEmployer.location,
       }).score
     : 0;
 

@@ -84,6 +84,9 @@ export default function ShortlistPage() {
       employerHiringSkills: [...currentEmployer.hiringSkills],
       studentId: s.id,
       employerId: currentEmployer.id,
+      studentGpa: s.gpa,
+      studentPreferredLocations: s.preferredLocations,
+      employerLocation: currentEmployer.location,
     }).score;
   }
 

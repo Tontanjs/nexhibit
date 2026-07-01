@@ -106,6 +106,9 @@ function getScore(studentId: string) {
     employerHiringSkills: [...currentEmployer.hiringSkills],
     studentId: student.id,
     employerId: currentEmployer.id,
+    studentGpa: student.gpa,
+    studentPreferredLocations: student.preferredLocations,
+    employerLocation: currentEmployer.location,
   }).score;
 }
 

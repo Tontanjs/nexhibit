@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
+import { DemoBanner } from "@/components/marketing/DemoBanner";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -18,8 +19,9 @@ const navLinks = [
 
 export function Navbar() {
   return (
-    <header className="aurora-nav sticky top-0 z-40 border-b">
-      <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[72px] lg:px-8">
+    <header className="aurora-nav sticky top-0 z-40">
+      <DemoBanner />
+      <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between border-b px-4 sm:px-6 lg:h-[72px] lg:px-8">
         <Link className="flex shrink-0 items-center" href="/" aria-label={copy.brand.name}>
           <Logo size="sm" showTagline={false} variant="auto" className="theme-logo" />
         </Link>

@@ -51,6 +51,9 @@ export default async function CompanyDetailPage({
     employerHiringSkills: [...employer.hiringSkills],
     studentId: currentStudent.id,
     employerId: employer.id,
+    studentGpa: currentStudent.gpa,
+    studentPreferredLocations: currentStudent.preferredLocations,
+    employerLocation: employer.location,
   }).score;
 
   return (

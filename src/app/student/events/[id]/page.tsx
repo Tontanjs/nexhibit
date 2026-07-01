@@ -52,6 +52,9 @@ function eventEmployerMatch(employer: (typeof employers)[number]) {
     employerHiringSkills: [...employer.hiringSkills],
     studentId: currentStudent.id,
     employerId: employer.id,
+    studentGpa: currentStudent.gpa,
+    studentPreferredLocations: currentStudent.preferredLocations,
+    employerLocation: employer.location,
   }).score;
 }
 

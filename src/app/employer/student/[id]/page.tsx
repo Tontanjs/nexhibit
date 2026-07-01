@@ -78,6 +78,9 @@ export default function StudentDetailPage({
     employerHiringSkills: [...currentEmployer.hiringSkills],
     studentId: student.id,
     employerId: currentEmployer.id,
+    studentGpa: student.gpa,
+    studentPreferredLocations: student.preferredLocations,
+    employerLocation: currentEmployer.location,
   });
 
   const tier = getMatchTier(score);
