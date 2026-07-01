@@ -96,7 +96,7 @@ export default async function CompanyDetailPage({
               <CompanyFact icon={UsersRound} label="Company size" value={employer.size} />
             </div>
             <Button variant="inverse" className="mt-6 w-full" asChild>
-              <a href={employer.website} target="_blank" rel="noreferrer">
+              <a href={employer.website} target="_blank" rel="noopener noreferrer">
                 Visit company website
                 <ExternalLink className="size-4" />
               </a>

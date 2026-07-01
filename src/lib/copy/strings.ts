@@ -14,6 +14,7 @@ export const copy = {
       employers: "For employers",
       about: "About",
       pricing: "Pricing",
+      postOfferSupport: "Post-Offer Support",
       backHome: "Back to home",
     },
     primary: {

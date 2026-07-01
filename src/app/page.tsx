@@ -10,6 +10,7 @@ import { HowItWorks } from "@/components/marketing/HowItWorks";
 import { LiveActivityTicker } from "@/components/marketing/LiveActivityTicker";
 import { LogoCloud } from "@/components/marketing/LogoCloud";
 import { MotionStatsBand } from "@/components/marketing/MotionStatsBand";
+import { PostOfferCallout } from "@/components/marketing/PostOfferCallout";
 import { TestimonialCarousel } from "@/components/marketing/TestimonialCarousel";
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
         <MotionStatsBand />
         <TestimonialCarousel />
         <FAQAccordion />
+        <PostOfferCallout />
         <FinalMotionCTA />
       </main>
       <Footer />

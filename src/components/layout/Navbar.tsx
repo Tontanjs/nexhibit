@@ -15,6 +15,7 @@ const navLinks = [
   { label: copy.navigation.marketing.employers, href: "/#employers" },
   { label: copy.navigation.marketing.about, href: "/about" },
   { label: copy.navigation.marketing.pricing, href: "/pricing" },
+  { label: copy.navigation.marketing.postOfferSupport, href: "/post-offer-support" },
 ];
 
 export function Navbar() {
@@ -26,7 +27,7 @@ export function Navbar() {
           <Logo size="sm" showTagline={false} variant="auto" className="theme-logo" />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-6 xl:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -39,7 +40,7 @@ export function Navbar() {
           ))}
         </div>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <ThemeToggle />
           <Link
             className={cn(
@@ -58,7 +59,7 @@ export function Navbar() {
         <Sheet>
           <SheetTrigger
             aria-label={copy.accessibility.openMenu}
-            className="inline-flex size-11 items-center justify-center rounded-md text-[var(--nav-foreground)] transition hover:-translate-y-0.5 hover:bg-surface-0/10 md:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-md text-[var(--nav-foreground)] transition hover:-translate-y-0.5 hover:bg-surface-0/10 xl:hidden"
           >
             <Menu className="size-5" aria-hidden="true" />
           </SheetTrigger>

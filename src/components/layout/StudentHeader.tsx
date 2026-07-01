@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Brain, CreditCard, Menu, Radio, Users } from "lucide-react";
+import { Brain, ClipboardList, CreditCard, FileOutput, Menu, Radio, Users } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { DemoLogoutButton, DemoUserMenu } from "@/components/auth/DemoUserMenu";
 import { NotificationDropdown } from "@/components/layout/NotificationDropdown";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { TrackerReminderBadge } from "@/components/tracker/TrackerReminderBadge";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { copy } from "@/lib/copy";
@@ -17,6 +18,8 @@ import type { Student } from "@/lib/mock-data/types";
 
 const secondaryNavLinks = [
   { label: copy.navigation.student.profile, href: "/student/profile" },
+  { label: "Resume Formats", href: "/resume-adapter", icon: FileOutput },
+  { label: "My Applications", href: "/tracker", icon: ClipboardList },
   { label: copy.navigation.student.events, href: "/student/events" },
   { label: copy.navigation.student.eventDay, href: "/student/event-day" },
   { label: "Live Booth", href: "/student/live-booth", icon: Radio },
@@ -98,6 +101,7 @@ export function StudentHeader({ user }: { user: Student }) {
                   >
                     {Icon && <Icon className="size-4" aria-hidden="true" />}
                     {link.label}
+                    {link.href === "/tracker" && <TrackerReminderBadge />}
                   </Link>
                   );
                 })}
@@ -127,6 +131,7 @@ export function StudentHeader({ user }: { user: Student }) {
                 >
                   {Icon && <Icon className="mr-1.5 size-4" aria-hidden="true" />}
                   {link.label}
+                  {link.href === "/tracker" && <TrackerReminderBadge />}
                 </Link>
               );
             })}
