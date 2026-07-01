@@ -5,6 +5,7 @@ import { CheckCircle2, Lock, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { copy } from "@/lib/copy";
@@ -30,10 +31,10 @@ type PrivacyState = {
 
 export default function OnboardingPage() {
   const [privacy, setPrivacy] = useState<PrivacyState>({
-    gpa: true,
+    gpa: false,
     courses: true,
     awards: true,
-    ranking: true,
+    ranking: false,
     disciplinary: false,
     activities: true,
     volunteer: true,
@@ -45,6 +46,14 @@ export default function OnboardingPage() {
   }
 
   const p = copy.pages.student.onboarding;
+  const employerPreview = [
+    { label: "Name", value: currentStudent.name, visible: true },
+    { label: "Major", value: currentStudent.major, visible: true },
+    { label: "GPA", value: currentStudent.gpa.toFixed(2), visible: privacy.gpa },
+    { label: "Class ranking", value: currentStudent.classRanking, visible: privacy.ranking },
+    { label: "Awards", value: `${currentStudent.awards.length} awards`, visible: privacy.awards },
+    { label: "Activities", value: `${currentStudent.activities.length} activities`, visible: privacy.activities },
+  ];
 
   return (
     <div className="min-h-screen bg-surface-50 py-12 px-4">
@@ -91,6 +100,13 @@ export default function OnboardingPage() {
           <p className="mt-2 text-ink-600">{p.subheading}</p>
         </div>
 
+        <PrototypeNotice
+          variant="card"
+          title="Prototype consent flow"
+          message="Visibility choices demonstrate what employers would see. No real ZJUT data is synced or processed."
+          className="mb-5"
+        />
+
         {/* Section 1: Personal Information */}
         <Card className="mb-4">
           <CardHeader className="pb-3">
@@ -119,7 +135,7 @@ export default function OnboardingPage() {
         <Card className="mb-4">
           <CardHeader className="pb-3">
             <CardTitle className="text-base">{p.section2Title}</CardTitle>
-            <CardDescription className="text-xs">Auto-imported from ZJUT</CardDescription>
+            <CardDescription className="text-xs">Preloaded as mock ZJUT verification fields for the prototype</CardDescription>
           </CardHeader>
           <CardContent className="space-y-0">
             {[
@@ -205,6 +221,27 @@ export default function OnboardingPage() {
                 {i < arr.length - 1 && <Separator />}
               </div>
             ))}
+          </CardContent>
+        </Card>
+
+        <Card className="mb-8 border-gold-200 bg-gold-50/70">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">What employers will see</CardTitle>
+            <CardDescription className="text-xs">
+              Preview based on the demo visibility switches above.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {employerPreview.map(({ label, value, visible }) => (
+                <div key={label} className="flex items-center justify-between gap-3 rounded-lg bg-surface-0 px-3 py-2 text-sm">
+                  <span className="font-medium text-ink-700">{label}</span>
+                  <span className={cn("text-xs font-semibold", visible ? "text-success" : "text-ink-400")}>
+                    {visible ? value : "Hidden"}
+                  </span>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 

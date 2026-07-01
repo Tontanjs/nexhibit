@@ -20,6 +20,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ConsentSummary } from "@/components/product/consent-summary";
+import { MatchExplanation } from "@/components/product/match-explanation";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
+import { PremiumHeroPanel, ScannerGlowFrame } from "@/components/aurora";
 import { ScannerOverlay } from "@/components/icons";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
@@ -40,9 +44,10 @@ export default function ScannerPage() {
   const [manualId, setManualId] = useState("");
   const [scanned, setScanned] = useState<Student | null>(null);
   const [notFound, setNotFound] = useState(false);
-  const [scanState, setScanState] = useState<"ready" | "scanning" | "found" | "not-found">("ready");
+  const [scanState, setScanState] = useState<"ready" | "scanning" | "matched" | "saved" | "error">("ready");
   const [note, setNote] = useState("");
   const [shortlisted, setShortlisted] = useState<Set<string>>(SEEDED_SHORTLIST);
+  const [scanHistory, setScanHistory] = useState<Student[]>([]);
 
   function lookup(idToFind: string) {
     setScanState("scanning");
@@ -52,12 +57,14 @@ export default function ScannerPage() {
     if (found) {
       setScanned(found);
       setNotFound(false);
-      setScanState("found");
+      setScanState("matched");
+      setScanHistory((prev) => [found, ...prev.filter((item) => item.id !== found.id)].slice(0, 5));
       toast.success(`${found.name} scanned successfully.`);
     } else {
       setScanned(null);
       setNotFound(true);
-      setScanState("not-found");
+      setScanState("error");
+      toast.error("No mock student found. Try stu-001, stu-002, or a student name.");
     }
   }
 
@@ -89,17 +96,13 @@ export default function ScannerPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6 overflow-hidden rounded-xl border border-ink-900 bg-ink-900 p-5 text-surface-0 shadow-2xl shadow-ink-900/10">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-success/10 px-3 py-1 text-xs font-semibold text-success">
-              <span className="size-2 rounded-full bg-success" />
-              Recruiter checked in
-            </div>
-            <h1 className="text-2xl font-bold text-surface-0">{p.heading}</h1>
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-ink-300">{p.subheading}</p>
-          </div>
-          <div className="grid gap-2 text-sm sm:grid-cols-2 lg:w-[420px]">
+      <PremiumHeroPanel
+        eyebrow="Recruiter checked in"
+        title={p.heading}
+        body={p.subheading}
+        className="mb-6"
+      >
+        <div className="grid gap-2 text-sm sm:grid-cols-2 lg:w-[520px]">
             {[
               ["Event", boothReadiness.eventName],
               ["Booth", boothReadiness.boothNumber],
@@ -111,9 +114,15 @@ export default function ScannerPage() {
                 <p className="mt-1 font-semibold text-surface-0">{value}</p>
               </div>
             ))}
-          </div>
         </div>
-      </div>
+      </PremiumHeroPanel>
+
+      <PrototypeNotice
+        variant="card"
+        title="Simulated QR scanner"
+        message="Simulated QR scanner for prototype demo. Production QR codes would use signed event tokens."
+        className="mb-5"
+      />
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div>
@@ -127,31 +136,38 @@ export default function ScannerPage() {
                       Scanner state
                     </p>
                     <h2 className="mt-1 text-base font-semibold text-ink-900">
-                      {scanState === "not-found" ? "Student not found" : scanState === "scanning" ? "Scanning badge" : "Ready to scan"}
+                      {scanState === "error"
+                        ? "Student not found"
+                        : scanState === "scanning"
+                          ? "Scanning badge"
+                          : scanState === "matched" || scanState === "saved"
+                            ? "Student matched"
+                            : "Ready to scan"}
                     </h2>
                   </div>
-                  <Badge variant={scanState === "not-found" ? "destructive" : "gold"}>
+                  <Badge variant={scanState === "error" ? "destructive" : scanState === "saved" ? "success" : "gold"}>
                     {scanState}
                   </Badge>
                 </div>
-                <div className="flex justify-center">
+                <ScannerGlowFrame state={scanState}>
                   <ScannerOverlay
-                    scanning={scanState !== "not-found"}
+                    scanning={scanState !== "error"}
                     instruction={copy.accessibility.scanQr}
-                    width={280}
-                    height={280}
+                    width={230}
+                    height={230}
                   />
-                </div>
+                </ScannerGlowFrame>
               </CardContent>
             </Card>
 
             {/* Manual lookup */}
-            <div className="mt-5 rounded-xl border border-ink-200 bg-surface-0 p-5">
+            <div className="aurora-panel mt-5 rounded-xl p-5">
               <p className="mb-3 text-center text-xs font-medium text-ink-500">{p.orEnterManually}</p>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <Input
                   value={manualId}
                   onChange={(e) => setManualId(e.target.value)}
+                  aria-label="Student ID or name"
                   placeholder={p.studentIdPlaceholder}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") lookup(manualId);
@@ -178,7 +194,7 @@ export default function ScannerPage() {
                 <button
                   key={s.id}
                   onClick={() => lookup(s.id)}
-                  className="rounded-full bg-ink-100 px-3 py-1 text-xs font-medium text-ink-600 transition hover:bg-ink-200"
+                  className="motion-safe-hover rounded-full border border-white/10 bg-white/[0.07] px-3 py-1 text-xs font-medium text-ink-300 transition hover:border-gold-300/30 hover:text-surface-0"
                 >
                   {s.id}
                 </button>
@@ -186,6 +202,7 @@ export default function ScannerPage() {
             </div>
           </>
         ) : (
+          <>
           <Card>
           <CardContent className="pt-5 space-y-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">{p.scannedHeading}</p>
@@ -226,6 +243,16 @@ export default function ScannerPage() {
               </div>
             </div>
 
+            <MatchExplanation
+              score={score}
+              student={scanned}
+              employer={currentEmployer}
+              compact
+              surface="inline"
+            />
+
+            <ConsentSummary student={scanned} />
+
             <div className="rounded-lg border border-gold-200 bg-gold-50/70 p-3">
               <p className="text-xs font-semibold text-gold-700">Recruiter signal</p>
               <p className="mt-1 text-sm leading-5 text-ink-700">{getCandidateSignal(scanned.id).note}</p>
@@ -254,6 +281,7 @@ export default function ScannerPage() {
                     const next = new Set(prev);
                     if (next.has(scanned.id)) next.delete(scanned.id);
                     else next.add(scanned.id);
+                    setScanState(next.has(scanned.id) ? "saved" : "matched");
                     return next;
                   });
                 }}
@@ -283,6 +311,7 @@ export default function ScannerPage() {
               <Textarea
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
+                aria-label="Quick recruiter note"
                 placeholder="Record a short booth impression for the team..."
                 className="min-h-24"
               />
@@ -305,7 +334,45 @@ export default function ScannerPage() {
               {p.scanAnother}
             </Button>
           </CardContent>
-        </Card>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-5">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink-400">Scan history</p>
+                  <h2 className="mt-1 text-base font-semibold text-ink-900">Recent matched students</h2>
+                </div>
+                <Badge variant="outline" className="text-[10px]">{scanHistory.length} scans</Badge>
+              </div>
+              {scanHistory.length === 0 ? (
+                <p className="rounded-lg border border-dashed border-ink-200 px-3 py-6 text-center text-sm text-ink-400">
+                  No scan history yet in this prototype session.
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {scanHistory.map((student) => (
+                    <button
+                      key={student.id}
+                      type="button"
+                      onClick={() => lookup(student.id)}
+                      className="flex w-full items-center justify-between gap-3 rounded-lg border border-ink-200 px-3 py-2 text-left transition hover:bg-ink-50"
+                    >
+                      <span className="flex items-center gap-2">
+                        <StudentAvatar student={student} className="size-8" />
+                        <span>
+                          <span className="block text-sm font-semibold text-ink-900">{student.name}</span>
+                          <span className="block text-xs text-ink-400">{student.id}</span>
+                        </span>
+                      </span>
+                      <Badge variant="gold" className="text-[10px]">matched</Badge>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+          </>
         )}
         </div>
 
@@ -358,7 +425,7 @@ export default function ScannerPage() {
                 Scanner states covered
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {["ready", "scanning", "student found", "not found", "already scanned", "no camera permission"].map((state) => (
+                {["ready", "scanning", "matched", "saved", "error/not found", "no camera permission"].map((state) => (
                   <Badge key={state} variant="outline" className="text-[10px]">
                     {state}
                   </Badge>

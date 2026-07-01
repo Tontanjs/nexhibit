@@ -15,7 +15,7 @@ const portals = [
   {
     icon: "student",
     ...d.student,
-    href: "/student/profile",
+    href: "/student/dashboard",
   },
   {
     icon: "employer",
@@ -89,15 +89,15 @@ export function DemoAccess() {
           {portals.map(({ icon, label, description, cta, href }, index) => (
             <Reveal key={label} delay={index * 0.12}>
               <TiltCard glare max={6}>
-                <Card className="group relative flex min-h-[220px] flex-col gap-5 overflow-hidden bg-[radial-gradient(circle_at_20%_0%,rgba(255,252,232,0.95),#fff_44%)] p-5 transition-all hover:-translate-y-1 hover:border-gold-500/40 hover:shadow-xl">
+                <Card className="glow-card group relative flex min-h-[220px] flex-col gap-5 overflow-hidden p-5 transition-all hover:-translate-y-1 hover:border-gold-500/40 hover:shadow-xl">
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500/50 to-transparent" aria-hidden="true" />
                   <div className="flex items-start gap-3">
-                    <div className="flex size-12 shrink-0 items-center justify-center rounded-md border border-ink-200 bg-surface-0 text-gold-500 shadow-sm transition-colors group-hover:border-gold-500/40 group-hover:bg-gold-50">
+                    <div className="flex size-12 shrink-0 items-center justify-center rounded-md border border-border bg-background text-gold-500 shadow-sm transition-colors group-hover:border-gold-500/40 group-hover:bg-gold-50">
                       <MotionIcon type={icon} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-ink-900">{label}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-ink-500">{description}</p>
+                      <p className="text-sm font-semibold text-foreground">{label}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{description}</p>
                     </div>
                   </div>
                   <Link

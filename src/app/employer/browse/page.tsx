@@ -27,8 +27,11 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { EmptyState } from "@/components/product/empty-state";
+import { MatchExplanation } from "@/components/product/match-explanation";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
@@ -68,6 +71,12 @@ function isRecentlyActive(lastActive: string) {
 export default function BrowsePage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const [skillFilter, setSkillFilter] = useState("all");
+  const [yearFilter, setYearFilter] = useState("all");
+  const [englishFilter, setEnglishFilter] = useState("all");
+  const [hskFilter, setHskFilter] = useState("all");
+  const [availabilityFilter, setAvailabilityFilter] = useState("all");
+  const [locationFilter, setLocationFilter] = useState("all");
   const [sortBy, setSortBy] = useState<SortBy>("match_desc");
   const [selectedRoleId, setSelectedRoleId] = useState(employerRoles[0].id);
   const [minimumScore, setMinimumScore] = useState("all");
@@ -85,14 +94,20 @@ export default function BrowsePage() {
     const base = filterStudents(students, {
       searchQuery: search,
       categories: category !== "all" ? [category] : undefined,
+      skills: skillFilter !== "all" ? [skillFilter] : undefined,
+      years: yearFilter !== "all" ? [Number(yearFilter) as 1 | 2 | 3 | 4] : undefined,
+      englishLevels: englishFilter !== "all" ? [englishFilter] : undefined,
+      hskMin: hskFilter !== "all" ? Number(hskFilter) : undefined,
+      lookingFor: availabilityFilter !== "all" ? [availabilityFilter as "Internship" | "Full-time" | "Both"] : undefined,
     });
     return sortStudents(base, sortBy, scoreMap).filter((student) => {
       const score = scoreMap.get(student.id) ?? 0;
       if (minimumScore !== "all" && score < Number(minimumScore)) return false;
       if (shortlistOnly && !shortlisted.has(student.id)) return false;
+      if (locationFilter !== "all" && !student.preferredLocations.includes(locationFilter)) return false;
       return true;
     });
-  }, [search, category, sortBy, scoreMap, minimumScore, shortlistOnly, shortlisted]);
+  }, [search, category, skillFilter, yearFilter, englishFilter, hskFilter, availabilityFilter, locationFilter, sortBy, scoreMap, minimumScore, shortlistOnly, shortlisted]);
 
   const talentStats = useMemo(() => {
     const strongMatches = students.filter((s) => (scoreMap.get(s.id) ?? 0) >= 88).length;
@@ -116,8 +131,25 @@ export default function BrowsePage() {
     });
   }
 
-  const hasFilters = category !== "all" || search.trim().length > 0 || minimumScore !== "all" || shortlistOnly;
+  const hasFilters =
+    category !== "all" ||
+    skillFilter !== "all" ||
+    yearFilter !== "all" ||
+    englishFilter !== "all" ||
+    hskFilter !== "all" ||
+    availabilityFilter !== "all" ||
+    locationFilter !== "all" ||
+    search.trim().length > 0 ||
+    minimumScore !== "all" ||
+    shortlistOnly;
   const visibleStudents = filtered.slice(0, visibleCount);
+  const filterSummary = [
+    category !== "all" ? category : null,
+    skillFilter !== "all" ? skillFilter : null,
+    hskFilter !== "all" ? `HSK ${hskFilter}+` : null,
+    englishFilter !== "all" ? `${englishFilter} English` : null,
+    locationFilter !== "all" ? locationFilter : null,
+  ].filter(Boolean).join(" + ");
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -182,10 +214,12 @@ export default function BrowsePage() {
           <SlidersHorizontal className="size-4 text-ink-400" />
           {p.searchPanelTitle}
         </div>
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_180px_220px_160px_150px_auto]">
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_160px_190px_150px_150px_auto]">
           <div className="relative min-w-0">
+            <Label htmlFor="student-search" className="sr-only">Search by name, skill, major, or country</Label>
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-400" />
             <Input
+              id="student-search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={p.searchPlaceholder}
@@ -194,7 +228,7 @@ export default function BrowsePage() {
           </div>
 
           <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger className="h-11 w-full">
+            <SelectTrigger className="h-11 w-full" aria-label="Filter by category">
               <SelectValue placeholder={p.filterCategory} />
             </SelectTrigger>
             <SelectContent>
@@ -207,7 +241,7 @@ export default function BrowsePage() {
           </Select>
 
           <Select value={selectedRoleId} onValueChange={setSelectedRoleId}>
-            <SelectTrigger className="h-11 w-full">
+            <SelectTrigger className="h-11 w-full" aria-label="Filter by employer role fit">
               <SelectValue placeholder="Role fit" />
             </SelectTrigger>
             <SelectContent>
@@ -220,7 +254,7 @@ export default function BrowsePage() {
           </Select>
 
           <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortBy)}>
-            <SelectTrigger className="h-11 w-full">
+            <SelectTrigger className="h-11 w-full" aria-label="Sort students">
               <SelectValue placeholder={p.sortLabel} />
             </SelectTrigger>
             <SelectContent>
@@ -233,7 +267,7 @@ export default function BrowsePage() {
           </Select>
 
           <Select value={minimumScore} onValueChange={setMinimumScore}>
-            <SelectTrigger className="h-11 w-full">
+            <SelectTrigger className="h-11 w-full" aria-label="Filter by match strength">
               <SelectValue placeholder="Match score" />
             </SelectTrigger>
             <SelectContent>
@@ -255,6 +289,90 @@ export default function BrowsePage() {
           >
             Shortlist only
           </button>
+        </div>
+
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          <Select value={skillFilter} onValueChange={setSkillFilter}>
+            <SelectTrigger className="h-10 w-full" aria-label="Filter by skill">
+              <SelectValue placeholder="Skill" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any skill</SelectItem>
+              {Array.from(new Set([...currentEmployer.hiringSkills, "React", "Python", "Market Research", "Mandarin (HSK 4)"])).map((skill) => (
+                <SelectItem key={skill} value={skill}>
+                  {skill}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={yearFilter} onValueChange={setYearFilter}>
+            <SelectTrigger className="h-10 w-full" aria-label="Filter by year">
+              <SelectValue placeholder="Year" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any year</SelectItem>
+              {[1, 2, 3, 4].map((year) => (
+                <SelectItem key={year} value={String(year)}>
+                  Year {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={hskFilter} onValueChange={setHskFilter}>
+            <SelectTrigger className="h-10 w-full" aria-label="Filter by HSK level">
+              <SelectValue placeholder="HSK" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any HSK</SelectItem>
+              {[2, 3, 4, 5, 6].map((level) => (
+                <SelectItem key={level} value={String(level)}>
+                  HSK {level}+
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={englishFilter} onValueChange={setEnglishFilter}>
+            <SelectTrigger className="h-10 w-full" aria-label="Filter by English level">
+              <SelectValue placeholder="English" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any English</SelectItem>
+              {["Native", "Fluent", "Proficient", "Intermediate"].map((level) => (
+                <SelectItem key={level} value={level}>
+                  {level}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={availabilityFilter} onValueChange={setAvailabilityFilter}>
+            <SelectTrigger className="h-10 w-full" aria-label="Filter by availability type">
+              <SelectValue placeholder="Availability" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any availability</SelectItem>
+              <SelectItem value="Internship">Internship</SelectItem>
+              <SelectItem value="Full-time">Full-time</SelectItem>
+              <SelectItem value="Both">Both</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={locationFilter} onValueChange={setLocationFilter}>
+            <SelectTrigger className="h-10 w-full" aria-label="Filter by preferred location">
+              <SelectValue placeholder="Location" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any location</SelectItem>
+              {["Hangzhou", "Shanghai", "Shenzhen", "Suzhou", "Ningbo", "Remote"].map((location) => (
+                <SelectItem key={location} value={location}>
+                  {location}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
           {hasFilters && (
             <Button
@@ -263,10 +381,16 @@ export default function BrowsePage() {
               onClick={() => {
                 setSearch("");
                 setCategory("all");
+                setSkillFilter("all");
+                setYearFilter("all");
+                setEnglishFilter("all");
+                setHskFilter("all");
+                setAvailabilityFilter("all");
+                setLocationFilter("all");
                 setMinimumScore("all");
                 setShortlistOnly(false);
               }}
-              className="h-11 w-full justify-center text-ink-500 hover:text-ink-800 lg:w-auto"
+              className="h-10 w-full justify-center text-ink-500 hover:text-ink-800 lg:col-span-6 lg:w-fit"
             >
               <X className="size-4" />
               {p.clearFilters}
@@ -279,6 +403,7 @@ export default function BrowsePage() {
         <p className="text-xs text-ink-500">
           {p.showingPrefix} <span className="font-semibold text-ink-800">{filtered.length}</span> {p.showingConnector}{" "}
           <span className="font-semibold text-ink-800">{students.length}</span> {p.verifiedProfilesLabel}
+          {filterSummary ? <span> matching <span className="font-semibold text-ink-800">{filterSummary}</span></span> : null}
         </p>
         <div className="flex flex-wrap items-center gap-1.5">
           <Badge variant="gold" className="text-[10px]">
@@ -293,10 +418,31 @@ export default function BrowsePage() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-ink-300 bg-surface-0 py-16 text-center">
-          <p className="text-sm font-semibold text-ink-700">{p.noResults}</p>
-          <p className="mt-1 text-xs text-ink-400">{p.noResultsHint}</p>
-        </div>
+        <EmptyState
+          icon={Search}
+          title={p.noResults}
+          body="No students match these filters. Try removing HSK, skill, or location filters."
+          action={
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setSearch("");
+                setCategory("all");
+                setSkillFilter("all");
+                setYearFilter("all");
+                setEnglishFilter("all");
+                setHskFilter("all");
+                setAvailabilityFilter("all");
+                setLocationFilter("all");
+                setMinimumScore("all");
+                setShortlistOnly(false);
+              }}
+            >
+              Clear filters
+            </Button>
+          }
+        />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {visibleStudents.map((s) => {
@@ -403,6 +549,15 @@ export default function BrowsePage() {
                     <div className="h-1.5 overflow-hidden rounded-full bg-ink-200">
                       <div className={cn("h-full rounded-full", barColor)} style={{ width: `${score}%` }} />
                     </div>
+                    <MatchExplanation
+                      score={score}
+                      student={s}
+                      employer={currentEmployer}
+                      roleTitle={selectedRole.title}
+                      compact
+                      surface="inline"
+                      className="mt-3"
+                    />
                     <div className="mt-3 rounded-md bg-surface-0 p-2 ring-1 ring-ink-100">
                       <div className="flex items-center justify-between gap-2">
                         <p className="truncate text-xs font-semibold text-ink-800">{roleFit.label}</p>
@@ -483,7 +638,7 @@ export default function BrowsePage() {
       {filtered.length > visibleStudents.length && (
         <div className="mt-6 flex justify-center">
           <Button variant="outline" onClick={() => setVisibleCount((count) => count + 9)}>
-            Load more verified students
+            Load more demo students
           </Button>
         </div>
       )}

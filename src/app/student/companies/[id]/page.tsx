@@ -15,11 +15,15 @@ import {
 } from "lucide-react";
 
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
+import { CompanyMockDisclaimer, PrototypeNotice } from "@/components/brand/prototype-notice";
+import { MatchExplanation } from "@/components/product/match-explanation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { companyProfiles } from "@/lib/company-profiles";
+import { currentStudent } from "@/lib/current-user";
 import { employers } from "@/lib/mock-data";
+import { calculateMatchScore } from "@/lib/utils-lib/matching";
 
 export function generateStaticParams() {
   return employers.map((employer) => ({ id: employer.id }));
@@ -38,6 +42,16 @@ export default async function CompanyDetailPage({
   }
 
   const profile = companyProfiles[employer.id];
+  const matchScore = calculateMatchScore({
+    studentCategory: currentStudent.category,
+    studentSkills: [...currentStudent.skills],
+    studentEnglishLevel: currentStudent.englishLevel,
+    studentHSK: currentStudent.hsk,
+    employerHiringCategories: [...employer.hiringCategories],
+    employerHiringSkills: [...employer.hiringSkills],
+    studentId: currentStudent.id,
+    employerId: employer.id,
+  }).score;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -55,10 +69,11 @@ export default async function CompanyDetailPage({
                 <div className="flex flex-wrap items-center gap-2">
                   <h1 className="text-3xl font-black tracking-normal text-surface-0">{employer.name}</h1>
                   <Badge variant="gold" className="text-xs">
-                    Verified employer
+                    Employer review demo
                   </Badge>
                 </div>
                 <p className="mt-2 max-w-3xl text-base leading-relaxed text-ink-300">{employer.description}</p>
+                <CompanyMockDisclaimer className="mt-3 text-xs text-ink-300" />
                 <div className="mt-4 flex flex-wrap gap-2">
                   {employer.hiringCategories.map((category) => (
                     <Badge key={category} variant="secondary" className="bg-surface-0/10 text-surface-0">
@@ -83,9 +98,22 @@ export default async function CompanyDetailPage({
                 <ExternalLink className="size-4" />
               </a>
             </Button>
+            <div className="mt-3 grid gap-2">
+              <Button variant="inverse" asChild>
+                <Link href="/student/messages">Message employer</Link>
+              </Button>
+              <Button variant="inverse" disabled>Save company demo</Button>
+            </div>
           </div>
         </div>
       </section>
+
+      <PrototypeNotice
+        variant="card"
+        title="Company profile prototype"
+        message="Company profile details, roles, salary signals, and hiring process are mock data for demonstration only."
+        className="mt-5"
+      />
 
       <div className="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-5">
@@ -140,6 +168,13 @@ export default async function CompanyDetailPage({
         </div>
 
         <aside className="space-y-5">
+          <MatchExplanation
+            score={matchScore}
+            student={currentStudent}
+            employer={employer}
+            roleTitle={profile.openRoles[0]}
+          />
+
           <Card className="border-gold-200 bg-gold-50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">

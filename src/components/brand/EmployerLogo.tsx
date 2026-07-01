@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import type { Employer } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { getEmployerLogoSrc } from "@/lib/visual-assets";
@@ -13,15 +15,18 @@ export function EmployerLogo({ employer, className }: EmployerLogoProps) {
       role="img"
       aria-label={`${employer.name} logo`}
       className={cn(
-        "block size-10 shrink-0 rounded-lg border border-ink-200 bg-cover bg-center shadow-sm",
+        "relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-ink-200 bg-white shadow-sm ring-1 ring-white/70",
         className,
       )}
-      style={{
-        backgroundColor: employer.logoColor,
-        backgroundImage: `url("${getEmployerLogoSrc(employer.id)}")`,
-      }}
     >
-      <span className="sr-only">{employer.logoLetter}</span>
+      <Image
+        src={getEmployerLogoSrc(employer.id)}
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="48px"
+        className="object-contain p-1.5"
+      />
     </span>
   );
 }

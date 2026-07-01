@@ -4,6 +4,7 @@ import { use, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, MapPin, CheckCircle2, Clock, BookOpen, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,12 +13,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
+import { CompanyMockDisclaimer, PrototypeNotice } from "@/components/brand/prototype-notice";
 import { FloorPlan } from "@/components/icons";
 import { copy } from "@/lib/copy";
 import { events, employers } from "@/lib/mock-data";
 import { currentStudent } from "@/lib/current-user";
 import { timeSlots } from "@/lib/extended-data/time-slots";
 import { cn } from "@/lib/utils";
+import { calculateMatchScore } from "@/lib/utils-lib/matching";
 import { getEventImageSrc } from "@/lib/visual-assets";
 
 const p = copy.pages.student;
@@ -39,6 +42,19 @@ const preparation = [
   "Have a notebook for employer contact details",
 ];
 
+function eventEmployerMatch(employer: (typeof employers)[number]) {
+  return calculateMatchScore({
+    studentCategory: currentStudent.category,
+    studentSkills: [...currentStudent.skills],
+    studentEnglishLevel: currentStudent.englishLevel,
+    studentHSK: currentStudent.hsk,
+    employerHiringCategories: [...employer.hiringCategories],
+    employerHiringSkills: [...employer.hiringSkills],
+    studentId: currentStudent.id,
+    employerId: employer.id,
+  }).score;
+}
+
 export default function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const event = events.find((e) => e.id === id) ?? events[0];
@@ -59,6 +75,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
       setBookedSlot(slot);
       setIsBooked(true);
       setDialogOpen(true);
+      toast.success("Booth slot saved for this prototype session.");
     }
   }
 
@@ -91,6 +108,13 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
           <VerifiedBadge className="shrink-0" />
+        </div>
+        <div className="relative mt-5">
+          <PrototypeNotice
+            variant="dark"
+            message="Booth booking, employer registration, and floor-plan assignments are mock/local behavior in this prototype."
+            className="max-w-2xl"
+          />
         </div>
       </div>
 
@@ -192,31 +216,46 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
 
             {/* Employers tab */}
             <TabsContent value="employers">
+              <CompanyMockDisclaimer className="mb-4 text-xs" />
               <div className="grid gap-4 sm:grid-cols-2">
-                {employers.map((employer) => (
-                  <Card key={employer.id} className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md">
-                    <Link href={`/student/companies/${employer.id}`} className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500">
-                      <CardContent className="pt-4">
-                      <div className="flex items-start gap-3">
-                        <EmployerLogo employer={employer} />
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="text-sm font-semibold text-ink-900 truncate">{employer.name}</h3>
-                            <ArrowRight className="size-4 shrink-0 text-ink-300 transition group-hover:text-gold-500" />
+                {employers.map((employer) => {
+                  const score = eventEmployerMatch(employer);
+                  const overlappingSkills = currentStudent.skills.filter((skill) =>
+                    employer.hiringSkills.some((employerSkill) => employerSkill.toLowerCase() === skill.toLowerCase()),
+                  );
+
+                  return (
+                    <Card key={employer.id} className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md">
+                      <Link href={`/student/companies/${employer.id}`} className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500">
+                        <CardContent className="pt-4">
+                        <div className="flex items-start gap-3">
+                          <EmployerLogo employer={employer} />
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-start justify-between gap-2">
+                              <h3 className="truncate text-sm font-semibold text-ink-900">{employer.name}</h3>
+                              <Badge variant="gold" className="shrink-0 text-[10px]">{score}% fit</Badge>
+                            </div>
+                            <p className="text-xs text-ink-500">{employer.industry} · {employer.size}</p>
+                            <div className="mt-2 flex flex-wrap gap-1">
+                              {employer.hiringCategories.map((cat) => (
+                                <Badge key={cat} variant="secondary" className="text-xs">{cat}</Badge>
+                              ))}
+                            </div>
+                            <p className="mt-3 text-xs leading-5 text-ink-500">
+                              Why this fit: {employer.hiringCategories.includes(currentStudent.category) ? `${currentStudent.category} category` : "adjacent category"}
+                              {overlappingSkills.length ? ` · ${overlappingSkills.slice(0, 2).join(", ")}` : " · transferable portfolio skills"}
+                            </p>
+                            <p className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-gold-700">
+                              Open rule-based fit details
+                              <ArrowRight className="size-3.5 transition group-hover:translate-x-0.5" aria-hidden="true" />
+                            </p>
                           </div>
-                          <p className="text-xs text-ink-500">{employer.industry} · {employer.size}</p>
-                          <div className="mt-2 flex flex-wrap gap-1">
-                            {employer.hiringCategories.map((cat) => (
-                              <Badge key={cat} variant="secondary" className="text-xs">{cat}</Badge>
-                            ))}
-                          </div>
-                          <p className="mt-3 text-xs font-semibold text-gold-700">View company profile</p>
                         </div>
-                      </div>
-                      </CardContent>
-                    </Link>
-                  </Card>
-                ))}
+                        </CardContent>
+                      </Link>
+                    </Card>
+                  );
+                })}
               </div>
             </TabsContent>
 
@@ -352,7 +391,7 @@ function BookingForm({
                 <Badge variant="secondary" className="text-[10px]">Locked</Badge>
               </div>
               <p className="mt-1 text-xs leading-relaxed text-ink-400">
-                Category is synced from your verified student profile for this prototype.
+                Category is read from your mock student profile for this prototype.
               </p>
             </div>
           </div>

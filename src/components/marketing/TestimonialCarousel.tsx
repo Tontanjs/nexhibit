@@ -91,10 +91,20 @@ export function TestimonialCarousel() {
               ))}
             </div>
             <div className="flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
-              <Button variant="outline" size="icon-sm" onClick={() => setActive((active - 1 + d.quotes.length) % d.quotes.length)}>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Show previous quote"
+                onClick={() => setActive((active - 1 + d.quotes.length) % d.quotes.length)}
+              >
                 <ArrowLeft className="size-4" />
               </Button>
-              <Button variant="outline" size="icon-sm" onClick={() => setActive((active + 1) % d.quotes.length)}>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Show next quote"
+                onClick={() => setActive((active + 1) % d.quotes.length)}
+              >
                 <ArrowRight className="size-4" />
               </Button>
             </div>

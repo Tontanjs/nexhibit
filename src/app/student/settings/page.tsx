@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { Shield, Bell, Eye, Database, User, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -53,7 +55,7 @@ function SettingRow({
         <p className="text-sm font-medium text-ink-900">{label}</p>
         {helper && <p className="mt-0.5 text-xs text-ink-400">{helper}</p>}
       </div>
-      <Switch checked={checked} onCheckedChange={onCheckedChange} className="shrink-0" />
+      <Switch checked={checked} onCheckedChange={onCheckedChange} aria-label={label} className="shrink-0" />
     </div>
   );
 }
@@ -81,6 +83,12 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-xl font-bold text-ink-900">{p.heading}</h1>
+      <PrototypeNotice
+        variant="card"
+        title="Settings prototype"
+        message="Preference changes update local UI state only. Export, password, and delete actions are demo interactions."
+        className="mb-6"
+      />
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         {/* Sidebar nav */}
@@ -117,7 +125,7 @@ export default function SettingsPage() {
                     <label className="mb-1 block text-xs font-medium text-ink-600">Email</label>
                     <div className="flex items-center gap-2 rounded-lg border border-ink-200 bg-ink-50 px-3 py-2">
                       <span className="flex-1 text-sm text-ink-700">{currentStudent.name.toLowerCase().replace(" ", ".")}@zjut.edu.cn</span>
-                      <Badge variant="secondary" className="text-[10px]">Verified</Badge>
+                      <Badge variant="secondary" className="text-[10px]">Demo account</Badge>
                     </div>
                     <p className="mt-1 text-xs text-ink-400">{p.emailNote}</p>
                   </div>
@@ -125,8 +133,9 @@ export default function SettingsPage() {
                   <Separator />
 
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-ink-600">Phone number</label>
+                    <label htmlFor="student-phone" className="mb-1 block text-xs font-medium text-ink-600">Phone number</label>
                     <input
+                      id="student-phone"
                       type="tel"
                       placeholder="+86 xxx xxxx xxxx"
                       className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
@@ -138,17 +147,23 @@ export default function SettingsPage() {
                   <div>
                     <p className="mb-2 text-sm font-medium text-ink-900">{p.passwordSection}</p>
                     <div className="space-y-2">
+                      <label htmlFor="current-password" className="sr-only">Current password</label>
                       <input
+                        id="current-password"
                         type="password"
                         placeholder="Current password"
                         className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
                       />
+                      <label htmlFor="new-password" className="sr-only">New password</label>
                       <input
+                        id="new-password"
                         type="password"
                         placeholder="New password"
                         className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
                       />
+                      <label htmlFor="confirm-password" className="sr-only">Confirm new password</label>
                       <input
+                        id="confirm-password"
                         type="password"
                         placeholder="Confirm new password"
                         className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
@@ -160,15 +175,15 @@ export default function SettingsPage() {
 
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-ink-600">Display language</label>
-                      <select className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:ring-2 focus:ring-gold-400">
+                      <label htmlFor="display-language" className="mb-1 block text-xs font-medium text-ink-600">Display language</label>
+                      <select id="display-language" className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:ring-2 focus:ring-gold-400">
                         <option>English</option>
                         <option>中文 (简体)</option>
                       </select>
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-ink-600">Timezone</label>
-                      <select className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:ring-2 focus:ring-gold-400">
+                      <label htmlFor="student-timezone" className="mb-1 block text-xs font-medium text-ink-600">Timezone</label>
+                      <select id="student-timezone" className="w-full rounded-lg border border-ink-200 bg-surface-0 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:ring-2 focus:ring-gold-400">
                         <option>Asia/Shanghai (UTC+8)</option>
                         <option>Asia/Bangkok (UTC+7)</option>
                         <option>Europe/London (UTC+0)</option>
@@ -177,7 +192,7 @@ export default function SettingsPage() {
                   </div>
 
                   <div className="flex justify-end">
-                    <Button variant="primary" size="sm">{copy.pages.student.profile.saveSection}</Button>
+                    <Button variant="primary" size="sm" onClick={() => toast.success("Local prototype settings saved.")}>{copy.pages.student.profile.saveSection}</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -212,11 +227,21 @@ export default function SettingsPage() {
                 <Separator className="my-5" />
 
                 <div className="space-y-2">
-                  <Button variant="outline" size="sm" className="w-full sm:w-auto">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto"
+                    onClick={() => toast.success("Prototype data export prepared from mock account data.")}
+                  >
                     {p.downloadData}
                   </Button>
                   <div className="block sm:hidden" />
-                  <Button variant="destructive" size="sm" className="w-full sm:ml-2 sm:w-auto">
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="w-full sm:ml-2 sm:w-auto"
+                    onClick={() => toast.warning("Delete account is a demo confirmation. No account exists to delete.")}
+                  >
                     {p.deleteAccount}
                   </Button>
                 </div>
@@ -250,6 +275,7 @@ export default function SettingsPage() {
                               <Switch
                                 checked={row[ch]}
                                 onCheckedChange={() => toggleNotif(row.id, ch)}
+                                aria-label={`${row.label} ${ch} notification`}
                                 className="mx-auto"
                               />
                             </td>
@@ -277,7 +303,7 @@ export default function SettingsPage() {
                       {paused ? "Paused" : p.visibilityPublic}
                     </p>
                     <p className="text-xs text-ink-400">
-                      {paused ? p.pauseHelper : "Verified employers can discover and view your profile."}
+                      {paused ? p.pauseHelper : "Reviewed demo employers can discover and view your prototype profile."}
                     </p>
                   </div>
                 </div>
@@ -320,8 +346,8 @@ export default function SettingsPage() {
                 <Separator />
 
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm">{p.exportPDF}</Button>
-                  <Button variant="outline" size="sm">{p.exportJSON}</Button>
+                  <Button variant="outline" size="sm" onClick={() => toast.success("Demo PDF export prepared.")}>{p.exportPDF}</Button>
+                  <Button variant="outline" size="sm" onClick={() => toast.success("Demo JSON export prepared.")}>{p.exportJSON}</Button>
                 </div>
 
                 <Separator />

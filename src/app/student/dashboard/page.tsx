@@ -9,16 +9,24 @@ import {
   ClipboardCheck,
   Eye,
   Bookmark,
+  Gauge,
   MessageSquare,
+  ShieldCheck,
   Star,
   TrendingUp,
+  UserRoundCheck,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
+import { PremiumHeroPanel } from "@/components/aurora";
+import { DashboardPerformanceSection } from "@/components/student/DashboardPerformanceSection";
+import { EmployerFeedbackSummary } from "@/components/student/EmployerFeedbackSummary";
+import { ReadinessChecklist } from "@/components/product/readiness-checklist";
 import { copy } from "@/lib/copy";
 import { currentStudent } from "@/lib/current-user";
 import { employers } from "@/lib/mock-data";
@@ -68,7 +76,7 @@ export default function DashboardPage() {
       href: "/student/event-day",
       cta: "Open event day",
       icon: ClipboardCheck,
-      accent: "bg-emerald-50 text-emerald-700",
+      accent: "bg-success/10 text-success",
     },
     {
       title: "Review company fit",
@@ -76,7 +84,7 @@ export default function DashboardPage() {
       href: "/student/companies/emp-001",
       cta: "View company",
       icon: CalendarClock,
-      accent: "bg-indigo-50 text-indigo-700",
+      accent: "bg-aurora-blue/10 text-aurora-blue",
     },
   ];
 
@@ -87,14 +95,30 @@ export default function DashboardPage() {
     { key: "interview_scheduled", label: "Interview" },
     { key: "offer", label: "Offer" },
   ] as const;
+  const readinessItems = [
+    { label: "Booth booked", complete: true, detail: "Spring Fair · Booth B-23" },
+    { label: "QR badge ready", complete: true, detail: "Demo career pass generated" },
+    { label: "Portfolio selected", complete: true, detail: "Chatbot project leads the profile" },
+    { label: "Privacy reviewed", complete: true, detail: "Employer preview checked" },
+    { label: "2-minute pitch prepared", complete: false, detail: "One rehearsal remains" },
+    { label: "Resume attached", complete: true },
+    { label: "Company shortlist reviewed", complete: false, detail: "Review two new matches" },
+    { label: "Follow-up templates ready", complete: true },
+  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
-      {/* Welcome strip */}
-      <div className="overflow-hidden rounded-lg border border-surface-0/10 bg-ink-900 px-6 py-5 text-surface-0 shadow-2xl shadow-ink-900/10">
-        <p className="text-base font-medium text-ink-300">{p.welcomePrefix} {currentStudent.name.split(" ")[0]},</p>
-        <p className="text-lg font-semibold text-surface-0">{p.welcomeSuffix}</p>
-      </div>
+      <PremiumHeroPanel
+        eyebrow={`${p.welcomePrefix} ${currentStudent.name.split(" ")[0]}`}
+        title="Student career control center"
+        body={p.welcomeSuffix}
+      >
+        <PrototypeNotice
+          variant="dark"
+          message="Profile views, application stages, feedback, and messages are mock activity for the prototype demo."
+          className="max-w-2xl"
+        />
+      </PremiumHeroPanel>
 
       {/* Stats row */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -119,6 +143,47 @@ export default function DashboardPage() {
           </Card>
         ))}
       </div>
+
+      <section className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]" aria-labelledby="career-readiness-title">
+        <Card className="overflow-hidden border-gold-200/80 bg-gradient-to-br from-ink-900 via-ink-900 to-aurora-purple/30 text-surface-0 shadow-xl">
+          <CardContent className="grid gap-6 pt-6 sm:grid-cols-[auto_1fr] sm:items-center">
+            <div
+              className="relative mx-auto flex size-36 items-center justify-center rounded-full"
+              style={{
+                background: "conic-gradient(var(--accent) 0 86%, rgba(255,255,255,0.1) 86% 100%)",
+              }}
+              aria-label="Career readiness score 86 out of 100"
+            >
+              <div className="flex size-[120px] flex-col items-center justify-center rounded-full bg-ink-900">
+                <Gauge className="size-5 text-gold-300" aria-hidden="true" />
+                <span className="mt-1 text-4xl font-black text-surface-0">86</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-300">of 100</span>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-300">Career readiness</p>
+              <h2 id="career-readiness-title" className="mt-2 text-2xl font-black">Ready to be discovered—with two smart moves left.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-300">
+                Your profile evidence and employer visibility are strong. Rehearse the two-minute pitch and review the newest company matches before event day.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                {[
+                  { icon: UserRoundCheck, label: "Profile strength", value: `${currentStudent.profileStrength}%` },
+                  { icon: ClipboardCheck, label: "Event readiness", value: "75%" },
+                  { icon: ShieldCheck, label: "Visible fields", value: "6 of 8" },
+                ].map(({ icon: Icon, label, value }) => (
+                  <div key={label} className="rounded-lg border border-white/10 bg-white/[0.06] p-3">
+                    <Icon className="size-4 text-gold-300" aria-hidden="true" />
+                    <p className="mt-2 text-xl font-black">{value}</p>
+                    <p className="text-xs text-ink-300">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <ReadinessChecklist title="Event readiness checklist" items={readinessItems} />
+      </section>
 
       {/* Demo guidance */}
       <div className="grid gap-4 lg:grid-cols-[1.35fr_0.85fr]">
@@ -192,6 +257,51 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="overflow-hidden">
+        <CardHeader className="border-b border-ink-200 bg-ink-50/80">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-700">Post-event report</p>
+              <CardTitle className="mt-1 text-lg">What happened—and what to do next</CardTitle>
+            </div>
+            <Badge variant="secondary">Mock event analytics</Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="grid gap-5 pt-5 lg:grid-cols-[1fr_1.15fr]">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+            {[
+              ["Profile viewers", myVisits.length],
+              ["Saved to shortlist", savedCount],
+              ["Feedback summaries", visibleFeedback.length],
+              ["Messages received", unreadMessages],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-ink-200 bg-surface-0 p-3">
+                <p className="text-2xl font-black text-ink-900">{value}</p>
+                <p className="mt-1 text-xs text-ink-500">{label}</p>
+              </div>
+            ))}
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-ink-900">Best opportunities</p>
+            <p className="mt-1 text-sm leading-6 text-ink-600">
+              Alibaba Cloud has the clearest interview signal; Bosch China shows strong architecture fit; Siemens China responded positively to service-design evidence.
+            </p>
+            <ol className="mt-4 grid gap-2">
+              {[
+                "Reply to the Alibaba Cloud thread within 24 hours.",
+                "Add one measurable outcome to the campus navigator project.",
+                "Rehearse the five-minute chatbot walkthrough.",
+              ].map((action, index) => (
+                <li key={action} className="flex gap-3 rounded-lg bg-ink-50 px-3 py-2 text-xs leading-5 text-ink-700">
+                  <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-gold-500 text-[10px] font-black text-ink-900">{index + 1}</span>
+                  {action}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Who viewed your profile */}
       <div>
@@ -303,41 +413,11 @@ export default function DashboardPage() {
 
       <Separator />
 
-      {/* Recent feedback */}
-      <div>
-        <h2 className="mb-4 text-base font-semibold text-ink-900">{p.feedbackTitle}</h2>
-        <div className="space-y-3">
-          {visibleFeedback.map((fb) => {
-            const employer = getEmployer(fb.employerId);
-            if (!employer) return null;
-            return (
-              <Card key={fb.id}>
-                <CardContent className="pt-4">
-                  <div className="flex items-start gap-3">
-                    <Link href={`/student/companies/${employer.id}`} aria-label={`View ${employer.name}`}>
-                      <EmployerLogo employer={employer} className="size-9 transition hover:scale-105" />
-                    </Link>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <Link href={`/student/companies/${employer.id}`} className="text-sm font-semibold text-ink-900 hover:text-gold-700">
-                          {employer.name}
-                        </Link>
-                        <div className="flex shrink-0 gap-0.5">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <Star key={i} className={cn("size-3.5", i < fb.rating ? "fill-gold-500 text-gold-500" : "text-ink-200")} />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="mt-1.5 text-sm italic text-ink-600">&ldquo;{fb.text}&rdquo;</p>
-                      <p className="mt-1 text-xs text-ink-400">{fb.timestamp}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
+      <EmployerFeedbackSummary feedback={visibleFeedback} />
+
+      <Separator />
+
+      <DashboardPerformanceSection />
     </div>
   );
 }

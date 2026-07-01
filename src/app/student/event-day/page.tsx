@@ -1,15 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { FolderOpen, PauseCircle, QrCode } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Download, FolderOpen, PauseCircle, QrCode } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { QRBadge } from "@/components/icons";
 import { FloorPlan } from "@/components/icons";
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
+import { EventPassCard, PremiumHeroPanel } from "@/components/aurora";
+import { ConsentSummary } from "@/components/product/consent-summary";
+import { ReadinessChecklist } from "@/components/product/readiness-checklist";
 import { copy } from "@/lib/copy";
 import { currentStudent } from "@/lib/current-user";
 import { visitorStream } from "@/lib/extended-data/visitor-stream";
@@ -36,27 +40,44 @@ function getEmployer(id: string) {
 export default function EventDayPage() {
   const [qrOpen, setQrOpen] = useState(false);
   const [breakOpen, setBreakOpen] = useState(false);
-  const [countdown] = useState("12:34");
+  const seedSeconds = useRef(12 * 60 + 34);
+  const [secondsLeft, setSecondsLeft] = useState(seedSeconds.current);
+  const countdown = `${String(Math.floor(secondsLeft / 60)).padStart(2, "0")}:${String(secondsLeft % 60).padStart(2, "0")}`;
+
+  useEffect(() => {
+    const id = setInterval(() => setSecondsLeft((s) => (s > 0 ? s - 1 : 0)), 1000);
+    return () => clearInterval(id);
+  }, []);
 
   const myVisits = visitorStream.filter((v) => v.studentId === currentStudent.id);
   const savedCount = myVisits.filter((v) => v.status === "saved").length;
   const feedbackCount = myVisits.filter((v) => v.status === "left_feedback").length;
+  const eventTips = [
+    { label: "Keep QR badge visible", complete: true },
+    { label: "Open strongest project first", complete: true },
+    { label: "End each visit with one next step", complete: false },
+    { label: "Log recruiter questions after the slot", complete: false },
+  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      {/* Live status bar */}
-      <div className="mb-6 flex flex-col gap-2 rounded-xl bg-ink-900 px-5 py-4 text-surface-0 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2.5">
-          <span className="relative flex size-3">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-75" />
-            <span className="relative inline-flex size-3 rounded-full bg-success" />
-          </span>
-          <span className="text-sm font-semibold">{p.liveLabel}</span>
-        </div>
-        <div className="text-sm text-ink-300">
-          {p.slotEndsLabel} <span className="font-mono font-bold text-gold-400">{countdown}</span>
-        </div>
-      </div>
+      <PremiumHeroPanel
+        eyebrow={p.liveLabel}
+        title="Event-day booth control"
+        body="Keep your QR pass, booth context, visitor stream, and next actions visible while employers move through the fair floor."
+        className="mb-6"
+        actions={
+          <div className="rounded-full border border-gold-300/30 bg-gold-500/[0.12] px-4 py-2 text-sm text-ink-200">
+            {p.slotEndsLabel} <span className="font-mono font-bold text-gold-300">{countdown}</span>
+          </div>
+        }
+      >
+        <PrototypeNotice
+          variant="dark"
+          message="Live visitor stream, QR badge, break request, and countdown are simulated for the prototype demo."
+          className="max-w-3xl"
+        />
+      </PremiumHeroPanel>
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         {/* Left — main content */}
@@ -91,14 +112,14 @@ export default function EventDayPage() {
             <div className="grid gap-3 sm:grid-cols-3">
               <button
                 onClick={() => setQrOpen(true)}
-                className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border-2 border-gold-400 bg-gold-50 text-ink-900 transition-colors hover:bg-gold-100"
+                className="motion-safe-hover gold-glow flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-gold-300/40 bg-gold-500 text-aurora-black transition-colors hover:bg-gold-400"
               >
                 <QrCode className="size-6" aria-hidden="true" />
                 <span className="text-sm font-semibold">{p.showQrLabel}</span>
               </button>
               <a
                 href="/student/profile"
-                className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-ink-200 bg-surface-0 text-ink-700 transition-colors hover:border-ink-300 hover:bg-ink-50"
+                className="motion-safe-hover flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] text-ink-200 transition-colors hover:border-gold-300/30 hover:bg-white/[0.1]"
               >
                 <FolderOpen className="size-6" aria-hidden="true" />
                 <span className="text-sm font-medium">{p.openPortfolioLabel}</span>
@@ -106,7 +127,7 @@ export default function EventDayPage() {
               <button
                 type="button"
                 onClick={() => setBreakOpen(true)}
-                className="flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-ink-200 bg-surface-0 text-ink-700 transition-colors hover:border-ink-300 hover:bg-ink-50"
+                className="motion-safe-hover flex min-h-[80px] flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] text-ink-200 transition-colors hover:border-gold-300/30 hover:bg-white/[0.1]"
               >
                 <PauseCircle className="size-6" aria-hidden="true" />
                 <span className="text-sm font-medium">{p.requestBreakLabel}</span>
@@ -147,21 +168,13 @@ export default function EventDayPage() {
         {/* Right sidebar */}
         <aside className="w-full shrink-0 space-y-4 lg:sticky lg:top-[145px] lg:w-[280px]">
           {/* QR badge card */}
-          <Card className="border-2 border-gold-400">
-            <CardContent className="flex flex-col items-center pt-5">
-              <QRBadge
-                studentId={currentStudent.id}
-                boothNumber={BOOTH}
-                verifiedCaption={copy.status.verified}
-                className="h-44 w-36"
-              />
-              <p className="mt-3 text-center text-xs text-ink-500">{p.qrInstruction}</p>
-              <div className="mt-2 text-center">
-                <p className="text-xs font-bold text-ink-900">Booth {BOOTH}</p>
-                <p className="text-xs text-ink-400">{SLOT_TIME}</p>
-              </div>
-            </CardContent>
-          </Card>
+          <EventPassCard
+            studentName={currentStudent.name}
+            studentId={currentStudent.id}
+            boothNumber={BOOTH}
+            slotTime={SLOT_TIME}
+            verifiedCaption={copy.status.verified}
+          />
 
           {/* Live stats */}
           <Card>
@@ -183,26 +196,39 @@ export default function EventDayPage() {
               </div>
             </CardContent>
           </Card>
+
+          <ReadinessChecklist title="End-of-slot checklist" items={eventTips} />
         </aside>
       </div>
 
       {/* QR Dialog */}
       <Dialog open={qrOpen} onOpenChange={setQrOpen}>
-        <DialogContent className="flex flex-col items-center sm:max-w-sm">
+        <DialogContent className="flex max-h-[100dvh] flex-col items-center overflow-y-auto max-sm:h-[100dvh] max-sm:w-screen max-sm:max-w-none max-sm:rounded-none sm:max-w-sm">
           <DialogHeader className="w-full">
             <DialogTitle className="text-center">{p.qrDialogTitle}</DialogTitle>
             <DialogDescription className="sr-only">Your event QR badge to show employers</DialogDescription>
           </DialogHeader>
-          <QRBadge
+          <EventPassCard
+            studentName={currentStudent.name}
             studentId={currentStudent.id}
             boothNumber={BOOTH}
+            slotTime={SLOT_TIME}
             verifiedCaption={copy.status.verified}
-            className="h-64 w-52"
+            className="w-full"
           />
-          <div className="text-center">
-            <p className="text-sm font-semibold text-ink-900">{currentStudent.name}</p>
-            <p className="text-xs text-ink-500">Booth {BOOTH} · {SLOT_TIME}</p>
-          </div>
+          <ConsentSummary student={currentStudent} />
+          <p className="text-center text-xs leading-5 text-ink-500">
+            Privacy reminder: only fields marked visible in this prototype profile are shown to employers.
+          </p>
+          <Button
+            type="button"
+            variant="primary"
+            className="w-full"
+            onClick={() => toast.success("Demo QR pass prepared. No real credential was downloaded.")}
+          >
+            <Download className="size-4" aria-hidden="true" />
+            Download demo pass
+          </Button>
           <Button variant="outline" className="w-full" onClick={() => setQrOpen(false)}>Close</Button>
         </DialogContent>
       </Dialog>
@@ -213,7 +239,14 @@ export default function EventDayPage() {
             <DialogTitle>{p.breakDialogTitle}</DialogTitle>
             <DialogDescription>{p.breakDialogBody}</DialogDescription>
           </DialogHeader>
-          <Button variant="primary" className="w-full" onClick={() => setBreakOpen(false)}>
+          <Button
+            variant="primary"
+            className="w-full"
+            onClick={() => {
+              setBreakOpen(false);
+              toast.success("Break request saved for this prototype session.");
+            }}
+          >
             {p.breakDialogButton}
           </Button>
         </DialogContent>

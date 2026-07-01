@@ -102,11 +102,26 @@ export type ApplicationStatus = {
 
 export type EmployerFeedback = {
   id: string;
-  employerId: string;
   studentId: string;
-  text: string;
-  rating: 1 | 2 | 3 | 4 | 5;
-  timestamp: string;
-  isoTimestamp: string;
+  employerId: string;
+  employerName: string;
+  recruiterTeam: string;
+  eventName: string;
+  eventDate?: string;
+  createdAt: string;
+  createdLabel: string;
+  rating: number;
+  sentiment: "Very positive" | "Positive" | "Constructive" | "Needs follow-up";
+  interestLevel: "Strong follow-up" | "Interview-ready" | "Worth monitoring" | "Needs improvement";
+  feedbackQuote: string;
+  recruiterSummary: string;
+  keyStrengths: string[];
+  improvementFocus?: string[];
+  evidenceMentioned: string[];
+  relatedProject?: string;
+  recommendedNextStep: string;
+  suggestedReply?: string;
+  tags: string[];
+  status: "new" | "reviewed" | "addressed";
   visibleToStudent: boolean;
 };

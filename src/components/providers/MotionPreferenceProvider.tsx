@@ -52,7 +52,8 @@ export function MotionPreferenceProvider({ children }: { children: React.ReactNo
       {showControl ? (
         <button
           type="button"
-          className="fixed bottom-4 right-4 z-[120] rounded-full border border-gold-400/40 bg-ink-900 px-4 py-2 text-xs font-bold uppercase tracking-wide text-gold-100 shadow-2xl shadow-ink-900/25"
+          data-motion-control="true"
+          className="fixed bottom-4 right-4 z-[120] hidden rounded-full border border-gold-400/40 bg-ink-900 px-4 py-2 text-xs font-bold uppercase tracking-wide text-gold-100 shadow-2xl shadow-ink-900/25 sm:inline-flex"
           onClick={() => {
             setMotionForced(true);
             window.location.reload();

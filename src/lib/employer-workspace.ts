@@ -258,8 +258,8 @@ export function getCandidateSignal(studentId: string): CandidateSignal {
       roleFit: employerRoles[0].title,
       eventStatus: "Waiting",
       note: "Review project evidence and language fit before outreach.",
-      matchReasons: ["Verified profile", "Portfolio evidence", "International student"],
-      tags: ["Review", "Verified", "Portfolio"],
+      matchReasons: ["Profile evidence", "Portfolio evidence", "International student"],
+      tags: ["Review", "Demo profile", "Portfolio"],
     }
   );
 }

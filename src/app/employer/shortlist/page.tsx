@@ -7,6 +7,8 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { PipelineBadge, type PipelineStage } from "@/components/product/pipeline-stage";
+import { MatchExplanation } from "@/components/product/match-explanation";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { EmptyShortlist } from "@/components/illustrations/EmptyShortlist";
 import { copy } from "@/lib/copy";
@@ -20,29 +22,48 @@ import { cn } from "@/lib/utils";
 const p = copy.pages.employer.shortlist;
 
 const SEEDED_SHORTLIST = ["stu-001", "stu-003", "stu-006"];
-const filters = ["All", "Strong match", "Interview-ready", "Messaged", "Not contacted"] as const;
+const pipelineStages: PipelineStage[] = [
+  "Shortlisted",
+  "Messaged",
+  "Interview-ready",
+  "Interview scheduled",
+  "Offer potential",
+];
+const filters = ["All", ...pipelineStages] as const;
 type ShortlistFilter = (typeof filters)[number];
+
+const initialStages: Record<string, PipelineStage> = {
+  "stu-001": "Interview-ready",
+  "stu-003": "Messaged",
+  "stu-006": "Shortlisted",
+};
 
 export default function ShortlistPage() {
   const [shortlistedIds, setShortlistedIds] = useState<string[]>(SEEDED_SHORTLIST);
   const [activeFilter, setActiveFilter] = useState<ShortlistFilter>("All");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [stageById, setStageById] = useState<Record<string, PipelineStage>>(initialStages);
 
   const shortlistedStudents = shortlistedIds
     .map((id) => students.find((s) => s.id === id))
     .filter(Boolean) as (typeof students)[number][];
   const visibleStudents = shortlistedStudents.filter((student) => {
-    const signal = getCandidateSignal(student.id);
     if (activeFilter === "All") return true;
-    if (activeFilter === "Strong match") return getScore(student.id) >= 88 || signal.status === "Strong match";
-    if (activeFilter === "Interview-ready") return signal.status === "Interview-ready" || signal.stage === "Interview";
-    if (activeFilter === "Messaged") return signal.stage === "Contacted" || signal.stage === "Interview";
-    return signal.stage === "New" || signal.stage === "Viewed";
+    return getPipelineStage(student.id) === activeFilter;
   });
 
   function remove(id: string) {
+    const removed = shortlistedIds.find((studentId) => studentId === id);
     setShortlistedIds((prev) => prev.filter((x) => x !== id));
     setSelectedIds((prev) => prev.filter((x) => x !== id));
+    toast("Candidate removed from shortlist.", {
+      action: removed
+        ? {
+            label: "Undo",
+            onClick: () => setShortlistedIds((prev) => (prev.includes(removed) ? prev : [...prev, removed])),
+          }
+        : undefined,
+    });
   }
 
   function toggleSelected(id: string) {
@@ -66,6 +87,40 @@ export default function ShortlistPage() {
     }).score;
   }
 
+  function getPipelineStage(studentId: string): PipelineStage {
+    return stageById[studentId] ?? "Shortlisted";
+  }
+
+  function moveNext(studentId: string) {
+    const current = getPipelineStage(studentId);
+    const index = pipelineStages.indexOf(current);
+    const next = pipelineStages[Math.min(index + 1, pipelineStages.length - 1)];
+    setStageById((prev) => ({ ...prev, [studentId]: next }));
+    toast.success(`Candidate moved to ${next}. Local prototype state updated.`);
+  }
+
+  function exportCsv() {
+    const rows = [
+      ["Name", "Major", "Match", "Stage", "Availability"],
+      ...shortlistedStudents.map((student) => [
+        student.name,
+        student.major,
+        `${getScore(student.id)}%`,
+        getPipelineStage(student.id),
+        student.availableFrom,
+      ]),
+    ];
+    const csv = rows.map((row) => row.map((cell) => `"${cell.replaceAll('"', '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "nexhibit-demo-shortlist.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+    toast.success("Demo export prepared from mock shortlist data.");
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Header */}
@@ -80,7 +135,7 @@ export default function ShortlistPage() {
             <span className="rounded-full bg-surface-0/10 px-3 py-1 text-xs text-ink-200">
               {shortlistedStudents.length} {p.studentsCount}
             </span>
-            <Button variant="inverse" size="sm" onClick={() => toast.success("Shortlist export prepared.")}>
+            <Button variant="inverse" size="sm" onClick={exportCsv}>
               <Download className="mr-1.5 size-3.5" />
               {p.exportList}
             </Button>
@@ -231,6 +286,14 @@ export default function ShortlistPage() {
                       ))}
                     </div>
                     <p className="mt-2 line-clamp-1 text-xs text-ink-400">{signal.note}</p>
+                    <MatchExplanation
+                      score={score}
+                      student={s}
+                      employer={currentEmployer}
+                      compact
+                      surface="inline"
+                      className="mt-3 max-w-xl"
+                    />
                   </div>
                 </div>
 
@@ -239,10 +302,11 @@ export default function ShortlistPage() {
                   <Badge variant={signal.status === "Strong match" ? "success" : "outline"} className="text-[10px]">
                     {signal.status}
                   </Badge>
-                  <Badge variant="secondary" className="text-[10px]">
-                    {signal.stage}
-                  </Badge>
+                  <PipelineBadge stage={getPipelineStage(s.id)} />
                   <span className={cn("text-sm font-bold", tierColor)}>{score}% {p.matchLabel}</span>
+                  <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => moveNext(s.id)}>
+                    Next stage
+                  </Button>
                   <Button variant="outline" size="sm" className="h-7 text-xs" asChild>
                     <Link href={`/employer/student/${s.id}`}>{p.viewProfile}</Link>
                   </Button>

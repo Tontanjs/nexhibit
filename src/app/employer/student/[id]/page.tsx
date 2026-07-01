@@ -24,6 +24,9 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { ConsentSummary } from "@/components/product/consent-summary";
+import { MatchExplanation } from "@/components/product/match-explanation";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -37,7 +40,7 @@ import { copy } from "@/lib/copy";
 import { currentEmployer } from "@/lib/current-employer";
 import { employerRoles, getCandidateSignal, getRoleFit, recruiterActivity } from "@/lib/employer-workspace";
 import { students } from "@/lib/mock-data";
-import { calculateMatchScore, getMatchTier, getMatchExplanation } from "@/lib/utils-lib/matching";
+import { calculateMatchScore, getMatchTier } from "@/lib/utils-lib/matching";
 import { getCategoryColors } from "@/lib/utils-lib/colors";
 import { cn } from "@/lib/utils";
 
@@ -46,9 +49,9 @@ const p = copy.pages.employer.studentDetail;
 const SEEDED_SHORTLIST = new Set(["stu-001", "stu-003", "stu-006"]);
 
 const PROJECT_GRADIENTS = [
-  "from-blue-500 to-purple-600",
-  "from-gold-400 to-orange-500",
-  "from-green-500 to-teal-600",
+  "from-aurora-blue to-aurora-violet",
+  "from-gold-400 to-gold-600",
+  "from-success to-aurora-cyan",
 ];
 
 export default function StudentDetailPage({
@@ -66,7 +69,7 @@ export default function StudentDetailPage({
   const selectedRole = employerRoles.find((role) => role.id === selectedRoleId) ?? employerRoles[0];
   const roleFit = getRoleFit(student, selectedRole);
 
-  const { score, factors } = calculateMatchScore({
+  const { score } = calculateMatchScore({
     studentCategory: student.category,
     studentSkills: [...student.skills],
     studentEnglishLevel: student.englishLevel,
@@ -78,7 +81,6 @@ export default function StudentDetailPage({
   });
 
   const tier = getMatchTier(score);
-  const explanations = getMatchExplanation(factors);
   const catColors = getCategoryColors(student.category);
   const tierColor =
     tier === "Strong" ? "text-success" : tier === "Good" ? "text-warning" : "text-ink-400";
@@ -246,6 +248,25 @@ export default function StudentDetailPage({
                   </div>
                 </CardContent>
               </Card>
+              <ConsentSummary student={student} />
+              <Card>
+                <CardContent className="pt-4">
+                  <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-400">
+                    Recommended recruiter questions
+                  </h3>
+                  <div className="space-y-2">
+                    {[
+                      "Ask the student to explain the project architecture.",
+                      "Ask how they handled bilingual users or documentation.",
+                      "Ask what support they need in a Chinese workplace.",
+                    ].map((question) => (
+                      <div key={question} className="rounded-lg bg-ink-50 px-3 py-2 text-sm leading-6 text-ink-700">
+                        {question}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
 
             {/* Portfolio */}
@@ -398,14 +419,15 @@ export default function StudentDetailPage({
               >
                 {tier} match
               </Badge>
-              <div className="mt-3 space-y-1.5">
-                <p className="text-xs font-semibold text-ink-700">{p.matchExplanationTitle}</p>
-                {explanations.map((exp, i) => (
-                  <p key={i} className="text-xs text-ink-500 leading-relaxed">
-                    · {exp}
-                  </p>
-                ))}
-              </div>
+              <MatchExplanation
+                score={score}
+                student={student}
+                employer={currentEmployer}
+                roleTitle={selectedRole.title}
+                compact
+                surface="inline"
+                className="mt-3"
+              />
               <div className="mt-4 rounded-lg border border-gold-200 bg-gold-50/70 p-3">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-semibold text-gold-700">{roleFit.label}</p>
@@ -419,6 +441,8 @@ export default function StudentDetailPage({
               </div>
             </CardContent>
           </Card>
+
+          <PrototypeNotice message="This employer dossier uses mock profile data and local recruiter notes for the prototype demo." />
 
           {/* Quick info */}
           <Card>

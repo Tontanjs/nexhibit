@@ -23,8 +23,9 @@ export function CustomCursor() {
   useEffect(() => {
     const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const desktopViewport = window.matchMedia("(min-width: 768px)");
 
-    if (!canHover.matches || (reduceMotion.matches && !isMotionForced())) {
+    if (!desktopViewport.matches || !canHover.matches || (reduceMotion.matches && !isMotionForced())) {
       return undefined;
     }
 

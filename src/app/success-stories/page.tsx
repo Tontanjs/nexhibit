@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { CompanyMockDisclaimer, PrototypeNotice } from "@/components/brand/prototype-notice";
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { copy } from "@/lib/copy";
@@ -32,7 +33,7 @@ const stories = [
     id: "story-002",
     studentId: "stu-003",
     employerId: "emp-002",
-    name: "Ayesha Siddiqui",
+    name: "Ayesha Khan",
     nationality: "🇵🇰 Pakistan",
     major: "Mechatronics Engineering",
     year: "Year 4",
@@ -51,10 +52,10 @@ const stories = [
     nationality: "🇲🇳 Mongolia",
     major: "Applied Linguistics",
     year: "Year 3",
-    employer: "Lingxi AI",
+    employer: "SenseTime",
     role: "Localization QA Specialist",
     quote:
-      "I was not sure a startup would be interested in a linguistics student. But Lingxi AI read my interpreter guide and asked specific questions about the terminology decisions I made for Central Asian business contexts. That felt completely different from a job board.",
+      "I was not sure an AI company would be interested in a linguistics student. But SenseTime read my interpreter guide and asked specific questions about the terminology decisions I made for Central Asian business contexts. That felt completely different from a job board.",
     outcome: "Part-time QA trial converting to full Localization Specialist",
     event: "Fall Career Fair 2025",
   },
@@ -81,10 +82,16 @@ export default function SuccessStoriesPage() {
       <Navbar />
       <main>
         {/* Hero */}
-        <section className="bg-ink-900 px-4 py-16 text-center sm:px-6">
-          <Badge variant="gold" className="mb-4 text-xs">Real outcomes</Badge>
+        <section className="aurora-bg px-4 py-16 text-center sm:px-6">
+          <Badge variant="gold" className="mb-4 text-xs">Prototype outcome stories</Badge>
           <h1 className="text-3xl font-black text-surface-0 sm:text-4xl">{p.heading}</h1>
           <p className="mx-auto mt-3 max-w-xl text-base text-ink-300">{p.subheading}</p>
+          <PrototypeNotice
+            variant="dark"
+            message="These stories are illustrative demo outcomes created for the class prototype."
+            className="mx-auto mt-5 max-w-xl text-left"
+          />
+          <CompanyMockDisclaimer className="mx-auto mt-3 text-left text-xs text-ink-300" />
         </section>
 
         {/* Stories */}
@@ -101,10 +108,10 @@ export default function SuccessStoriesPage() {
                   <div className="flex shrink-0 flex-row items-center gap-3 sm:flex-col sm:items-center sm:text-center sm:w-32">
                     <StudentAvatar student={student} className="size-14" />
                     <div>
-                      <p className="text-sm font-semibold text-ink-900">{story.name}</p>
-                      <p className="text-xs text-ink-400">{story.nationality}</p>
-                      <p className="text-xs text-ink-400">{story.major}</p>
-                      <p className="text-xs text-ink-400">{story.year}</p>
+                      <p className="text-sm font-semibold text-ink-900">{student.name}</p>
+                      <p className="text-xs text-ink-400">{student.nationalityFlag} {student.nationality}</p>
+                      <p className="text-xs text-ink-400">{student.major}</p>
+                      <p className="text-xs text-ink-400">Year {student.year}</p>
                     </div>
                   </div>
 
@@ -127,7 +134,7 @@ export default function SuccessStoriesPage() {
 
                     {/* Outcome */}
                     <div className="mt-3 flex flex-wrap gap-2 text-xs text-ink-500">
-                      <Badge variant="success" className="text-[10px]">{story.outcome}</Badge>
+                      <Badge variant="gold" className="text-[10px]">Illustrative outcome: {story.outcome}</Badge>
                       <span className="text-ink-400">via {story.event}</span>
                     </div>
                   </div>
@@ -139,9 +146,9 @@ export default function SuccessStoriesPage() {
         </section>
 
         {/* CTA */}
-        <section className="bg-gold-50 px-4 py-14 text-center sm:px-6">
-          <h2 className="text-2xl font-black text-ink-900">{p.ctaHeading}</h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-ink-600">{p.ctaBody}</p>
+        <section className="aurora-bg px-4 py-14 text-center sm:px-6">
+          <h2 className="text-2xl font-black text-surface-0">{p.ctaHeading}</h2>
+          <p className="mx-auto mt-2 max-w-md text-sm text-ink-300">{p.ctaBody}</p>
           <Button variant="primary" size="lg" className="mt-6" asChild>
             <Link href="/student/onboarding">{p.ctaButton}</Link>
           </Button>

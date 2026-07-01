@@ -40,7 +40,7 @@ function getStudent(id: string) {
 
 function formatTime(isoString: string): string {
   const date = new Date(isoString);
-  const now = new Date("2026-06-05T00:00:00+08:00");
+  const now = new Date();
   const diffDays = Math.floor(
     (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
   );
@@ -60,11 +60,30 @@ const employerConversations = conversations.filter(
 );
 
 const quickReplies = [
-  "Thank you for sharing your profile. Your project evidence is clear and useful for our team review.",
-  "Could you send your portfolio link and one short note explaining your role in the project?",
-  "Are you available for a short interview during the Spring Career Fair booth session?",
-  "We would like to invite you to our booth. Please bring one project demo or architecture diagram.",
-  "Thank you. We will review your profile with the hiring team and follow up soon.",
+  {
+    label: "Invite to 15-min interview",
+    text: "Are you available for a 15-minute interview during the Spring Career Fair booth session?",
+  },
+  {
+    label: "Ask for project walkthrough",
+    text: "Could you send a short project walkthrough and explain your role in the architecture decisions?",
+  },
+  {
+    label: "Request resume",
+    text: "Could you share your latest resume and portfolio link for our hiring team review?",
+  },
+  {
+    label: "Share booth location",
+    text: "We would like to invite you to our booth. Please bring one project demo or architecture diagram.",
+  },
+  {
+    label: "Send role brief",
+    text: "I am sharing a role brief so you can decide whether this opportunity fits your goals and availability.",
+  },
+  {
+    label: "Follow up after event",
+    text: "Thank you for speaking with us at the event. We will review your profile with the hiring team and follow up soon.",
+  },
 ];
 
 const recruiterActions = [
@@ -121,6 +140,7 @@ export default function EmployerMessagesPage() {
 
   return (
     <div className="flex h-[calc(100vh-145px)] overflow-hidden">
+      <h1 className="sr-only">{p.heading}</h1>
       {/* Left panel */}
       <aside
         className={cn(
@@ -129,12 +149,13 @@ export default function EmployerMessagesPage() {
         )}
       >
         <div className="border-b border-ink-200 px-4 py-3">
-          <h1 className="mb-3 text-base font-bold text-ink-900">{p.heading}</h1>
+          <p className="mb-3 text-base font-bold text-ink-900">{p.heading}</p>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-400" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              aria-label="Search students"
               placeholder={p.searchPlaceholder}
               className="pl-9"
             />
@@ -238,7 +259,12 @@ export default function EmployerMessagesPage() {
                 </Link>
               </div>
               </div>
-              <button className="flex size-8 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100">
+              <button
+                type="button"
+                className="flex size-8 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100"
+                aria-label="Open conversation actions"
+                onClick={() => toast.info("Conversation tools opened in demo mode.")}
+              >
                 <MoreHorizontal className="size-4" />
               </button>
             </div>
@@ -306,29 +332,35 @@ export default function EmployerMessagesPage() {
                     }
                     className="rounded-full bg-ink-900 px-3 py-1 text-xs font-semibold text-surface-0 transition hover:bg-ink-800"
                   >
-                    Draft with AI
+                    Draft suggested reply
                   </button>
                 </div>
+                <p className="mb-2 text-[11px] text-ink-500">Prototype suggestion only; no external generation service is called.</p>
                 <div className="flex flex-wrap gap-2">
-                  {quickReplies.map((reply, index) => (
+                  {quickReplies.map((reply) => (
                     <button
-                      key={reply}
+                      key={reply.label}
                       type="button"
-                      onClick={() => setDraft(reply)}
+                      onClick={() => setDraft(reply.text)}
                       className="rounded-full bg-surface-0 px-3 py-1.5 text-xs font-medium text-ink-700 shadow-sm ring-1 ring-ink-100 transition hover:-translate-y-0.5 hover:text-ink-900 hover:ring-gold-200"
                     >
-                      Template {index + 1}
+                      {reply.label}
                     </button>
                   ))}
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <button className="flex size-9 shrink-0 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100">
+                <button
+                  className="flex size-9 shrink-0 items-center justify-center rounded-md text-ink-400 hover:bg-ink-100"
+                  aria-label="Attach file in demo"
+                  onClick={() => toast.info("Attachment picker is a prototype action.")}
+                >
                   <Paperclip className="size-4" />
                 </button>
                 <Input
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
+                  aria-label="Type a message"
                   placeholder={p.messagePlaceholder}
                   className="flex-1"
                   onKeyDown={(e) => {
@@ -342,7 +374,10 @@ export default function EmployerMessagesPage() {
                   variant="primary"
                   size="icon-sm"
                   disabled={!draft.trim()}
-                  onClick={() => setDraft("")}
+                  onClick={() => {
+                    setDraft("");
+                    toast.success("Demo message sent for this prototype session.");
+                  }}
                   aria-label="Send message"
                 >
                   <Send className="size-4" />

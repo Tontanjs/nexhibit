@@ -46,7 +46,7 @@ export const conversations: Conversation[] = [
     unreadCount: 1,
     archived: false,
     messages: [
-      { id: "msg-003-001", senderType: "employer", text: "Hello Bolor-Erdene, Lingxi AI is testing customer support assistants for Central Asian exporters. Your interpreter guide stood out.", sentAt: "2026-05-29T17:20:00+08:00", read: true },
+      { id: "msg-003-001", senderType: "employer", text: "Hello Bolor-Erdene, SenseTime is testing multilingual assistant workflows for Central Asian exporters. Your interpreter guide stood out.", sentAt: "2026-05-29T17:20:00+08:00", read: true },
       { id: "msg-003-002", senderType: "student", text: "Hello, thank you. I am especially interested in terminology quality and how AI tools handle polite business language.", sentAt: "2026-05-29T17:58:00+08:00", read: true },
       { id: "msg-003-003", senderType: "employer", text: "Exactly our problem. Would you be open to a part-time localization QA trial?", sentAt: "2026-05-29T18:43:00+08:00", read: true },
       { id: "msg-003-004", senderType: "student", text: "Yes, I would like to try. Please send the task format and expected review depth.", sentAt: "2026-05-29T19:10:00+08:00", read: true },

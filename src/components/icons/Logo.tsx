@@ -2,7 +2,7 @@ import { useId } from "react";
 
 export type LogoProps = {
   size?: "sm" | "md" | "lg";
-  variant?: "light" | "dark";
+  variant?: "light" | "dark" | "auto";
   /** Shows the product tagline below the wordmark; added to support the requested tagline option. */
   showTagline?: boolean;
   tagline?: string;
@@ -23,8 +23,8 @@ export function Logo({
   className,
 }: LogoProps) {
   const config = sizeMap[size];
-  const textFill = variant === "dark" ? "#FFFFFF" : "#0A0E1A";
-  const taglineFill = variant === "dark" ? "#D1D5DB" : "#64748B";
+  const textFill = variant === "auto" ? "currentColor" : variant === "dark" ? "#FFFFFF" : "#0A0E1A";
+  const taglineFill = variant === "auto" ? "currentColor" : variant === "dark" ? "#D1D5DB" : "#64748B";
   const viewBoxHeight = showTagline ? config.height : Math.round(config.height * 0.72);
   const baselineY = Math.round(config.wordmarkSize * 0.9);
   const dotY = Math.round(config.wordmarkSize * 0.69);
@@ -57,6 +57,7 @@ export function Logo({
 
       {showTagline ? (
         <text
+          data-logo-tagline="true"
           x="2"
           y={config.height - 7}
           fill={taglineFill}

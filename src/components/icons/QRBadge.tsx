@@ -64,7 +64,7 @@ export function QRBadge({
   size = 240,
   studentId,
   boothNumber,
-  verifiedCaption = "Verified by ZJUT",
+  verifiedCaption = "ZJUT verification demo",
   className,
   width,
   height,

@@ -1,4 +1,7 @@
 export type StudentCategory = "Business" | "Engineering" | "Health" | "Language" | "Other";
+export type StudentPhotoStatus = "pending" | "approved" | "rejected";
+export type StudentPhotoSource = "studentUpload" | "adminUpload" | "demoGenerated";
+export type StudentPhotoVisibility = "public" | "verifiedEmployers" | "private";
 
 export type OneToThree<T> = [T] | [T, T] | [T, T, T];
 export type TwoToThree<T> = [T, T] | [T, T, T];
@@ -28,6 +31,12 @@ export type Student = {
   projects: TwoToThree<Project>;
   bio: string;
   headline: string;
+  photoUrl?: string;
+  photoStatus?: StudentPhotoStatus;
+  photoSource?: StudentPhotoSource;
+  photoVisibility?: StudentPhotoVisibility;
+  photoConsentAt?: string;
+  photoConsentVersion?: string;
   verified: true;
   lookingFor: "Internship" | "Full-time" | "Both";
   availableFrom: string;
@@ -38,6 +47,31 @@ export type Student = {
   responseTime: string;
   lastActive: string;
   profileStrength: number;
+  videoPitchUrl?: string;
+  voiceIntroUrl?: string;
+  namePronunciationUrl?: string;
+  workAuth?: {
+    regions: string[];
+    notes?: string;
+  };
+  languages?: StudentLanguage[];
+  openTo?: {
+    internship: boolean;
+    fullTime: boolean;
+    partTime: boolean;
+    remote: boolean;
+    freelance: boolean;
+  };
+  fieldVisibility?: Record<string, "public" | "employerOnly" | "hidden">;
+  profileMode?: "public" | "employerOnly" | "hidden";
+};
+
+export type StudentLanguage = {
+  name: string;
+  cefr?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
+  test?: "HSK" | "IELTS" | "TOEFL" | "TOPIK" | "Other";
+  score?: string;
+  proofFile?: string;
 };
 
 export type Project = {

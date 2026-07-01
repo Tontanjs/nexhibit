@@ -3,12 +3,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
+  Camera,
+  CheckCircle2,
   Download,
   Edit2,
   ExternalLink,
   Eye,
   FileText,
+  ImageUp,
   Link2,
+  LockKeyhole,
   Plus,
   ShieldCheck,
   Trophy,
@@ -20,9 +24,16 @@ import { toast } from "sonner";
 
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { VerifiedBadge } from "@/components/brand/VerifiedBadge";
+import { ReadinessChecklist } from "@/components/product/readiness-checklist";
+import {
+  EmployerPreviewBanner,
+  EmployerPreviewField,
+  PitchAndVerifyTab,
+  ProfileModeControl,
+  VisibilityControl,
+} from "@/components/student/ProfileDepthPanel";
 import { CountUp } from "@/components/motion/CountUp";
 import { Reveal } from "@/components/motion/Reveal";
-import { TiltCard } from "@/components/motion/TiltCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,6 +50,7 @@ const p = copy.pages.student.profile;
 
 const tabs = [
   { value: "personal", label: p.tabPersonal },
+  { value: "pitch", label: "Pitch & Verify" },
   { value: "academic", label: p.tabAcademic },
   { value: "portfolio", label: p.tabPortfolio },
 ] as const;
@@ -60,10 +72,48 @@ const mockFiles = [
 ];
 
 const gradients = [
-  "from-blue-500 to-indigo-600",
-  "from-violet-500 to-purple-600",
-  "from-emerald-500 to-teal-600",
+  "from-aurora-blue to-aurora-violet",
+  "from-aurora-purple to-aurora-violet",
+  "from-success to-aurora-cyan",
 ];
+
+const projectEvidenceByTitle: Record<string, {
+  problem: string;
+  solution: string;
+  role: string;
+  evidence: string;
+  outcome: string;
+  learning: string;
+  talkingPoint: string;
+}> = {
+  "ZJUT Campus Navigator": {
+    problem: "New international students lose time and confidence when campus locations are difficult to identify across languages.",
+    solution: "A bilingual, mobile-first route finder for classrooms, canteens, and campus transit gates.",
+    role: "Product engineer · research, interaction design, and React Native implementation",
+    evidence: "Task-flow prototype, bilingual labels, route usability notes, and component architecture",
+    outcome: "Reduced the demo’s common location task from six steps to three.",
+    learning: "Translation is not enough; landmarks and recovery states matter just as much as labels.",
+    talkingPoint: "Explain how one usability observation changed the navigation hierarchy.",
+  },
+  "Scholarship Deadline Tracker": {
+    problem: "Important scholarship notices arrive across several channels with inconsistent deadlines and document requirements.",
+    solution: "A priority dashboard that turns notices into dated actions, requirements, and reminders.",
+    role: "Frontend lead · information architecture, Next.js UI, and reminder-flow prototyping",
+    evidence: "Notice-to-action mapping, responsive dashboard, and edge-case checklist",
+    outcome: "Consolidated five mock notice formats into one consistent task model.",
+    learning: "The most useful automation is transparent about source, deadline, and required proof.",
+    talkingPoint: "Show how the dashboard prevents a student from missing one required document.",
+  },
+  "Dorm Maintenance Chatbot": {
+    problem: "Students struggle to describe repair issues in Mandarin and staff receive incomplete handoff details.",
+    solution: "A Mandarin-English reporting assistant with structured issue capture and human escalation.",
+    role: "Product engineer · conversation design, Python prototype, and failure-case testing",
+    evidence: "Fallback flow, escalation test cases, prompt notes, and bilingual handoff examples",
+    outcome: "Produced a complete mock maintenance handoff in under two minutes.",
+    learning: "A trustworthy assistant must make uncertainty and escalation visible.",
+    talkingPoint: "Walk through one ambiguous request and the rule that triggers a human handoff.",
+  },
+};
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ProfileTab>("personal");
@@ -123,6 +173,7 @@ export default function ProfilePage() {
                 <p className="text-sm text-ink-500">{currentStudent.major}</p>
                 <VerifiedBadge className="mt-2" />
               </div>
+              <ProfileModeControl />
 
               <Separator className="my-5" />
 
@@ -172,6 +223,27 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card>
+          <ReadinessChecklist
+            title="Profile strength checklist"
+            className="mt-4"
+            items={[
+              { label: "Add demo profile photo", complete: true },
+              { label: "Add 2 portfolio projects", complete: currentStudent.projects.length >= 2 },
+              { label: "Confirm privacy settings", complete: true },
+              { label: "Add preferred locations", complete: currentStudent.preferredLocations.length > 0 },
+              { label: "Preview as employer", complete: previewMode },
+              { label: "Generate QR badge", complete: true },
+              { label: "Prepare event pitch", complete: false },
+            ]}
+          />
+          <div className="mt-4 rounded-xl border border-gold-200 bg-gold-50/70 p-4">
+            <p className="text-sm font-semibold text-ink-900">Employer preview quality</p>
+            <div className="mt-3 space-y-2 text-xs leading-5 text-ink-700">
+              <p><span className="font-semibold">First signal:</span> {currentStudent.headline}</p>
+              <p><span className="font-semibold">Strongest project:</span> {currentStudent.projects[0]?.title}</p>
+              <p><span className="font-semibold">Suggested improvement:</span> Add a 2-minute event pitch summary.</p>
+            </div>
+          </div>
         </aside>
 
         <div className="min-w-0 flex-1">
@@ -228,6 +300,11 @@ export default function ProfilePage() {
                 <AcademicTab />
               </motion.div>
             ) : null}
+            {activeTab === "pitch" ? (
+              <motion.div key="pitch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+                <PitchAndVerifyTab />
+              </motion.div>
+            ) : null}
             {activeTab === "portfolio" ? (
               <motion.div key="portfolio" className="space-y-6" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
                 <PortfolioTab />
@@ -267,31 +344,114 @@ function PersonalTab({
   languages: string[];
   saveState: "saved" | "saving";
 }) {
+  const [photoFileName, setPhotoFileName] = useState<string | null>(null);
+  const [photoConsent, setPhotoConsent] = useState(true);
+
   return (
     <>
       <Card>
-        <CardHeader>
-          <CardTitle className="text-sm font-semibold">Profile photo</CardTitle>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+            <Camera className="size-4 text-gold-600" aria-hidden="true" />
+            Profile photo
+          </CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center gap-4">
-          <StudentAvatar student={currentStudent} className="size-16 border-2 border-gold-400" />
-          <div className="flex-1">
-            <div className="group rounded-lg border-2 border-dashed border-ink-300 p-4 text-center transition hover:border-gold-400 hover:bg-gold-50">
-              <p className="text-sm text-ink-500">{p.uploadAreaHint}</p>
-              <p className="mt-1 text-xs text-ink-400">JPG, PNG up to 5MB</p>
-              <span className="mx-auto mt-3 block size-5 rounded-full border border-gold-500 text-gold-600 opacity-0 transition group-hover:opacity-100">✓</span>
+        <CardContent className="grid gap-5 lg:grid-cols-[auto,1fr] lg:items-start">
+          <div className="flex items-center gap-4 lg:block lg:text-center">
+            <StudentAvatar student={currentStudent} className="size-20 border-2 border-gold-400" />
+            <div className="lg:mt-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-success/30 bg-success/10 px-2.5 py-1 text-xs font-bold text-success">
+                <CheckCircle2 className="size-3.5" aria-hidden="true" />
+                Photo ready
+              </span>
+              <p className="mt-1 text-xs text-ink-400">512px WebP demo asset</p>
+            </div>
+          </div>
+
+          <div className="min-w-0 space-y-4">
+            <div className="rounded-lg border border-ink-200 bg-ink-50 p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-ink-900">Use a profile-ready student headshot</p>
+                  <p className="mt-1 text-xs leading-5 text-ink-500">
+                    Square JPG, PNG, or WebP. Clear face, neutral background, no group photos, up to 5MB.
+                  </p>
+                </div>
+                <input
+                  id="profile-photo-upload"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="sr-only"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (!file) return;
+
+                    setPhotoFileName(file.name);
+                    toast.success("Photo selected for this demo preview.");
+                  }}
+                />
+                <label
+                  htmlFor="profile-photo-upload"
+                  className="inline-flex min-h-10 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-gold-500 px-4 py-2 text-sm font-semibold text-ink-900 shadow-sm shadow-gold-500/25 transition hover:-translate-y-0.5 hover:bg-gold-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/30"
+                >
+                  <ImageUp className="size-4" aria-hidden="true" />
+                  Upload photo
+                </label>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                {[
+                  ["Review concept", "A live deployment could add staff review"],
+                  ["Protected", "Visible in the employer demo only"],
+                  ["Replaceable", "Students can update or remove it"],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-md border border-ink-200 bg-surface-0 p-3">
+                    <p className="text-xs font-bold uppercase tracking-[0.12em] text-ink-400">{label}</p>
+                    <p className="mt-1 text-xs leading-5 text-ink-600">{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-gold-200 bg-gold-50/80 p-3">
+              <input
+                type="checkbox"
+                checked={photoConsent}
+                onChange={(event) => setPhotoConsent(event.target.checked)}
+                className="mt-1 accent-gold-500"
+              />
+              <span className="text-xs leading-5 text-ink-700">
+                I consent to show this profile photo in the NEXHIBIT demo and understand it can be replaced or removed before employer preview.
+              </span>
+            </label>
+
+            <div className="flex flex-col gap-2 rounded-lg border border-ink-200 bg-surface-0 p-3 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between">
+              <span className="inline-flex min-w-0 items-center gap-2">
+                <LockKeyhole className="size-3.5 shrink-0 text-ink-400" aria-hidden="true" />
+                <span className="truncate">
+                  {photoFileName ? `${photoFileName} · selected locally` : "Current mock photo is used for prototype display"}
+                </span>
+              </span>
+              <span className={cn("font-semibold", photoConsent ? "text-success" : "text-error")}>
+                {photoConsent ? "Consent recorded" : "Consent required"}
+              </span>
             </div>
           </div>
         </CardContent>
       </Card>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="display-name">{copy.forms.labels.fullName}</Label>
+        <div className="flex items-center justify-between gap-2">
+          <Label htmlFor="display-name">{copy.forms.labels.fullName}</Label>
+          <VisibilityControl field="name" compact />
+        </div>
         <Input id="display-name" defaultValue={currentStudent.name} className="focus-visible:border-gold-500 focus-visible:ring-gold-500/20" />
       </div>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="headline">{copy.forms.labels.headline}</Label>
+        <div className="flex items-center justify-between gap-2">
+          <Label htmlFor="headline">{copy.forms.labels.headline}</Label>
+          <VisibilityControl field="headline" compact />
+        </div>
         <Input
           id="headline"
           value={headline}
@@ -306,7 +466,10 @@ function PersonalTab({
       </div>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="bio">{copy.forms.labels.bio}</Label>
+        <div className="flex items-center justify-between gap-2">
+          <Label htmlFor="bio">{copy.forms.labels.bio}</Label>
+          <VisibilityControl field="bio" compact />
+        </div>
         <Textarea
           id="bio"
           rows={4}
@@ -322,19 +485,33 @@ function PersonalTab({
       </div>
 
       <div className="grid gap-2">
-        <Label>Languages</Label>
+        <div className="flex items-center justify-between gap-2">
+          <Label>Languages</Label>
+          <VisibilityControl field="languages" compact />
+        </div>
         <div className="flex flex-wrap gap-2">
           {languages.map((lang) => (
             <motion.span key={lang} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
               <Badge variant="secondary" className="gap-1.5 pr-1.5 text-sm">
                 {lang}
-                <button className="ml-1 rounded-full p-0.5 hover:bg-ink-200" aria-label={`Remove ${lang}`}>
+                <button
+                  type="button"
+                  className="ml-1 rounded-full p-0.5 hover:bg-ink-200"
+                  aria-label={`Remove ${lang}`}
+                  onClick={() => toast.success(`${lang} removed for this prototype session.`)}
+                >
                   <X className="size-3" />
                 </button>
               </Badge>
             </motion.span>
           ))}
-          <Button variant="outline" size="sm" className="h-7 text-xs">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-7 text-xs"
+            onClick={() => toast.info("Language editor opened in demo mode.")}
+          >
             <Plus className="size-3" />
             {p.addLanguage}
           </Button>
@@ -390,7 +567,7 @@ function AcademicTab() {
             <p className="mt-1 text-3xl font-bold text-ink-900">
               <CountUp value={currentStudent.coursesCompleted} />
             </p>
-            <p className="text-sm text-ink-500">verified academic records</p>
+            <p className="text-sm text-ink-500">mock academic record fields</p>
           </CardContent>
         </Card>
       </div>
@@ -465,17 +642,61 @@ function AcademicTab() {
 }
 
 function PortfolioTab() {
+  const [projects, setProjects] = useState<Array<(typeof currentStudent.projects)[number]>>(
+    () => [...currentStudent.projects],
+  );
+  const [skills, setSkills] = useState<string[]>(() => [...currentStudent.skills]);
+  const [pinnedTitle, setPinnedTitle] = useState(currentStudent.projects[0]?.title ?? "");
+
+  function removeProject(project: (typeof currentStudent.projects)[number]) {
+    setProjects((items) => items.filter((item) => item.title !== project.title));
+    toast.success(`${project.title} removed for this prototype session.`, {
+      action: {
+        label: "Undo",
+        onClick: () => setProjects((items) => [...items, project]),
+      },
+    });
+  }
+
+  function removeSkill(skill: string) {
+    setSkills((items) => items.filter((item) => item !== skill));
+    toast.success(`${skill} removed for this prototype session.`, {
+      action: {
+        label: "Undo",
+        onClick: () => setSkills((items) => [...items, skill]),
+      },
+    });
+  }
+
   return (
     <>
       <div>
-        <h3 className="mb-3 text-sm font-semibold text-ink-900">Projects</h3>
+        <div className="mb-3">
+          <h3 className="text-sm font-semibold text-ink-900">Portfolio evidence builder</h3>
+          <p className="mt-1 text-xs leading-5 text-ink-500">
+            Structure each project around the problem, your decisions, evidence, and recruiter talking points.
+          </p>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          {currentStudent.projects.map((project, index) => (
-            <TiltCard key={project.title} glare max={6}>
-              <ProjectCard project={project} colorIndex={index} />
-            </TiltCard>
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              project={project}
+              colorIndex={index}
+              pinned={project.title === pinnedTitle}
+              onPin={() => {
+                setPinnedTitle(project.title);
+                toast.success(`${project.title} pinned as the first portfolio project.`);
+              }}
+              onEdit={() => toast.info(`${project.title} editor opened in demo mode.`)}
+              onRemove={() => removeProject(project)}
+            />
           ))}
-          <button className="group flex min-h-[170px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-ink-300 text-ink-400 transition hover:border-gold-400 hover:bg-gold-50 hover:text-ink-700">
+          <button
+            type="button"
+            className="group flex min-h-[170px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-ink-300 text-ink-400 transition hover:border-gold-400 hover:bg-gold-50 hover:text-ink-700"
+            onClick={() => toast.info("Blank project evidence template opened in demo mode.")}
+          >
             <Plus className="mb-1 size-6 transition-transform group-hover:rotate-90" />
             <span className="text-sm font-medium">{p.addProject}</span>
           </button>
@@ -496,9 +717,16 @@ function PortfolioTab() {
                   <p className="text-xs text-ink-400">{meta}</p>
                 </div>
               </div>
-              <div className="flex translate-x-6 gap-2 opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100">
+              <div className="flex gap-2 transition sm:translate-x-6 sm:opacity-0 sm:group-hover:translate-x-0 sm:group-hover:opacity-100 sm:group-focus-within:translate-x-0 sm:group-focus-within:opacity-100">
                 {actions.map((action) => (
-                  <Button key={action} variant="ghost" size="sm" className="h-7 text-xs">
+                  <Button
+                    key={action}
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs"
+                    onClick={() => toast.success(`${action} prepared for ${name} in demo mode.`)}
+                  >
                     {action === "Download" ? <Download className="size-3" /> : null}
                     {action}
                   </Button>
@@ -507,11 +735,11 @@ function PortfolioTab() {
             </div>
           ))}
           <div className="flex gap-2 pt-1">
-            <Button variant="outline" size="sm">
+            <Button type="button" variant="outline" size="sm" onClick={() => toast.info("Link editor opened in demo mode.")}>
               <Plus className="size-3.5" />
               {p.addLink}
             </Button>
-            <Button variant="outline" size="sm">
+            <Button type="button" variant="outline" size="sm" onClick={() => toast.info("File picker opened in demo mode.")}>
               <Plus className="size-3.5" />
               {p.uploadFile}
             </Button>
@@ -524,17 +752,28 @@ function PortfolioTab() {
       <div>
         <h3 className="mb-3 text-sm font-semibold text-ink-900">Skills</h3>
         <div className="flex flex-wrap gap-2">
-          {currentStudent.skills.map((skill) => (
+          {skills.map((skill) => (
             <motion.span key={skill} initial={{ opacity: 0, scale: 0.92 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
               <Badge variant="secondary" className="cursor-pointer gap-1.5 pr-1.5 text-sm hover:bg-gold-50">
                 {skill}
-                <button className="ml-1 rounded-full p-0.5 hover:bg-ink-200" aria-label={`Remove ${skill}`}>
+                <button
+                  type="button"
+                  className="ml-1 rounded-full p-0.5 hover:bg-ink-200"
+                  aria-label={`Remove ${skill}`}
+                  onClick={() => removeSkill(skill)}
+                >
                   <X className="size-3" />
                 </button>
               </Badge>
             </motion.span>
           ))}
-          <Button variant="outline" size="sm" className="h-7 text-xs">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-7 text-xs"
+            onClick={() => toast.info("Skill picker opened in demo mode.")}
+          >
             <Plus className="size-3" />
             Add skill
           </Button>
@@ -547,18 +786,39 @@ function PortfolioTab() {
 function ProjectCard({
   project,
   colorIndex,
+  pinned,
+  onPin,
+  onEdit,
+  onRemove,
 }: {
   project: { title: string; description: string; tags: string[]; link?: string };
   colorIndex: number;
+  pinned: boolean;
+  onPin: () => void;
+  onEdit: () => void;
+  onRemove: () => void;
 }) {
+  const evidence = projectEvidenceByTitle[project.title] ?? {
+    problem: project.description,
+    solution: "A focused prototype that demonstrates the proposed workflow.",
+    role: "Student project owner",
+    evidence: "Prototype screens, process notes, and project files",
+    outcome: "Demonstrates a concrete response to the stated problem.",
+    learning: "Document the decisions that changed after testing.",
+    talkingPoint: "Explain one tradeoff, one test, and one next improvement.",
+  };
+
   return (
     <div className="group relative overflow-hidden rounded-lg border border-ink-200 bg-surface-0 transition-shadow hover:shadow-lg">
       <div className={cn("flex h-24 items-center justify-center bg-gradient-to-br", gradients[colorIndex % gradients.length])}>
         <span className="text-3xl font-black text-white/80">{project.title.charAt(0)}</span>
       </div>
       <div className="p-4">
-        <h4 className="line-clamp-1 text-sm font-semibold text-ink-900">{project.title}</h4>
-        <p className="mt-1 line-clamp-2 text-xs text-ink-500">{project.description}</p>
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="text-sm font-semibold text-ink-900">{project.title}</h4>
+          {pinned ? <Badge variant="gold" className="shrink-0 text-[10px]">Pinned first</Badge> : null}
+        </div>
+        <p className="mt-1 text-xs leading-5 text-ink-500">{project.description}</p>
         <div className="mt-2 flex flex-wrap gap-1">
           {project.tags.map((tag) => (
             <Badge key={tag} variant="secondary" className="px-1.5 py-0 text-xs">
@@ -566,12 +826,45 @@ function ProjectCard({
             </Badge>
           ))}
         </div>
+        <dl className="mt-4 space-y-2 rounded-lg border border-ink-200 bg-ink-50 p-3">
+          {[
+            ["Problem", evidence.problem],
+            ["Solution", evidence.solution],
+            ["My role", evidence.role],
+            ["Tools used", project.tags.join(", ")],
+            ["Evidence", evidence.evidence],
+            ["Outcome", evidence.outcome],
+            ["What I learned", evidence.learning],
+            ["Recruiter talking point", evidence.talkingPoint],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <dt className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-400">{label}</dt>
+              <dd className="mt-0.5 text-xs leading-5 text-ink-700">{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button type="button" variant={pinned ? "ghost" : "outline"} size="sm" disabled={pinned} onClick={onPin}>
+            {pinned ? "Pinned first" : "Pin as first project"}
+          </Button>
+          <Button type="button" variant="ghost" size="sm" onClick={onEdit}>Edit evidence</Button>
+        </div>
       </div>
-      <div className="absolute right-2 top-2 hidden gap-1 group-hover:flex">
-        <button className="flex size-7 items-center justify-center rounded-md bg-white shadow hover:bg-ink-50">
+      <div className="absolute right-2 top-2 flex gap-1">
+        <button
+          type="button"
+          className="flex size-9 items-center justify-center rounded-md bg-white shadow hover:bg-ink-50"
+          aria-label={`Edit ${project.title}`}
+          onClick={onEdit}
+        >
           <Edit2 className="size-3.5 text-ink-600" />
         </button>
-        <button className="flex size-7 items-center justify-center rounded-md bg-white shadow hover:bg-red-50">
+        <button
+          type="button"
+          className="flex size-9 items-center justify-center rounded-md bg-white shadow hover:bg-red-50"
+          aria-label={`Remove ${project.title}`}
+          onClick={onRemove}
+        >
           <X className="size-3.5 text-error" />
         </button>
       </div>
@@ -587,6 +880,9 @@ function EmployerPreviewModal({ onBack }: { onBack: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onBack}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="employer-preview-title"
     >
       <motion.div
         className="mx-auto max-h-[92vh] max-w-5xl overflow-auto rounded-lg bg-surface-0 p-6 shadow-2xl"
@@ -606,12 +902,13 @@ function EmployerPreviewModal({ onBack }: { onBack: () => void }) {
             {p.backToEdit}
           </Button>
         </div>
+        <EmployerPreviewBanner />
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-start gap-4">
             <StudentAvatar student={currentStudent} className="size-20" />
             <div>
-              <h1 className="text-xl font-bold text-ink-900">{currentStudent.name}</h1>
+              <h2 id="employer-preview-title" className="text-xl font-bold text-ink-900">{currentStudent.name}</h2>
               <p className="text-ink-600">{currentStudent.headline}</p>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <VerifiedBadge />
@@ -624,10 +921,20 @@ function EmployerPreviewModal({ onBack }: { onBack: () => void }) {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="primary" size="sm">
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              onClick={() => toast.success("Added to shortlist for this demo session.")}
+            >
               {copy.buttons.primary.addToShortlist}
             </Button>
-            <Button variant="outline" size="sm">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => toast.success("Prototype message composer opened.")}
+            >
               {copy.buttons.primary.sendMessage}
             </Button>
           </div>
@@ -678,20 +985,19 @@ function EmployerPreviewModal({ onBack }: { onBack: () => void }) {
           <Card>
             <CardContent className="space-y-2 pt-4 text-sm">
               {[
-                ["Looking for", currentStudent.lookingFor],
-                ["Available from", currentStudent.availableFrom],
-                ["GPA", `${formatGPA(currentStudent.gpa)} / 4.0`],
-                ["Response time", currentStudent.responseTime],
-              ].map(([label, value], index) => (
+                ["lookingFor", "Looking for", currentStudent.lookingFor],
+                ["availableFrom", "Available from", currentStudent.availableFrom],
+                ["gpa", "GPA", `${formatGPA(currentStudent.gpa)} / 4.0`],
+                ["passport", "Passport number", "Hidden field"],
+                ["responseTime", "Response time", currentStudent.responseTime],
+              ].map(([field, label, value], index) => (
                 <motion.div
                   key={label}
-                  className="flex justify-between gap-3"
                   initial={{ opacity: 0, x: 18 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <span className="text-ink-500">{label}</span>
-                  <span className="text-right font-medium text-ink-900">{value}</span>
+                  <EmployerPreviewField field={field} label={label} value={value} />
                 </motion.div>
               ))}
             </CardContent>

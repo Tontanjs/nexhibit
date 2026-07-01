@@ -11,7 +11,7 @@ export const events: Event[] = [
     isoDate: "2026-06-15",
     status: "upcoming",
     location: "ZJUT International College Hall, Hangzhou",
-    description: "A reverse career fair where verified international students present project portfolios and employers browse by category, language ability, and availability.",
+    description: "A reverse career fair concept where international students present project portfolios and mock employer teams browse by category, language ability, and availability.",
     categories: [
       { name: "Engineering", slotsTotal: 24, slotsBooked: 18 },
       { name: "Business", slotsTotal: 20, slotsBooked: 14 },
@@ -79,7 +79,7 @@ export const events: Event[] = [
     isoDate: "2025-11-12",
     status: "past",
     location: "ZJUT Pingfeng Campus Library Forum Space, Hangzhou",
-    description: "A pilot reverse fair that introduced verified student profiles, category zones, and employer follow-up cards after each portfolio conversation.",
+    description: "A prototype pilot story featuring student profile verification concepts, category zones, and employer follow-up cards after each portfolio conversation.",
     categories: [
       { name: "Engineering", slotsTotal: 24, slotsBooked: 22 },
       { name: "Business", slotsTotal: 20, slotsBooked: 18 },

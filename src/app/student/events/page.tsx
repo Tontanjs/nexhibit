@@ -7,6 +7,8 @@ import { Calendar, MapPin, Users, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
+import { EmptyState } from "@/components/product/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { copy } from "@/lib/copy";
 import { events } from "@/lib/mock-data";
@@ -47,6 +49,11 @@ export default function EventsPage() {
       <div className="mb-8 overflow-hidden rounded-lg border border-ink-200 bg-ink-900 p-6 text-surface-0 shadow-2xl shadow-ink-900/10">
         <h1 className="text-2xl font-bold text-surface-0">{p.heading}</h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-300">{p.subheading}</p>
+        <PrototypeNotice
+          variant="dark"
+          message="Event registration and booth booking use local prototype state and mock event data."
+          className="mt-5 max-w-2xl"
+        />
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {[
             { label: p.tabUpcoming, value: events.filter((e) => e.status !== "past").length },
@@ -84,7 +91,11 @@ export default function EventsPage() {
 
       {/* Cards grid */}
       {filtered.length === 0 ? (
-        <p className="py-12 text-center text-ink-400">{copy.emptyStates.noEvents}</p>
+        <EmptyState
+          icon={Calendar}
+          title="No events in this view"
+          body={copy.emptyStates.noEvents}
+        />
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((event, i) => (
@@ -154,6 +165,10 @@ function EventCard({ event, featured }: { event: Event; featured: boolean }) {
               className={cn("h-full rounded-full", fillPct >= 90 ? "bg-error" : fillPct >= 70 ? "bg-warning" : "bg-success")}
               style={{ width: `${fillPct}%` }}
             />
+          </div>
+          <div className="flex items-center justify-between text-xs text-ink-500">
+            <span>Readiness</span>
+            <span className="font-semibold text-ink-800">{Math.min(98, fillPct + 12)}%</span>
           </div>
         </div>
 

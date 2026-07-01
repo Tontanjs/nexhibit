@@ -13,6 +13,7 @@ export const copy = {
       students: "For students",
       employers: "For employers",
       about: "About",
+      pricing: "Pricing",
       backHome: "Back to home",
     },
     primary: {
@@ -34,16 +35,18 @@ export const copy = {
       settings: "Privacy settings",
       eventDay: "Event Day",
       dashboard: "Dashboard",
+      billing: "Billing",
     },
     employer: {
       overview: "Your hiring dashboard",
       dashboard: "Dashboard",
       browse: "Browse students",
       scanner: "Scanner",
-      shortlist: "Your shortlist",
+      shortlist: "Shortlist",
       events: "Book event slots",
       messages: "Messages",
       team: "Team access",
+      billing: "Billing",
     },
     admin: {
       overview: "Platform overview",
@@ -52,6 +55,7 @@ export const copy = {
       employers: "Employer accounts",
       students: "Student records",
       reports: "Outcome reports",
+      billing: "Billing",
     },
   },
 
@@ -59,9 +63,9 @@ export const copy = {
     primary: {
       signUp: "Get started",
       signUpStudent: "Create your student profile",
-      signUpEmployer: "Start hiring from ZJUT",
+      signUpEmployer: "Open employer demo",
       logIn: "Log in",
-      verifyStudent: "Verify with ZJUT",
+      verifyStudent: "Start verification demo",
       saveProfile: "Save profile",
       publishProfile: "Publish profile",
       bookBooth: "Reserve your booth",
@@ -81,7 +85,7 @@ export const copy = {
     },
     cta: {
       studentHero: "Show employers your work",
-      employerHero: "Find verified international talent",
+      employerHero: "Discover portfolio-ready international talent",
       finalStudent: "Build your profile",
       finalEmployer: "Browse the next cohort",
       scheduleDemo: "Talk with the NEXHIBIT team",
@@ -118,7 +122,7 @@ export const copy = {
 
   helperText: {
     zjutVerification:
-      "We verify your account against ZJUT international student records. This usually takes a few seconds.",
+      "This prototype simulates a ZJUT verification step with mock student records.",
     privacyDefault:
       "You control what employers can see. Turn off any field you do not want shown on your public profile.",
     portfolioUpload:
@@ -126,7 +130,7 @@ export const copy = {
     studentId:
       "Use the student ID printed in your ZJUT international student record.",
     passportNumber:
-      "Your passport number is used only for verification and is not shown to employers.",
+      "Passport fields are shown only to demonstrate a future verification flow and are not processed in this prototype.",
     hskLevel:
       "Add your current HSK level so employers can understand your Mandarin working ability.",
     availability:
@@ -136,11 +140,11 @@ export const copy = {
     boothBooking:
       "Your booth is where employers find you during the event. You can update your profile before check-in.",
     qrBadge:
-      "Print or save this badge. Employers can scan it to open your verified profile.",
+      "Print or save this demo badge. Employers can use it to open the prototype student profile during the presentation.",
     shortlist:
       "Shortlisted students stay private to your employer team until you send a message.",
     employerVerification:
-      "We review employer accounts before they can message students or book event slots.",
+      "This prototype demonstrates how employer review could work before messaging students or booking event slots.",
     messageEtiquette:
       "Keep your first message specific. Mention the project, skill, or role that made you reach out.",
   },
@@ -159,12 +163,12 @@ export const copy = {
     qrCopied: "Profile QR link copied.",
     settingsSaved: "Your settings are saved.",
     teammateInvited: "Invitation sent to your teammate.",
-    loginSuccess: "Login verified. Opening your portal.",
+    loginSuccess: "Demo login accepted. Opening your portal.",
   },
 
   errors: {
     invalidCredentials:
-      "We could not verify those credentials with ZJUT. Check your student ID and passport number, then try again.",
+      "Those demo credentials did not match this prototype flow. Check the sample student ID and try again.",
     sessionExpired: "Your session timed out. Please log in again to keep your account secure.",
     profileIncomplete:
       "Add your headline, availability, and at least two projects before publishing your profile.",
@@ -174,11 +178,11 @@ export const copy = {
     network:
       "The connection dropped before we could save your changes. Keep this page open and try again.",
     messageBlocked:
-      "This employer account must be verified before it can message students.",
+      "A future deployment would require employer review before messaging students. This prototype does not perform that review.",
     boothUnavailable:
       "That booth was just reserved by someone else. Choose another open booth on the floor plan.",
     duplicateAccount:
-      "An account already exists for these ZJUT details. Log in or ask the support team for help.",
+      "A demo account already exists for those sample details. Log in or ask the presentation team for help.",
     permissionDenied:
       "You do not have access to this page. Switch accounts or contact the NEXHIBIT team.",
     requiredField: "Complete this field so we can show accurate information.",
@@ -190,7 +194,7 @@ export const copy = {
     upcoming: "Upcoming",
     ongoing: "Live now",
     past: "Completed",
-    verified: "Verified by ZJUT",
+    verified: "ZJUT verification demo",
     pendingVerification: "Pending verification",
     rejectedVerification: "Needs updated details",
     profileLive: "Profile live",
@@ -207,32 +211,32 @@ export const copy = {
 
   marketing: {
     hero: {
-      caption: "Built with ZJUT",
+      caption: "ZJUT career services concept",
       headline: "Where international students get seen",
       subheadline:
-        "The reverse career fair platform built with Zhejiang University of Technology. Employers come to you, already knowing your projects, languages, and availability.",
+        "A high-fidelity reverse career fair prototype for Zhejiang University of Technology. Employers come to student booths with project, language, and availability context.",
       ctaPrimary: "I am a student",
       ctaSecondary: "I am an employer",
-      trustLine: "100% verified profiles | 38+ nationalities | 2 focused events per year",
+      trustLine: "Prototype dataset · 30 demo profiles · 8 mock employer accounts",
       trustStats: [
-        { value: 100, suffix: "%", label: "verified profiles" },
+        { value: 100, suffix: "%", label: "verification demo" },
         { value: 38, suffix: "+", label: "nationalities" },
         { value: 2, suffix: "", label: "focused events per year" },
       ],
-      profileCardCta: "Verified by ZJUT",
+      profileCardCta: "Verification demo",
     },
     employerShowcase: {
       caption: "Employer discovery feed",
       heading: "Companies keep moving through the talent floor",
       body:
-        "A live-style employer showcase turns the landing page into the event itself: verified companies, hiring focus areas, and cross-border roles always in motion.",
-      statOne: "8 featured partners",
-      statTwo: "30 verified students",
-      statThree: "Real portfolio signals",
+      "A live-style employer showcase turns the landing page into the event itself: mock company accounts, hiring focus areas, and cross-border roles always in motion.",
+      statOne: "8 mock employers",
+      statTwo: "30 demo students",
+      statThree: "Portfolio evidence",
       stats: [
-        { value: 8, label: "featured partners" },
-        { value: 30, label: "verified students" },
-        { value: 100, suffix: "%", label: "real portfolio signals" },
+        { value: 8, label: "mock employers" },
+        { value: 30, label: "demo students" },
+        { value: 100, suffix: "%", label: "portfolio evidence" },
       ],
       cta: "Browse employer view",
       cardLabel: "Now reviewing",
@@ -240,22 +244,22 @@ export const copy = {
       liveBadge: "Live — Companies actively reviewing",
     },
     liveActivity: [
-      "Nattapong S. just verified with ZJUT",
+      "Nattapong S. opened the verification demo",
       "BYD International saved 3 profiles to their shortlist",
       "Booth slots opened for Spring Fair 2026",
-      "Cathay Robotics messaged a robotics finalist",
+      "Geek+ Robotics messaged a robotics finalist",
       "Alibaba Cloud reviewed portfolio evidence before the fair",
       "Siemens China shortlisted multilingual automation talent",
     ],
     logoCloud: {
-      heading: "Trusted by employers across China",
+      heading: "Mock employer set for the prototype",
     },
     motionStats: {
-      heading: "A verified talent floor with real signal",
-      students: "students verified",
-      employers: "partner companies",
+      heading: "A prototype talent floor with transparent signal",
+      students: "demo students",
+      employers: "mock employers",
       events: "focused events per year",
-      verified: "verified profiles",
+      verified: "verification demo",
     },
     testimonialCarousel: {
       caption: "Student outcomes",
@@ -298,12 +302,12 @@ export const copy = {
         {
           question: "How does ZJUT verification work?",
           answer:
-            "Students sign in with ZJUT records, then NEXHIBIT marks verified academic fields so employers know the profile comes from the university context.",
+            "Students use a simulated ZJUT record step, then NEXHIBIT labels academic fields as part of a verification concept.",
         },
         {
           question: "Who can become a NEXHIBIT employer?",
           answer:
-            "Verified companies recruiting international students can browse profiles, book event slots, scan QR badges, and message students after review.",
+            "Reviewed employer accounts in this prototype can browse profiles, book event slots, scan QR badges, and message students in the demo workspace.",
         },
         {
           question: "Are interpreters really provided?",
@@ -313,7 +317,7 @@ export const copy = {
         {
           question: "Can I attend without a booth?",
           answer:
-            "Students can still build a verified profile and browse event information, but booth slots create the strongest employer discovery signal.",
+            "Students can still build a portfolio-ready demo profile and browse event information, but booth slots create the strongest employer discovery signal.",
         },
         {
           question: "What happens to my data after the event?",
@@ -330,7 +334,7 @@ export const copy = {
     finalMotionCta: {
       heading: "Ready to be seen?",
       body:
-        "Build a verified profile that moves before you enter the hall, then let employers arrive with context.",
+        "Build a portfolio-ready profile that moves before you enter the hall, then let employers arrive with context.",
       liveCounterLabel: "students joined this week",
     },
     howItWorks: {
@@ -338,9 +342,9 @@ export const copy = {
       heading: "How NEXHIBIT works",
       steps: [
         {
-          title: "Verify with ZJUT",
+          title: "Complete the verification concept",
           description:
-            "Sign up with your student ID. We sync verified academic data automatically, and you choose what employers can see.",
+            "Use the demo student ID flow to show how university verification could prefill academic fields, then choose what employers can see.",
         },
         {
           title: "Build a profile worth stopping for",
@@ -356,7 +360,7 @@ export const copy = {
     },
     employerValue: {
       caption: "For employers",
-      heading: "Meet verified international talent without cold-searching.",
+      heading: "Meet portfolio-ready international talent without cold-searching.",
       body:
         "Browse student profiles by field, language ability, location preference, and availability before the event starts.",
       bullets: [
@@ -375,24 +379,24 @@ export const copy = {
     },
     stats: {
       heading: "Built for a campus with global talent",
-      studentsRegistered: "verified student profiles",
-      employersOnboarded: "employer partners",
-      successfulMatches: "student-employer matches",
+      studentsRegistered: "demo student profiles",
+      employersOnboarded: "mock employer accounts",
+      successfulMatches: "sample student-employer matches",
       countriesRepresented: "countries represented",
     },
     testimonials: {
       heading: "What students told us",
       intro:
-        "The platform started with a simple problem: international students had real work to show, but too few rooms where employers expected to see it.",
-      caption: "From 5 interviews",
-      note: "Quotes anonymized from semi-structured interviews conducted May 2026.",
+        "The platform started with a simple problem: international students had strong work to show, but too few rooms where employers expected to see it.",
+      caption: "Class research context",
+      note: "Quotes are anonymized presentation material from the May 2026 class prototype research process.",
     },
     finalCta: {
       heading: "Ready to be discovered before the handshake?",
       body:
-        "Create your verified profile now, then arrive at the next NEXHIBIT event with your work already visible.",
+        "Create your prototype profile, then arrive at the next NEXHIBIT event demo with your work already visible.",
       studentButton: "Create your profile",
-      employerButton: "Browse verified talent",
+      employerButton: "Browse demo talent",
     },
     comparisonDetails: {
       heading: "Traditional vs Reverse Career Fair",
@@ -404,8 +408,8 @@ export const copy = {
       ],
       reverseItems: [
         "Employers come to student booths",
-        "Live demos, portfolios, real conversations",
-        "Verified profiles and interpreters available",
+        "Live demos, portfolios, focused conversations",
+        "Verification concept and language signals available",
         "Built specifically for international students",
       ],
     },
@@ -413,7 +417,7 @@ export const copy = {
       students: "Students",
       employers: "Employers",
       countries: "Countries",
-      verified: "Verified",
+      verified: "Verification demo",
     },
     demo: {
       eyebrow: "Prototype access",
@@ -425,7 +429,7 @@ export const copy = {
       },
       employer: {
         label: "Employer Portal",
-        description: "Browse 30 verified student profiles, shortlist, scan QR badges, and message students.",
+        description: "Browse 30 demo student profiles, shortlist, scan QR badges, and message students.",
         cta: "Open employer portal",
       },
       admin: {
@@ -453,10 +457,10 @@ export const copy = {
         },
         {
           title: "Legal",
-          links: ["Privacy Policy", "Terms", "PIPL Compliance", "Cookie Policy"],
+          links: ["Privacy Policy", "Terms", "PIPL considerations", "Cookie Policy"],
         },
       ],
-      copyright: "© 2026 NEXHIBIT · Built with Zhejiang University of Technology",
+      copyright: "© 2026 NEXHIBIT · Zhejiang University of Technology career services concept",
     },
   },
 
@@ -464,8 +468,8 @@ export const copy = {
     student: {
       portal: "Student Portal",
       onboarding: {
-        heading: "Verified by ZJUT",
-        subheading: "We synced your academic record. Choose what employers will see.",
+        heading: "ZJUT verification demo",
+        subheading: "This prototype preloads mock academic fields. Choose what employers would see.",
         stepVerify: "Verify",
         stepCustomize: "Customize",
         stepDone: "Done",
@@ -508,7 +512,7 @@ export const copy = {
         addLink: "Add link",
         uploadFile: "Upload file",
         addLanguage: "Add language",
-        syncedLabel: "Synced from ZJUT",
+        syncedLabel: "Demo academic field",
         contactPreferenceLabel: "Contact preference",
         contactInApp: "In-app messaging only",
         contactInAppEmail: "In-app + Email",
@@ -575,7 +579,11 @@ export const copy = {
         feedbackReceivedLabel: "Feedback received",
         viewersTitle: "Who viewed your profile",
         applicationTitle: "Application status",
-        feedbackTitle: "Recent feedback",
+        feedbackTitle: "Employer Feedback Summary",
+        feedbackSubtitle:
+          "Structured feedback from recruiters who viewed your booth, profile, or portfolio during recent prototype events.",
+        feedbackPrototypeNote: "Prototype feedback based on mock recruiter evaluations.",
+        feedbackEmpty: "No feedback matches this filter. Try viewing all recruiter comments.",
         filterAll: "All",
         filterThisWeek: "This week",
         filterThisMonth: "This month",
@@ -606,17 +614,17 @@ export const copy = {
         sectionNotifications: "Notifications",
         sectionVisibility: "Visibility",
         sectionData: "Data & Export",
-        emailNote: "Verified via ZJUT — cannot be changed here.",
+        emailNote: "Demo school email field — locked in this prototype.",
         passwordSection: "Change password",
         offEventPrivacy: "Allow employers to view my profile when I am NOT at an event",
         searchResultsPrivacy: "Show me in recommended talent search results",
         researchPrivacy: "Allow university to share my outcome data anonymously for research",
         downloadData: "Download all my data",
         deleteAccount: "Delete my account",
-        visibilityPublic: "Public to verified employers",
+        visibilityPublic: "Visible to reviewed demo employers",
         pauseVisibility: "Pause visibility",
         pauseHelper: "When paused, your profile is hidden from search and browse until you re-enable it.",
-        piplNote: "Per China's Personal Information Protection Law (PIPL), you can request full data export or deletion at any time.",
+        piplNote: "Future production work would require a PIPL compliance review, consent logging, secure export, and deletion workflows.",
         exportPDF: "Export as PDF",
         exportJSON: "Export as JSON (developer)",
       },
@@ -638,11 +646,11 @@ export const copy = {
       },
       browse: {
         heading: "Browse Students",
-        subheading: "Verified international talent from ZJUT",
+        subheading: "Demo international talent profiles for the ZJUT prototype",
         commandEyebrow: "Talent pool",
-        commandTitle: "30 verified profiles ready for employer review",
-        commandBody: "A broader student sample makes the reverse fair feel closer to a live recruiting environment.",
-        totalProfilesLabel: "Verified profiles",
+        commandTitle: "30 prototype profiles ready for employer review",
+        commandBody: "A broader mock student sample makes the reverse fair feel closer to a live recruiting environment while staying presentation-safe.",
+        totalProfilesLabel: "Demo profiles",
         countriesLabel: "Countries",
         strongMatchesLabel: "Strong matches",
         activeRecentlyLabel: "Active recently",
@@ -664,8 +672,8 @@ export const copy = {
         studentsFound: "students",
         showingPrefix: "Showing",
         showingConnector: "of",
-        verifiedProfilesLabel: "verified profiles",
-        verifiedBadge: "Verified",
+        verifiedProfilesLabel: "demo profiles",
+        verifiedBadge: "Verification concept",
         gpaLabel: "GPA",
         hskLabel: "HSK",
         hskNone: "No HSK",
@@ -735,7 +743,7 @@ export const copy = {
       serviceLabel: "ZJUT Career Services",
       dashboard: {
         heading: "Platform Overview",
-        summary: "Verified student growth, employer activation, and event outcomes for the June 2026 demo.",
+        summary: "Mock student growth, employer activation, and event outcomes for the June 2026 prototype dataset.",
         studentsLabel: "Students registered",
         employersLabel: "Employers onboarded",
         matchesLabel: "Successful matches",
@@ -754,7 +762,7 @@ export const copy = {
         heading: "Employer Accounts",
         searchPlaceholder: "Search employers…",
         tabAll: "All",
-        tabVerified: "Verified",
+        tabVerified: "Reviewed demo",
         tabPending: "Pending",
         verifyAction: "Verify",
         suspendAction: "Suspend",
@@ -781,11 +789,11 @@ export const copy = {
     },
     successStories: {
       heading: "Success Stories",
-      subheading: "International students from ZJUT who found their path through NEXHIBIT.",
+      subheading: "Illustrative demo outcomes showing how NEXHIBIT could support international students at ZJUT.",
       storyLabel: "Their story",
       roleAtLabel: "Hired as",
-      ctaHeading: "Ready to write your story?",
-      ctaBody: "Create your verified student profile and let employers come to you.",
+      ctaHeading: "Ready to show the story in the prototype?",
+      ctaBody: "Open the demo student profile flow and see how employers could come to you.",
       ctaButton: "Create your booth profile",
     },
     notFound: {
@@ -796,7 +804,7 @@ export const copy = {
     login: {
       heading: "Welcome back",
       motionPill: "Where students get seen",
-      motionHeadline: "Verify once. Get discovered throughout the event cycle",
+      motionHeadline: "Open the demo. Get discovered throughout the event cycle",
       keyboardHint: "Press ⌘ + Enter to submit",
       studentTab: "Student",
       employerTab: "Employer",
@@ -825,7 +833,7 @@ export const copy = {
       studentDemoButton: "Open student demo flow",
       employerDemoButton: "Open employer demo portal",
       employerHelper:
-        "Employer accounts require manual verification by ZJUT Career Services. Estimated review time: 1-2 business days.",
+        "Employer account review is simulated in this prototype. A future deployment would require a real Career Services verification workflow.",
       footerPrefix: "Already have an account?",
       footerLink: "Log in",
     },
@@ -833,18 +841,18 @@ export const copy = {
       heroCaption: "Our story",
       heroHeading: "International students deserve to be seen",
       heroBody:
-        "NEXHIBIT grew from interviews with international students who had strong projects, multilingual ability, and real ambition, but very few moments where employers expected to notice them. We built a reverse career fair so the first signal is the student's work, not their confidence in a crowded line.",
+        "NEXHIBIT grew from class research with international students who had strong projects, multilingual ability, and ambition, but few moments where employers expected to notice them. We built a reverse career fair concept so the first signal is the student's work, not their confidence in a crowded line.",
       problemHeading: "The gap is not talent. It is visibility",
       problemBody:
         "Traditional career fairs reward speed, local networks, and fluent self-pitching under pressure. International students often navigate language barriers, resume-only screening, and limited channels designed for their cross-border strengths.",
       problemStats: [
-        "1,500+ international students at ZJUT",
-        "5 interviews · 100% reported the same frustration",
-        "0 platforms built specifically for them",
+        "Research context: international students at ZJUT need clearer visibility channels",
+        "Class interviews surfaced repeated frustration around crowded career fairs",
+        "Prototype opportunity: a dedicated visibility layer for international talent",
       ],
       solutionHeading: "A fair built around discovery",
       solutionBody:
-        "Students prepare verified booths with projects, languages, and availability. Employers arrive with context, scan the profile badge, and begin a conversation around evidence instead of guessing from a resume.",
+        "Students prepare profile booths with projects, languages, and availability. Employers arrive with context, scan the demo profile badge, and begin a conversation around evidence instead of guessing from a resume.",
       traditionalFlow: "Traditional flow",
       reverseFlow: "NEXHIBIT flow",
       resumeDrop: "resume drop",
@@ -861,6 +869,175 @@ export const copy = {
         "NEXHIBIT is a polished student prototype for Zhejiang University of Technology's international career development context, designed for a June 2026 reverse career fair demo.",
       facultyAdvisor: "ZJUT International College · Career Services concept",
       zjutLogo: "ZJUT",
+    },
+  },
+
+  pricing: {
+    hero: {
+      eyebrow: "PRICING",
+      headline: "Plans that scale with you.",
+      subheadline:
+        "Free for students who need it most. Paid tiers add extra reach, sharper signals, and smoother event-day hiring.",
+    },
+    toggle: {
+      monthly: "Monthly",
+      yearly: "Yearly",
+      savings: "Save with annual billing",
+      students: "Students",
+      employers: "Employers",
+      university: "Universities",
+    },
+    studentDiscount: {
+      badge: "Student discount demo",
+      description: "The prototype shows how a future ZJUT eligibility check could apply a 20% student discount.",
+    },
+    faq: [
+      {
+        question: "Can students use NEXHIBIT for free?",
+        answer:
+          "Yes. The Free plan keeps the core profile, event browsing, and a limited monthly application allowance available.",
+      },
+      {
+        question: "Do payments really process in this demo?",
+        answer:
+          "No. This billing system is a simulation for product demonstration. It never charges money or calls a payment provider.",
+      },
+      {
+        question: "Which China payment methods are supported?",
+        answer:
+          "The simulated checkout includes Alipay, WeChat Pay, UnionPay, cards, Apple Pay, and bank transfer for B2B accounts.",
+      },
+      {
+        question: "How does the student discount work?",
+        answer:
+          "A real version would apply the discount after university verification. In this prototype, the UI shows the automatic discount rule.",
+      },
+      {
+        question: "What is the difference between Pro and Max?",
+        answer:
+          "Pro focuses on priority booking and visibility. Max demonstrates coaching, portfolio review, priority review workflows, and expanded employer access.",
+      },
+      {
+        question: "Can a subscription be canceled?",
+        answer:
+          "Yes. The demo cancellation flow shows retention, cancellation reasons, and period-end cancellation behavior.",
+      },
+    ],
+    comparison: {
+      title: "Compare student visibility tiers",
+      subtitle: "Profile, visibility, communication, events, and support features side by side.",
+    },
+    ctaSection: {
+      headline: "Still have questions? Talk to our team.",
+      button: "Contact NEXHIBIT",
+    },
+  },
+
+  billing: {
+    sidebar: {
+      overview: "Overview",
+      history: "History",
+      paymentMethods: "Payment Methods",
+      invoices: "Invoices",
+      cancel: "Cancel",
+    },
+    overview: {
+      currentPlan: "Current plan",
+      nextBilling: "Next billing",
+      usageThisMonth: "Usage this month",
+      manageSubscription: "Manage subscription",
+    },
+    history: {
+      title: "Billing history",
+      empty: "No transactions yet.",
+      downloadReceipt: "Download receipt",
+    },
+    paymentMethods: {
+      title: "Payment methods",
+      addNew: "Add new method",
+      default: "Default",
+      remove: "Remove",
+      expires: "Expires",
+    },
+    invoices: {
+      title: "Invoices",
+      requestFapiao: "Request Fapiao",
+      downloadPdf: "Download PDF",
+    },
+    cancel: {
+      title: "Cancel subscription",
+      retentionOffer: "Keep your plan with 50% off the next 3 months.",
+      confirmCancel: "Cancel anyway",
+      keepSubscription: "Keep subscription",
+      reasons: ["Too expensive", "Not using it", "Found an alternative", "Other"],
+    },
+    usage: {
+      applications: "Applications",
+      messages: "Messages",
+      profileViews: "Profile views",
+      boosts: "Profile boosts",
+      unlimited: "Unlimited",
+    },
+  },
+
+  payment: {
+    checkout: {
+      title: "Checkout",
+      summary: "Order summary",
+      total: "Total",
+      securityNote: "Demo mode - no real charges. Payment states are simulated in the browser.",
+      terms: "By continuing, you agree to the simulated billing terms for this prototype.",
+    },
+    methods: {
+      choosePayment: "Choose payment method",
+      scanQr: "Scan QR code",
+      qrExpires: "Code expires in",
+      enterCardDetails: "Enter card details",
+      bankDetails: "Bank transfer details",
+      recommended: "Recommended",
+    },
+    states: {
+      processing: "Processing simulated payment",
+      success: "Payment complete",
+      failed: "Payment failed",
+      retryPrompt: "Try another method or retry this simulated payment.",
+    },
+    alipay: {
+      instructions: "Open Alipay and scan this code to complete the simulated payment.",
+      openApp: "Open Alipay App",
+      qrPrompt: "Waiting for Alipay scan...",
+    },
+    wechat: {
+      instructions: "Open WeChat and scan this code to complete the simulated payment.",
+      openApp: "Open WeChat App",
+      qrPrompt: "Waiting for WeChat scan...",
+    },
+    card: {
+      number: "Card number",
+      expiry: "Expiry",
+      cvv: "CVV",
+      cardholderName: "Cardholder name",
+      saveCard: "Save card for future billing",
+    },
+    bankTransfer: {
+      instructions: "Use the details below for a simulated bank transfer. No money should be sent.",
+      accountName: "NEXHIBIT Technology (Hangzhou) Co., Ltd.",
+      accountNumber: "6225 XXXX XXXX 1234",
+      bankName: "China Merchants Bank",
+      swiftCode: "CMBCCNBS",
+      reference: "Reference",
+      markAsPaid: "I've sent the transfer",
+    },
+    applePay: {
+      instructions: "Confirm with the simulated Apple Pay sheet.",
+      useTouchId: "Use Touch ID",
+      useFaceId: "Authenticate with Face ID...",
+    },
+    receipt: {
+      thankYou: "Thank you for upgrading.",
+      viewReceipt: "View receipt",
+      accessNow: "Access now",
+      emailedTo: "A simulated receipt has been prepared for your account email.",
     },
   },
 
@@ -906,7 +1083,7 @@ export const copy = {
     validationMessages: {
       fullName: "Enter the name you want employers to use.",
       studentId: "Enter your ZJUT student ID.",
-      passportNumber: "Enter the passport number linked to your ZJUT record.",
+      passportNumber: "Enter the passport number shown in the demo verification scenario.",
       headline: "Write a one-line headline so employers can place you quickly.",
       bio: "Write one or two sentences in your own voice.",
       skills: "Add at least four skills that match your current work.",
@@ -918,10 +1095,10 @@ export const copy = {
   },
 
   auth: {
-    studentWelcome: "Verify once. Get discovered throughout the event cycle",
-    employerWelcome: "Create an employer account to browse verified ZJUT international talent.",
+    studentWelcome: "Open the demo flow. Get discovered throughout the event cycle",
+    employerWelcome: "Create a demo employer account to browse prototype ZJUT international talent.",
     forgotPassword: "Reset your password",
-    passwordResetSent: "Check your inbox for a secure reset link.",
+    passwordResetSent: "Demo reset action noted. No email is sent from this prototype.",
     newToNexhibit: "New to NEXHIBIT?",
     alreadyRegistered: "Already have an account?",
   },
@@ -968,15 +1145,15 @@ export const copy = {
 
   legal: {
     privacyShort:
-      "Under China's Personal Information Protection Law (PIPL), you control your personal data and can update or hide optional profile fields at any time.",
+      "This prototype demonstrates student-controlled visibility. A real deployment would need formal PIPL review and consent records.",
     verificationUse:
-      "ZJUT verification details are used to confirm eligibility. Passport numbers are never shown to employers.",
+      "ZJUT verification details are represented as mock fields here. Passport numbers are never processed in this prototype.",
     employerCode:
       "Employers agree to use NEXHIBIT for legitimate hiring, internships, and career conversations only.",
     studentConsent:
-      "Publishing your profile makes selected fields visible to verified employer accounts.",
+      "Publishing your prototype profile makes selected fields visible to reviewed demo employer accounts.",
     dataRetention:
-      "Event and message records are retained only as long as needed for career services, reporting, and account support.",
+      "Event and message records are mock data in this prototype. A real deployment would require retention rules and audit logs.",
   },
 
   accessibility: {

@@ -8,18 +8,21 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 
 import { Logo } from "@/components/brand/Logo";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
 import { GradientMesh } from "@/components/motion/GradientMesh";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitText } from "@/components/motion/SplitText";
 import { SpotlightCursor } from "@/components/motion/SpotlightCursor";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import { copy } from "@/lib/copy";
+import { setDemoSession, type DemoRole } from "@/lib/demo-session";
 import { cn } from "@/lib/utils";
 
-type LoginMode = "student" | "employer";
+type LoginMode = DemoRole;
 
 function FloatingField({
   id,
@@ -70,9 +73,15 @@ export default function LoginPage() {
       return;
     }
     setLoading(true);
-    toast.success(copy.toasts.loginSuccess);
+    setDemoSession(activeTab);
+    toast.success(`Prototype login active as ${activeTab}.`);
     window.setTimeout(() => {
-      router.push(activeTab === "student" ? "/student/onboarding" : "/employer/dashboard");
+      if (activeTab === "student") {
+        router.push("/student/dashboard");
+        return;
+      }
+
+      router.push(activeTab === "employer" ? "/employer/dashboard" : "/admin");
     }, 650);
   };
 
@@ -88,12 +97,13 @@ export default function LoginPage() {
       <GradientMesh className="opacity-40" />
       <SpotlightCursor />
       <div className="absolute inset-0 subtle-grid opacity-20" aria-hidden="true" />
-      <div className="relative z-10">
+      <nav className="relative z-10 flex items-center justify-between gap-4" aria-label="Login navigation">
         <Link className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink-200 hover:text-surface-0" href="/">
           <ArrowLeft className="size-4" aria-hidden="true" />
           {copy.navigation.marketing.backHome}
         </Link>
-      </div>
+        <ThemeToggle compact />
+      </nav>
 
       <div className="relative z-10 mx-auto grid min-h-[calc(100vh-96px)] w-full max-w-6xl items-center gap-8 py-10 md:grid-cols-[0.95fr_1fr]">
         <section className="order-2 text-surface-0 md:order-1">
@@ -131,17 +141,23 @@ export default function LoginPage() {
             <motion.div className="flex justify-center" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
               <Logo size="md" showTagline={false} />
             </motion.div>
-            <h1 className="mt-8 text-center text-3xl font-bold tracking-normal text-ink-900">{loginCopy.heading}</h1>
+            <h2 className="mt-8 text-center text-3xl font-bold tracking-normal text-ink-900">{loginCopy.heading}</h2>
+            <PrototypeNotice
+              variant="card"
+              message="Prototype login · No real authentication is used. The selected demo role is stored only in this browser."
+              className="mt-5"
+            />
 
-            <div className="relative mt-8 grid grid-cols-2 rounded-lg bg-ink-100 p-1">
-              {(["student", "employer"] as LoginMode[]).map((tab) => (
+            <div className="relative mt-8 grid grid-cols-3 rounded-lg bg-ink-100 p-1">
+              {(["student", "employer", "admin"] as LoginMode[]).map((tab) => (
                 <button
                   key={tab}
                   type="button"
+                  aria-pressed={activeTab === tab}
                   className={cn("relative z-10 h-10 rounded-md text-sm font-semibold transition", activeTab === tab ? "text-ink-900" : "text-ink-500")}
                   onClick={() => setActiveTab(tab)}
                 >
-                  {tab === "student" ? loginCopy.studentTab : loginCopy.employerTab}
+                  {tab === "student" ? loginCopy.studentTab : tab === "employer" ? loginCopy.employerTab : "Admin"}
                   {activeTab === tab ? (
                     <motion.span
                       layoutId="login-tab-underline"
@@ -160,13 +176,23 @@ export default function LoginPage() {
                   <FloatingField id="passport" label={copy.forms.labels.passportNumber} placeholder={loginCopy.passportPlaceholder} type="password" />
                   <p className="text-sm leading-relaxed text-ink-500">{copy.helperText.zjutVerification}</p>
                 </>
-              ) : (
+              ) : activeTab === "employer" ? (
                 <>
                   <FloatingField id="work-email" label={copy.forms.labels.email} placeholder={loginCopy.employerEmailPlaceholder} type="email" />
                   <FloatingField id="password" label={copy.forms.labels.password} placeholder={loginCopy.passwordPlaceholder} type="password" />
-                  <Link className="text-sm font-semibold text-ink-700 hover:text-ink-900" href="#">
+                  <button
+                    type="button"
+                    className="text-left text-sm font-semibold text-ink-700 hover:text-ink-900"
+                    onClick={() => toast.info(copy.auth.passwordResetSent)}
+                  >
                     {copy.auth.forgotPassword}
-                  </Link>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <FloatingField id="admin-email" label="Admin email" placeholder="career.services@zjut.edu.cn" type="email" />
+                  <FloatingField id="admin-password" label={copy.forms.labels.password} placeholder={loginCopy.passwordPlaceholder} type="password" />
+                  <p className="text-sm leading-relaxed text-ink-500">Admin mode opens a prototype career-services workspace. It is not protected by real authorization.</p>
                 </>
               )}
 
@@ -178,7 +204,7 @@ export default function LoginPage() {
                   disabled={loading}
                 >
                   {loading ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-                  {activeTab === "student" ? loginCopy.studentButton : loginCopy.employerButton}
+                  {activeTab === "student" ? loginCopy.studentButton : activeTab === "employer" ? loginCopy.employerButton : "Open admin demo"}
                 </button>
               </MagneticButton>
             </div>

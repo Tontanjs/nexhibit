@@ -46,12 +46,12 @@ const notificationMeta: Record<
   message: {
     label: "Message",
     icon: MessageSquare,
-    tone: "bg-indigo-50 text-indigo-700 ring-indigo-100",
+    tone: "bg-aurora-blue/10 text-aurora-blue ring-aurora-blue/20",
   },
   feedback: {
     label: "Feedback",
     icon: Star,
-    tone: "bg-emerald-50 text-emerald-700 ring-emerald-100",
+    tone: "bg-success/10 text-success ring-success/20",
   },
   event_reminder: {
     label: "Event",

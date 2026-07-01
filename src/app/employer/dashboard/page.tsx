@@ -22,6 +22,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CandidatePipelineBoard } from "@/components/employer/CandidatePipelineBoard";
 import { EmployerMetricCard } from "@/components/employer/EmployerMetricCard";
+import { CompanyMockDisclaimer, PrototypeNotice } from "@/components/brand/prototype-notice";
+import { PremiumHeroPanel } from "@/components/aurora";
+import { MatchExplanation } from "@/components/product/match-explanation";
 import { EmployerLogo } from "@/components/brand/EmployerLogo";
 import { StudentAvatar } from "@/components/brand/StudentAvatar";
 import { copy } from "@/lib/copy";
@@ -65,7 +68,7 @@ export default function EmployerDashboardPage() {
   const commandCenter = [
     {
       title: "Scan Spring Fair QR badges",
-      body: "Use scanner mode at the booth to open verified student profiles instantly.",
+      body: "Use simulated scanner mode at the booth to open consent-aware demo profiles instantly.",
       href: "/employer/scanner",
       icon: ScanLine,
     },
@@ -88,7 +91,7 @@ export default function EmployerDashboardPage() {
       icon: Users,
       label: p.browsedLabel,
       value: students.length,
-      detail: "Verified international profiles visible to your team.",
+      detail: "Portfolio-ready demo profiles visible to your team.",
       tone: "ink" as const,
     },
     {
@@ -144,13 +147,17 @@ export default function EmployerDashboardPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
-      {/* Welcome strip */}
-      <div className="overflow-hidden rounded-lg border border-surface-0/10 bg-ink-900 px-6 py-5 text-surface-0 shadow-2xl shadow-ink-900/10">
-        <p className="text-base font-medium text-ink-300">
-          {p.welcomePrefix} {currentEmployer.name},
-        </p>
-        <p className="text-lg font-semibold text-surface-0">{p.welcomeSuffix}</p>
-      </div>
+      <PremiumHeroPanel
+        eyebrow={`${p.welcomePrefix} ${currentEmployer.name}`}
+        title="Recruiting command center"
+        body={p.welcomeSuffix}
+      >
+        <PrototypeNotice
+          variant="dark"
+          message="Recruiting metrics, booth actions, exports, and recommendations are prototype/demo behavior."
+          className="max-w-2xl"
+        />
+      </PremiumHeroPanel>
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -192,7 +199,13 @@ export default function EmployerDashboardPage() {
                 <Button variant="inverse" size="sm" className="h-9 flex-1 text-xs" asChild>
                   <Link href="/employer/scanner">Open scanner</Link>
                 </Button>
-                <Button variant="inverse" size="sm" className="h-9 flex-1 text-xs">
+                <Button
+                  type="button"
+                  variant="inverse"
+                  size="sm"
+                  className="h-9 flex-1 text-xs"
+                  onClick={() => toast.success("Demo lead export prepared.")}
+                >
                   <FileDown className="size-3.5" />
                   Export leads
                 </Button>
@@ -248,9 +261,10 @@ export default function EmployerDashboardPage() {
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-base font-semibold text-ink-900">{currentEmployer.name}</h2>
-                    <Badge variant="success" className="text-[10px]">Verified employer</Badge>
+                    <Badge variant="success" className="text-[10px]">Employer review demo</Badge>
                   </div>
                   <p className="mt-1 text-sm text-ink-500">{currentEmployer.industry} · {currentEmployer.size}</p>
+                  <CompanyMockDisclaimer className="mt-1 text-[11px]" />
                 </div>
               </div>
               <p className="mt-4 text-sm leading-6 text-ink-600">{currentEmployer.description}</p>
@@ -422,6 +436,14 @@ export default function EmployerDashboardPage() {
                       {s.score}% {p.matchLabel}
                     </span>
                   </div>
+                  <MatchExplanation
+                    score={s.score}
+                    student={s}
+                    employer={currentEmployer}
+                    compact
+                    surface="inline"
+                    className="mt-3"
+                  />
                   <div className="mt-3 flex gap-2">
                     <Button variant="outline" size="sm" className="flex-1 text-xs h-7" asChild>
                       <Link href={`/employer/student/${s.id}`}>{copy.pages.employer.browse.viewProfile}</Link>

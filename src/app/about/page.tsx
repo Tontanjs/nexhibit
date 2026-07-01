@@ -1,4 +1,5 @@
 import { ReverseFairDiagram } from "@/components/icons";
+import { PrototypeNotice } from "@/components/brand/prototype-notice";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { Card } from "@/components/ui/card";
@@ -9,13 +10,18 @@ export default function AboutPage() {
     <>
       <Navbar />
       <main>
-        <section className="bg-surface-50 py-20 md:py-28">
+        <section className="aurora-bg py-20 md:py-28">
           <div className="mx-auto w-full max-w-5xl px-4 text-center sm:px-6 lg:px-8">
-            <p className="text-xs font-medium uppercase tracking-wide text-gold-600">{copy.pages.about.heroCaption}</p>
-            <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-normal text-ink-900 sm:text-5xl md:text-7xl">
+            <p className="text-xs font-medium uppercase tracking-wide text-gold-300">{copy.pages.about.heroCaption}</p>
+            <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-normal text-surface-0 sm:text-5xl md:text-7xl">
               {copy.pages.about.heroHeading}
             </h1>
-            <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-ink-600">{copy.pages.about.heroBody}</p>
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-ink-300">{copy.pages.about.heroBody}</p>
+            <PrototypeNotice
+              variant="dark"
+              message="Class-project prototype · Research and platform data are presented as demo context, not production evidence."
+              className="mx-auto mt-6 max-w-2xl text-left"
+            />
           </div>
         </section>
 
@@ -35,7 +41,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-dark py-20 md:py-24">
+        <section className="aurora-bg py-20 md:py-24">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-10 md:grid-cols-[0.95fr_1.05fr] md:items-center">
               <div>

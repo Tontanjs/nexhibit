@@ -16,7 +16,7 @@ const toneClasses = {
   gold: "bg-gold-50 text-gold-700",
   success: "bg-success/10 text-success",
   sky: "bg-sky-50 text-sky-700",
-  violet: "bg-violet-50 text-violet-700",
+  violet: "bg-aurora-violet/10 text-aurora-violet",
 };
 
 export function EmployerMetricCard({
