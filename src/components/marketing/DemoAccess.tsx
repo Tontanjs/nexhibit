@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -7,29 +9,18 @@ import { TiltCard } from "@/components/motion/TiltCard";
 import { Card } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { copy } from "@/lib/copy";
+import { setDemoSession, type DemoRole } from "@/lib/demo-session";
 import { cn } from "@/lib/utils";
 
 const d = copy.marketing.demo;
 
-const portals = [
-  {
-    icon: "student",
-    ...d.student,
-    href: "/student/dashboard",
-  },
-  {
-    icon: "employer",
-    ...d.employer,
-    href: "/employer/dashboard",
-  },
-  {
-    icon: "admin",
-    ...d.admin,
-    href: "/admin",
-  },
-] as const;
+const portals: { icon: "student" | "employer" | "admin"; role: DemoRole; label: string; description: string; cta: string; href: string }[] = [
+  { icon: "student", role: "student", ...d.student, href: "/student/dashboard" },
+  { icon: "employer", role: "employer", ...d.employer, href: "/employer/dashboard" },
+  { icon: "admin", role: "admin", ...d.admin, href: "/admin" },
+];
 
-function MotionIcon({ type }: { type: (typeof portals)[number]["icon"] }) {
+function MotionIcon({ type }: { type: "student" | "employer" | "admin" }) {
   if (type === "student") {
     return (
       <div className="relative size-8">
@@ -86,7 +77,7 @@ export function DemoAccess() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
-          {portals.map(({ icon, label, description, cta, href }, index) => (
+          {portals.map(({ icon, role, label, description, cta, href }, index) => (
             <Reveal key={label} delay={index * 0.12}>
               <TiltCard glare max={6}>
                 <Card className="glow-card group relative flex min-h-[220px] flex-col gap-5 overflow-hidden p-5 transition-all hover:-translate-y-1 hover:border-gold-500/40 hover:shadow-xl">
@@ -102,6 +93,7 @@ export function DemoAccess() {
                   </div>
                   <Link
                     href={href}
+                    onClick={() => setDemoSession(role)}
                     className={cn(buttonVariants({ variant: "outline", size: "sm" }), "group/link mt-auto w-full overflow-hidden")}
                   >
                     <ArrowRight className="-ml-6 size-4 opacity-0 transition-all group-hover/link:ml-0 group-hover/link:opacity-100" aria-hidden="true" />

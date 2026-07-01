@@ -1,40 +1,50 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ElementType } from "react";
 import Link from "next/link";
 import { X, GraduationCap, Building2, LayoutDashboard, ArrowRight } from "lucide-react";
+import { setDemoSession, type DemoRole } from "@/lib/demo-session";
 
 const STORAGE_KEY = "nexhibit_demo_banner_dismissed";
 
-const portals = [
+const portals: {
+  role: DemoRole;
+  label: string;
+  icon: ElementType;
+  href: string;
+  color: string;
+  bg: string;
+  border: string;
+}[] = [
   {
-    role: "Student",
+    role: "student",
+    label: "Student",
     icon: GraduationCap,
-    description: "Browse employers, book a booth, get discovered",
     href: "/student/dashboard",
     color: "text-aurora-blue",
     bg: "bg-aurora-blue/10 hover:bg-aurora-blue/20",
     border: "border-aurora-blue/20 hover:border-aurora-blue/40",
   },
   {
-    role: "Employer",
+    role: "employer",
+    label: "Employer",
     icon: Building2,
-    description: "Browse student profiles, scan QR, build shortlist",
     href: "/employer/dashboard",
-    color: "text-gold-600",
+    color: "text-gold-400",
     bg: "bg-gold-500/10 hover:bg-gold-500/20",
     border: "border-gold-500/20 hover:border-gold-500/40",
   },
   {
-    role: "Admin",
+    role: "admin",
+    label: "Admin",
     icon: LayoutDashboard,
-    description: "Manage events, verify employers, view analytics",
     href: "/admin",
     color: "text-aurora-violet",
     bg: "bg-aurora-violet/10 hover:bg-aurora-violet/20",
     border: "border-aurora-violet/20 hover:border-aurora-violet/40",
   },
-] as const;
+];
 
 export function DemoBanner() {
   const [visible, setVisible] = useState(false);
@@ -80,16 +90,15 @@ export function DemoBanner() {
 
           {/* Portal buttons */}
           <div className="flex flex-wrap gap-2">
-            {portals.map(({ role, icon: Icon, description, href, color, bg, border }) => (
+            {portals.map(({ role, label, icon: Icon, href, color, bg, border }) => (
               <Link
                 key={role}
                 href={href}
-                onClick={dismiss}
+                onClick={() => { setDemoSession(role); dismiss(); }}
                 className={`group inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-200 ${bg} ${border}`}
-                title={description}
               >
                 <Icon className={`size-3.5 ${color}`} aria-hidden="true" />
-                <span className={color}>{role}</span>
+                <span className={color}>{label}</span>
                 <ArrowRight className={`size-3 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100 ${color}`} aria-hidden="true" />
               </Link>
             ))}
