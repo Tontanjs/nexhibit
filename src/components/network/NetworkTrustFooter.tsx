@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
+
 export function NetworkTrustFooter() {
+  const [reported, setReported] = useState(false);
+
   return (
     <footer className="border-t border-ink-200 pt-4">
       <p className="text-xs text-ink-400">
@@ -6,9 +12,9 @@ export function NetworkTrustFooter() {
         <button
           type="button"
           className="underline hover:text-ink-600 transition-colors"
-          onClick={() => console.log("Content reported (prototype only)")}
+          onClick={() => setReported(true)}
         >
-          Report content
+          {reported ? "Reported — thank you" : "Report content"}
         </button>
       </p>
     </footer>

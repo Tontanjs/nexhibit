@@ -29,7 +29,7 @@ const columns = [
 function EmployerShowcaseCard({ employer, active }: { employer: Employer; active?: boolean }) {
   return (
     <TiltCard max={4} className="mb-4">
-      <article className="group relative min-h-[210px] overflow-hidden rounded-lg border border-surface-0/12 bg-surface-0/[0.07] p-4 text-surface-0 shadow-2xl shadow-ink-950/30 backdrop-blur-xl transition hover:border-gold-500/50 hover:bg-surface-0/[0.11]">
+      <article className="group relative min-h-[210px] overflow-hidden rounded-lg border border-surface-0/12 bg-surface-0/[0.07] p-4 text-surface-0 shadow-2xl shadow-ink-900/30 backdrop-blur-xl transition hover:border-gold-500/50 hover:bg-surface-0/[0.11]">
         <div
           className={cn("absolute inset-x-0 top-0 h-1 opacity-90", active && "animated-gradient-edge")}
           style={{ "--edge-color": employer.logoColor } as CSSProperties}
